@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using HarmonyLib;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace OdinPlus
 {
@@ -56,10 +54,7 @@ namespace OdinPlus
 
       foreach (var location in ZoneSystem.instance.m_locations)
       {
-        DBG.blogInfo($"location.m_prefabName:{location.m_prefabName}");
         DBG.blogInfo($"location.m_location.name:{location.m_location?.name}");
-        DBG.blogInfo($"location.m_unique:{location.m_unique}");
-        DBG.blogInfo($"location.m_prefab.name:{location.m_prefab?.name}");
       }
 #endif
       foreach (var item in a)
@@ -69,13 +64,18 @@ namespace OdinPlus
 #endif
         m_locationInstances.Add(item.Key, item.Value);
       }
+
+      RemoveBlackList();
     }
 
     public static void RemoveBlackList()
     {
       foreach (var item in BlackList)
       {
-        m_locationInstances.Remove(item.ToV2I());
+        if (m_locationInstances.ContainsKey(item.ToV2I()))
+        {
+          m_locationInstances.Remove(item.ToV2I());
+        }
       }
     }
 
