@@ -77,9 +77,6 @@
       <HintPath>packages\Pfhoenix.Valheim.ModProjectReferences.1.0.6\lib\net46\bepinex.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="fastJSON, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
-      <HintPath>packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -330,38 +327,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\JsonSerializationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2StatusEffects\OdinSE.cs" />
-    <Compile Include="1NPC\OdinGoblin.cs" />
-    <Compile Include="1NPC\NpcManager.cs" />
-    <Compile Include="1NPC\OdinGod.cs" />
-    <Compile Include="1NPC\OdinMunin.cs" />
-    <Compile Include="1NPC\OdinNPC.cs" />
-    <Compile Include="1NPC\OdinShaman.cs" />
-    <Compile Include="4Pets\PetManager.cs" />
-    <Compile Include="4Pets\PetTroll.cs" />
-    <Compile Include="9Misc\DBG.cs" />
-    <Compile Include="9Misc\Localization.cs" />
-    <Compile Include="9Misc\Terrain.cs" />
-    <Compile Include="9Misc\Util.cs" />
-    <Compile Include="0Main\OdinPlus.cs" />
-    <Compile Include="1NPC\OdinTrader.cs" />
-    <Compile Include="3Items\OdinItem.cs" />
-    <Compile Include="3Items\OdinMeads.cs" />
+    <Compile Include="Managers\StatusEffectsManager.cs" />
+    <Compile Include="Npcs\OdinGoblin.cs" />
+    <Compile Include="Managers\NpcManager.cs" />
+    <Compile Include="Npcs\OdinGod.cs" />
+    <Compile Include="Npcs\OdinMunin.cs" />
+    <Compile Include="Npcs\OdinNpc.cs" />
+    <Compile Include="Npcs\OdinShaman.cs" />
+    <Compile Include="Managers\PetManager.cs" />
+    <Compile Include="Pets\PetTroll.cs" />
+    <Compile Include="Common\DBG.cs" />
+    <Compile Include="Common\Localization.cs" />
+    <Compile Include="Common\Terrain.cs" />
+    <Compile Include="Common\Util.cs" />
+    <Compile Include="OdinPlus.cs" />
+    <Compile Include="Npcs\OdinTrader.cs" />
+    <Compile Include="Items\OdinItem.cs" />
+    <Compile Include="Items\OdinMeads.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="9Misc\OdinInteractable.cs" />
-    <Compile Include="4Pets\PetWolf.cs" />
-    <Compile Include="9Misc\GameTweaker.cs" />
-    <Compile Include="2StatusEffects\SE_SummonPet.cs" />
-    <Compile Include="0Main\OdinData.cs" />
-    <Compile Include="9Misc\LocationManager.cs" />
-    <Compile Include="5Quest\LegacyChest.cs" />
-    <Compile Include="3Items\PrefabManager.cs" />
-    <Compile Include="2StatusEffects\Se_Buzz.cs" />
-    <Compile Include="9Misc\DevTool.cs" />
-    <Compile Include="5Quest\HuntTarget.cs" />
-    <Compile Include="8Assets\FxAssetManager.cs" />
-    <Compile Include="8Assets\ResourceAssetManager.cs" />
+    <Compile Include="Common\OdinInteractable.cs" />
+    <Compile Include="Pets\PetWolf.cs" />
+    <Compile Include="Common\GameTweaker.cs" />
+    <Compile Include="StatusEffects\SummonPetStatusEffect.cs" />
+    <Compile Include="Data\OdinData.cs" />
+    <Compile Include="Managers\LocationManager.cs" />
+    <Compile Include="Quests\LegacyChest.cs" />
+    <Compile Include="Managers\PrefabManager.cs" />
+    <Compile Include="StatusEffects\BuzzStatusEffect.cs" />
+    <Compile Include="Common\DevTool.cs" />
+    <Compile Include="Quests\HuntTarget.cs" />
+    <Compile Include="Managers\FxAssetManager.cs" />
+    <Compile Include="Managers\ResourceAssetManager.cs" />
     <EmbeddedResource Include="Resources\OdinLegacy.png" />
     <EmbeddedResource Include="Resources\ExpMeadS.png" />
     <EmbeddedResource Include="Resources\ExpMeadM.png" />
@@ -387,35 +385,36 @@
     <EmbeddedResource Include="Resources\AxeMeadL.png" />
     <EmbeddedResource Include="Resources\SE_Troll.png" />
     <EmbeddedResource Include="Resources\SE_Wolf.png" />
-    <Compile Include="6Humans\HumanManager.cs" />
-    <Compile Include="7Locations\LocationMarker.cs" />
-    <Compile Include="1NPC\HumanNPC.cs" />
-    <Compile Include="5Quest\QuestManager.cs" />
-    <Compile Include="5Quest\Quest.cs" />
-    <Compile Include="5Quest\QuestRef.cs" />
-    <Compile Include="5Quest\MuninExtension.cs" />
-    <Compile Include="5Quest\QuestBasicExtension.cs" />
-    <Compile Include="5Quest\QuestProcessor.cs" />
-    <Compile Include="5Quest\DungeonQuestProcessor.cs" />
-    <Compile Include="5Quest\TreasureQuestProcessor.cs" />
-    <Compile Include="5Quest\HuntQuestProcessor.cs" />
-    <Compile Include="5Quest\SearchQuestProcessor.cs" />
-    <Compile Include="6Humans\HumanVis.cs" />
-    <Compile Include="6Humans\HumanTrader.cs" />
-    <Compile Include="6Humans\HumanMessager.cs" />
-    <Compile Include="6Humans\HumanVillager.cs" />
-    <Compile Include="6Humans\HumanFighter.cs" />
-    <Compile Include="6Humans\MaterialVillager.cs" />
-    <Compile Include="6Humans\HumanWorker.cs" />
-    <Compile Include="6Humans\QuestVillager.cs" />
+    <Compile Include="Managers\HumanManager.cs" />
+    <Compile Include="Common\LocationMarker.cs" />
+    <Compile Include="Npcs\HumanNpc.cs" />
+    <Compile Include="Managers\QuestManager.cs" />
+    <Compile Include="Quests\Quest.cs" />
+    <Compile Include="Quests\QuestRef.cs" />
+    <Compile Include="Quests\MuninExtension.cs" />
+    <Compile Include="Quests\QuestBasicExtension.cs" />
+    <Compile Include="Processors\QuestProcessor.cs" />
+    <Compile Include="Processors\DungeonQuestProcessor.cs" />
+    <Compile Include="Processors\TreasureQuestProcessor.cs" />
+    <Compile Include="Processors\HuntQuestProcessor.cs" />
+    <Compile Include="Processors\SearchQuestProcessor.cs" />
+    <Compile Include="Npcs\Humans\HumanVis.cs" />
+    <Compile Include="Npcs\Humans\HumanTrader.cs" />
+    <Compile Include="Npcs\Humans\HumanMessager.cs" />
+    <Compile Include="Npcs\Humans\HumanVillager.cs" />
+    <Compile Include="Npcs\Humans\HumanFighter.cs" />
+    <Compile Include="Npcs\Humans\MaterialVillager.cs" />
+    <Compile Include="Npcs\Humans\HumanWorker.cs" />
+    <Compile Include="Npcs\Humans\QuestVillager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)" "C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" /q /y /i
-xcopy "$(TargetDir)\fastJson.dll" "C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" /q /y /i</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

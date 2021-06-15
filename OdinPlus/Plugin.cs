@@ -4,6 +4,11 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
+using OdinPlus.Common;
+using OdinPlus.Data;
+using OdinPlus.Managers;
+using OdinPlus.Npcs;
+using OdinPlus.Quests;
 using UnityEngine;
 
 namespace OdinPlus
@@ -298,7 +303,7 @@ namespace OdinPlus
           return;
         }
 
-        OdinData.saveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
+        OdinData.SaveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
       }
     }
 
@@ -318,7 +323,7 @@ namespace OdinPlus
             return;
           }
 
-          OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
+          OdinData.LoadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
         }
       }
     }
@@ -367,7 +372,7 @@ namespace OdinPlus
       {
         if (ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
         {
-          OdinData.saveOdinData(ZNet.instance.GetWorldName());
+          OdinData.SaveOdinData(ZNet.instance.GetWorldName());
         }
 
         OdinPlus.UnRegister();
@@ -491,10 +496,10 @@ namespace OdinPlus
     {
       private static bool Prefix(Character __instance, ref string __result)
       {
-        Component comp = __instance.GetComponent<HumanNPC>();
+        Component comp = __instance.GetComponent<HumanNpc>();
         if (comp)
         {
-          __result = ((HumanNPC) comp).GetHoverText();
+          __result = ((HumanNpc) comp).GetHoverText();
           return false;
         }
 
