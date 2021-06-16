@@ -42,7 +42,7 @@ namespace OdinPlus.Managers
           OdinPostion = Plugin.CFG_OdinPosition.Value;
         }
 
-        BlackList = OdinData.Data.BlackList;
+        BlackList = OdinData.OdinPlusData.BlackList;
         GetValDictionary();
       }
     }

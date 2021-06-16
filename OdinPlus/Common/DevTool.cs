@@ -490,7 +490,7 @@ namespace OdinPlus.Common
 		//End Class
 
 		#region DebugSaving
-		public static DataTable SaveDataDebug;
+		public static OdinPlusDataFile SaveOdinPlusDataDebug;
 		public static string SaveDataFileName;
 
 		public static void LoadDebugSavingData()
@@ -499,7 +499,7 @@ namespace OdinPlus.Common
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
 			BinaryReader binaryReader = new BinaryReader(fileStream);
 			var str = binaryReader.ReadString();
-			SaveDataDebug = JsonSerializationProvider.FromJson<DataTable>(str);
+			SaveOdinPlusDataDebug = JsonSerializationProvider.FromJson<OdinPlusDataFile>(str);
 			fileStream.Close();
 		}
 

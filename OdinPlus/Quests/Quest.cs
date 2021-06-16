@@ -125,8 +125,8 @@ namespace OdinPlus.Quests
 		#endregion Function
 		public void Begin()
 		{
-			OdinData.Data.QuestCount++;
-			m_index = OdinData.Data.QuestCount;
+			OdinData.OdinPlusData.QuestCount++;
+			m_index = OdinData.OdinPlusData.QuestCount;
 			SetLocName();
 			SetQuestName();
 			this.SetMuninHints();

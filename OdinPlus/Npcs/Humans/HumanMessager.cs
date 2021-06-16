@@ -27,7 +27,7 @@ namespace OdinPlus.Npcs.Humans
 			var key = HumanVis.NPCnames.GetRandomElement();
 			OdinData.AddKey(key);
 			PlaceRandom(key);
-			string n = String.Format("Thx, you can find <color=yellow><b>{0}</b></color> near our village", key);
+			string n = $"Thanks, you can find <color=yellow><b>{key}</b></color> near our village";
 			Say(n);
 			ResetQuestCD();
 		}

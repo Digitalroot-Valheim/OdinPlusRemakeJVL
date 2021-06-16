@@ -158,10 +158,11 @@ namespace OdinPlus.Managers
 				{
 					m_prefab = item.Value.GetComponent<ItemDrop>(),
 					m_stack = 1,
-					m_price = OdinData.MeadsValue[item.Key]
+					m_price = OdinData.Meads[item.Key].Cost
 				});
 			}
 		}
+
 		private static void InitOdinChest()
 		{
 		}

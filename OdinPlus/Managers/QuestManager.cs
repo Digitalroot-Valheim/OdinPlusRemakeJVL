@@ -293,49 +293,49 @@ namespace OdinPlus.Managers
     public void Save()
     {
       DBG.blogInfo("QuestManager.Save()");
-      DataTable od = OdinData.Data;
+      OdinPlusDataFile od = OdinData.OdinPlusData;
 
-      DBG.blogInfo($"OdinData.Data.BlackList: {OdinData.Data.BlackList.Count}");
-      foreach (string s in OdinData.Data.BlackList)
+      DBG.blogInfo($"OdinData.Data.BlackList: {OdinData.OdinPlusData.BlackList.Count}");
+      foreach (string s in OdinData.OdinPlusData.BlackList)
       {
         DBG.blogInfo(s);
       }
 
-      DBG.blogInfo($"OdinData.Data.BuzzKeys: {OdinData.Data.BuzzKeys.Count}");
-      foreach (string s in OdinData.Data.BuzzKeys)
+      DBG.blogInfo($"OdinData.Data.BuzzKeys: {OdinData.OdinPlusData.BuzzKeys.Count}");
+      foreach (string s in OdinData.OdinPlusData.BuzzKeys)
       {
         DBG.blogInfo(s);
       }
 
-      DBG.blogInfo($"OdinData.Data.Credits: {OdinData.Data.Credits}");
-      DBG.blogInfo($"OdinData.Data.QuestCount: {OdinData.Data.QuestCount}");
-      DBG.blogInfo($"OdinData.Data.Quests: {OdinData.Data.Quests.Count}");
-      foreach (var quest in OdinData.Data.Quests)
+      DBG.blogInfo($"OdinData.Data.Credits: {OdinData.OdinPlusData.Credits}");
+      DBG.blogInfo($"OdinData.Data.QuestCount: {OdinData.OdinPlusData.QuestCount}");
+      DBG.blogInfo($"OdinData.Data.Quests: {OdinData.OdinPlusData.Quests.Count}");
+      foreach (var quest in OdinData.OdinPlusData.Quests)
       {
         DBG.blogInfo(JsonSerializationProvider.ToJson(quest));
       }
 
-      DBG.blogInfo($"OdinData.Data.Quests: {OdinData.Data.SearchTaskList.Count}");
-      foreach (var kvp in OdinData.Data.SearchTaskList)
+      DBG.blogInfo($"OdinData.Data.Quests: {OdinData.OdinPlusData.SearchTaskList.Count}");
+      foreach (var kvp in OdinData.OdinPlusData.SearchTaskList)
       {
         DBG.blogInfo($"key: {kvp.Key}, value: {kvp.Value}");
       }
 
-      DBG.blogInfo($"OdinData.Data.hasTroll: {OdinData.Data.hasTroll}");
-      DBG.blogInfo($"OdinData.Data.hasWolf: {OdinData.Data.hasWolf}");
+      DBG.blogInfo($"OdinData.Data.hasTroll: {OdinData.OdinPlusData.hasTroll}");
+      DBG.blogInfo($"OdinData.Data.hasWolf: {OdinData.OdinPlusData.hasWolf}");
 
-      OdinData.Data.Quests.Clear();
+      OdinData.OdinPlusData.Quests.Clear();
       DBG.blogInfo($"MyQuests.Values: {MyQuests.Values.Count}");
       foreach (var kvp in MyQuests)
       {
-        OdinData.Data.Quests.Add(kvp.Key, kvp.Value);
+        OdinData.OdinPlusData.Quests.Add(kvp.Key, kvp.Value);
         DBG.blogInfo($"key: {kvp.Key}, value: {JsonSerializationProvider.ToJson(kvp.Value)}");
       }
     }
 
     public void Load()
     {
-      foreach (var quest in OdinData.Data.Quests)
+      foreach (var quest in OdinData.OdinPlusData.Quests)
       {
         MyQuests.Add(quest.Value.ID, quest.Value);
       }
