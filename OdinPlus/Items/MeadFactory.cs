@@ -7,9 +7,9 @@ namespace OdinPlus.Items
   {
     public static IEnumerable<MeadInfo> GetMeadList()
     {
-      var defaultCostSmall = 20;
-      var defaultCostMMedium = 20;
-      var defaultCostLarge = 20;
+      var defaultCostSmall  = 20;
+      var defaultCostMedium = 30;
+      var defaultCostLarge  = 60;
 
       foreach (var mead in (MeadEnum[])Enum.GetValues(typeof(MeadEnum)))
       {
@@ -42,7 +42,7 @@ namespace OdinPlus.Items
           case MeadEnum.Swords:
           case MeadEnum.Axe:
             yield return new MeadInfo { Name = MeadsNames.GetMeadName(mead), Size = MeadSize.Small, Cost = defaultCostSmall };
-            yield return new MeadInfo { Name = MeadsNames.GetMeadName(mead), Size = MeadSize.Medium, Cost = defaultCostMMedium };
+            yield return new MeadInfo { Name = MeadsNames.GetMeadName(mead), Size = MeadSize.Medium, Cost = defaultCostMedium };
             yield return new MeadInfo { Name = MeadsNames.GetMeadName(mead), Size = MeadSize.Large, Cost = defaultCostLarge };
             break;
 

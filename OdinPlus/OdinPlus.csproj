@@ -427,19 +427,17 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="ILMerge.Fody" PrivateAssets="all">
       <Version>1.16.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <MySourceFiles Include="$(TargetDir)\OdinPlus.dll" />
+    <OdinPlusSourceFiles Include="$(TargetDir)OdinPlus.dll" />
   </ItemGroup>
   <ItemGroup>
-    <MyBuildFiles Include="$(TargetDir)..\$(ProjectName)\**\*.*" />
+    <OdinPlusBuildFiles Include="$(TargetDir)..\$(ProjectName)\**\*.*" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
@@ -457,29 +455,29 @@
   <Target Name="DebugPostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Message Text="DebugPostBuild Called" Importance="high" />
     <Message Text="Copying assemblies to C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" Importance="high" />
-    <Copy SourceFiles="@(MySourceFiles)" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(OdinPlusSourceFiles)" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" SkipUnchangedFiles="true" />
   </Target>
   <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
     <Message Text="BeforeBuild Called" Importance="high" />
-    <Message Text="@(MyBuildFiles)" Importance="high" />
+    <Message Text="@(OdinPlusBuildFiles)" Importance="high" />
     <Message Text="Deleting files from $(TargetDir)..\$(ProjectName)\$(ProjectName)" Importance="high" />
-    <Delete Files="@(MyBuildFiles)" />
+    <Delete Files="@(OdinPlusBuildFiles)" />
   </Target>
   <Target Name="ReleasePostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
     <Message Text="ReleasePostBuild Called" Importance="high" />
     <MakeDir Directories="$(TargetDir)..\$(ProjectName)\$(ProjectName)" />
     <Message Text="Deleting files from $(TargetDir)..\$(ProjectName)" Importance="high" />
     <Delete Files="$(TargetDir)..\$(ProjectName)\**\*.*" />
-    <Message Text="Copying @(MySourceFiles) to $(TargetDir)..\$(ProjectName)\$(ProjectName)" Importance="high" />
-    <Copy SourceFiles="@(MySourceFiles)" DestinationFolder="$(TargetDir)..\$(ProjectName)\$(ProjectName)" SkipUnchangedFiles="true" />
+    <Message Text="Copying @(OdinPlusSourceFiles) to $(TargetDir)..\$(ProjectName)\$(ProjectName)" Importance="high" />
+    <Copy SourceFiles="@(OdinPlusSourceFiles)" DestinationFolder="$(TargetDir)..\$(ProjectName)\$(ProjectName)" SkipUnchangedFiles="true" />
     <GetAssemblyIdentity AssemblyFiles="$(TargetDir)$(TargetFileName)">
-      <Output TaskParameter="Assemblies" ItemName="MyAssemblyIdentities" />
+      <Output TaskParameter="Assemblies" ItemName="OdinPlusAssemblyIdentities" />
     </GetAssemblyIdentity>
-    <Message Text="Version = $([System.Version]::Parse(%(MyAssemblyIdentities.Version)).ToString(3))" Importance="high" />
-    <Message Text="Deleting $(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(MyAssemblyIdentities.Version)).ToString(3)).zip" Importance="high" />
-    <Delete Files="$(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(MyAssemblyIdentities.Version)).ToString(3)).zip" />
-    <Message Text="Creating Zip file $(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(MyAssemblyIdentities.Version)).ToString(3)).zip" Importance="high" />
-    <ZipDirectory SourceDirectory="$(TargetDir)..\$(ProjectName)" DestinationFile="$(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(MyAssemblyIdentities.Version)).ToString(3)).zip" />
+    <Message Text="Version = $([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3))" Importance="high" />
+    <Message Text="Deleting $(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" Importance="high" />
+    <Delete Files="$(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" />
+    <Message Text="Creating Zip file $(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" Importance="high" />
+    <ZipDirectory SourceDirectory="$(TargetDir)..\$(ProjectName)" DestinationFile="$(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

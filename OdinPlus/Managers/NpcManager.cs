@@ -42,6 +42,7 @@ namespace OdinPlus.Managers
 		}
 		public static void Init()
 		{
+			
 			Root = new GameObject("OdinNPCs"); ;
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
@@ -152,15 +153,16 @@ namespace OdinPlus.Managers
 			OdinPlus.traderNameList.Add(m_odinPot.m_name);
 			m_odinPot.m_talker = m_odinGod.gameObject;
 
-			foreach (var item in OdinMeads.MeadList)
-			{
-				m_odinPot.m_items.Add(new Trader.TradeItem
-				{
-					m_prefab = item.Value.GetComponent<ItemDrop>(),
-					m_stack = 1,
-					m_price = OdinData.Meads[item.Key].Cost
-				});
-			}
+			// Pot does not work ATM. 
+			//foreach (var item in OdinMeads.MeadList)
+			//{
+			//	m_odinPot.m_items.Add(new Trader.TradeItem
+			//	{
+			//		m_prefab = item.Value.GetComponent<ItemDrop>(),
+			//		m_stack = 1,
+			//		m_price = OdinData.Meads[item.Key].Cost
+			//	});
+			//}
 		}
 
 		private static void InitOdinChest()

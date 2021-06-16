@@ -96,9 +96,23 @@ namespace OdinPlus
     {
       private static void Postfix(StoreGui __instance, Trader trader)
       {
-        if (OdinPlus.traderNameList.Contains(trader.m_name))
+        try
         {
-          OdinTrader.TweakGui(__instance, true);
+          if (OdinPlus.traderNameList.Contains(trader.m_name))
+          {
+            OdinTrader.TweakGui(__instance, true);
+          }
+        }
+        catch (Exception e)
+        {
+          DBG.blogError(e.Message);
+          DBG.blogError(e.StackTrace);
+          if (e.InnerException != null)
+          {
+            DBG.blogError(e.InnerException.Message);
+            DBG.blogError(e.InnerException.StackTrace);
+          }
+          __instance.Hide();
         }
       }
     }
@@ -108,10 +122,23 @@ namespace OdinPlus
     {
       private static void Prefix(StoreGui __instance)
       {
-        var trader = Traverse.Create(__instance).Field<Trader>("m_trader").Value;
-        if (OdinPlus.traderNameList.Contains(trader.m_name))
+        try
         {
-          OdinTrader.TweakGui(__instance, false);
+          var trader = Traverse.Create(__instance).Field<Trader>("m_trader").Value;
+          if (OdinPlus.traderNameList.Contains(trader.m_name))
+          {
+            OdinTrader.TweakGui(__instance, false);
+          }
+        }
+        catch (Exception e)
+        {
+          DBG.blogError(e.Message);
+          DBG.blogError(e.StackTrace);
+          if (e.InnerException != null)
+          {
+            DBG.blogError(e.InnerException.Message);
+            DBG.blogError(e.InnerException.StackTrace);
+          }
         }
       }
     }

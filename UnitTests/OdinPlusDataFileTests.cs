@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace UnitTests
 {
+  [TestFixture]
   public class OdinPlusDataFileTests
   {
     [SetUp]
@@ -65,7 +66,7 @@ namespace UnitTests
 
       Assert.That(json, Is.Not.Null);
       Assert.That(json, Is.Not.Empty);
-      Console.WriteLine(json);
+      Console.WriteLine(JsonSerializationProvider.ToJson(odinPlusDataFile, true));
 
       // ReSharper disable once IdentifierTypo
       var opdf = JsonSerializationProvider.FromJson<OdinPlusDataFile>(json);
@@ -114,9 +115,14 @@ namespace UnitTests
         Assert.That(opdf.Quests[value].m_type, Is.EqualTo(odinPlusDataFile.Quests[value].m_type));
         Assert.That(opdf.Quests[value].m_chain, Has.Exactly(odinPlusDataFile.Quests[value].m_chain.Count).Items);
         Assert.That(opdf.Quests[value].m_pinPosition, Is.EqualTo(odinPlusDataFile.Quests[value].m_pinPosition));
+        Assert.That(opdf.Quests[value].m_pinPosition.x, Is.EqualTo(odinPlusDataFile.Quests[value].m_pinPosition.x));
+        Assert.That(opdf.Quests[value].m_pinPosition.y, Is.EqualTo(odinPlusDataFile.Quests[value].m_pinPosition.y));
+        Assert.That(opdf.Quests[value].m_pinPosition.z, Is.EqualTo(odinPlusDataFile.Quests[value].m_pinPosition.z));
         Assert.That(opdf.Quests[value].m_realPostion, Is.EqualTo(odinPlusDataFile.Quests[value].m_realPostion));
+        Assert.That(opdf.Quests[value].m_realPostion.x, Is.EqualTo(odinPlusDataFile.Quests[value].m_realPostion.x));
+        Assert.That(opdf.Quests[value].m_realPostion.y, Is.EqualTo(odinPlusDataFile.Quests[value].m_realPostion.y));
+        Assert.That(opdf.Quests[value].m_realPostion.z, Is.EqualTo(odinPlusDataFile.Quests[value].m_realPostion.z));
       }
-
     }
   }
 }

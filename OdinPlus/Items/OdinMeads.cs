@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using OdinPlus.Managers;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ namespace OdinPlus.Items
 		private static GameObject MeadTasty;
 		public static Dictionary<string, GameObject> MeadList = new Dictionary<string, GameObject>();
 		private static GameObject Root;
-		private void Awake()
+		
+    [UsedImplicitly]
+    private void Awake()
 		{
 			Root = new GameObject("MeadList");
 			Root.transform.SetParent(OdinPlus.PrefabParent.transform);
