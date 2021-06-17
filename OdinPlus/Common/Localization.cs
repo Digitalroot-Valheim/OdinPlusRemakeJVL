@@ -2,14 +2,14 @@
 using System.Reflection;
 using HarmonyLib;
 
-//TODO maybe remove the deco for colorize keyword,just let writers do it themsevels.make a note for them!
+//TODO maybe remove the deco for colorize keyword, just let writers do it themselves make a note for them!
 namespace OdinPlus.Common
 {
 	public class BuzzLocal
 	{
 		private static Localization lcl;
 		public static Dictionary<string, string> t; //= new Dictionary<string, string>();
-		private static Dictionary<string, string> english = new Dictionary<string, string>() {
+		private static readonly Dictionary<string, string> English = new Dictionary<string, string>() {
 //NPC
 {"op_buy","Buy"},
 {"op_crd","Credits"},
@@ -146,6 +146,7 @@ namespace OdinPlus.Common
 {"op_quest_start","Start"},
 {"op_quest_clear","Clear"},
 {"op_quest_stolen","Lost"},
+{"op_quest_giveup","Abandoned"},
 {"op_quest_search_start_pr_1", "Hail Viking! Go and find Munin" },
 {"op_quest_search_start_po_1","And return them to his location for a reward" },
 //names
@@ -284,7 +285,7 @@ namespace OdinPlus.Common
 			}
 			else
 			{
-				t = english;
+				t = English;
 			}
 		}
 		public static void AddWord(object[] element)
@@ -295,7 +296,7 @@ namespace OdinPlus.Common
 		public static void UpdateDictinary()
 		{
 			string missing = "Missing Words:";
-			foreach (var el in english)
+			foreach (var el in English)
 			{
 				if (t.ContainsKey(el.Key))
 				{

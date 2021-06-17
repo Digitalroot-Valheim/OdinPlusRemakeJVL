@@ -292,44 +292,51 @@ namespace OdinPlus.Managers
 
     public void Save()
     {
-      DBG.blogInfo("QuestManager.Save()");
-      OdinPlusDataFile od = OdinData.OdinPlusData;
 
-      DBG.blogInfo($"OdinData.Data.BlackList: {OdinData.OdinPlusData.BlackList.Count}");
-      foreach (string s in OdinData.OdinPlusData.BlackList)
-      {
-        DBG.blogInfo(s);
-      }
+#if DEBUG
+      //DBG.blogInfo("QuestManager.Save()");
 
-      DBG.blogInfo($"OdinData.Data.BuzzKeys: {OdinData.OdinPlusData.BuzzKeys.Count}");
-      foreach (string s in OdinData.OdinPlusData.BuzzKeys)
-      {
-        DBG.blogInfo(s);
-      }
+      //DBG.blogInfo($"OdinData.Data.BlackList: {OdinData.OdinPlusData.BlackList.Count}");
+      //foreach (string s in OdinData.OdinPlusData.BlackList)
+      //{
+      //  DBG.blogInfo(s);
+      //}
 
-      DBG.blogInfo($"OdinData.Data.Credits: {OdinData.OdinPlusData.Credits}");
-      DBG.blogInfo($"OdinData.Data.QuestCount: {OdinData.OdinPlusData.QuestCount}");
-      DBG.blogInfo($"OdinData.Data.Quests: {OdinData.OdinPlusData.Quests.Count}");
-      foreach (var quest in OdinData.OdinPlusData.Quests)
-      {
-        DBG.blogInfo(JsonSerializationProvider.ToJson(quest));
-      }
+      //DBG.blogInfo($"OdinData.Data.BuzzKeys: {OdinData.OdinPlusData.BuzzKeys.Count}");
+      //foreach (string s in OdinData.OdinPlusData.BuzzKeys)
+      //{
+      //  DBG.blogInfo(s);
+      //}
 
-      DBG.blogInfo($"OdinData.Data.Quests: {OdinData.OdinPlusData.SearchTaskList.Count}");
-      foreach (var kvp in OdinData.OdinPlusData.SearchTaskList)
-      {
-        DBG.blogInfo($"key: {kvp.Key}, value: {kvp.Value}");
-      }
+      //DBG.blogInfo($"OdinData.Data.Credits: {OdinData.OdinPlusData.Credits}");
+      //DBG.blogInfo($"OdinData.Data.QuestCount: {OdinData.OdinPlusData.QuestCount}");
+      //DBG.blogInfo($"OdinData.Data.Quests: {OdinData.OdinPlusData.Quests.Count}");
+      //foreach (var quest in OdinData.OdinPlusData.Quests)
+      //{
+      //  DBG.blogInfo(JsonSerializationProvider.ToJson(quest));
+      //}
 
-      DBG.blogInfo($"OdinData.Data.hasTroll: {OdinData.OdinPlusData.hasTroll}");
-      DBG.blogInfo($"OdinData.Data.hasWolf: {OdinData.OdinPlusData.hasWolf}");
+      //DBG.blogInfo($"OdinData.Data.Quests: {OdinData.OdinPlusData.SearchTaskList.Count}");
+      //foreach (var kvp in OdinData.OdinPlusData.SearchTaskList)
+      //{
+      //  DBG.blogInfo($"key: {kvp.Key}, value: {kvp.Value}");
+      //}
+
+      //DBG.blogInfo($"OdinData.Data.hasTroll: {OdinData.OdinPlusData.hasTroll}");
+      //DBG.blogInfo($"OdinData.Data.hasWolf: {OdinData.OdinPlusData.hasWolf}");
+
+#endif
 
       OdinData.OdinPlusData.Quests.Clear();
-      DBG.blogInfo($"MyQuests.Values: {MyQuests.Values.Count}");
+#if DEBUG
+      //DBG.blogInfo($"MyQuests.Values: {MyQuests.Values.Count}");
+#endif
       foreach (var kvp in MyQuests)
       {
         OdinData.OdinPlusData.Quests.Add(kvp.Key, kvp.Value);
-        DBG.blogInfo($"key: {kvp.Key}, value: {JsonSerializationProvider.ToJson(kvp.Value)}");
+#if DEBUG
+        //DBG.blogInfo($"key: {kvp.Key}, value: {JsonSerializationProvider.ToJson(kvp.Value)}");
+#endif
       }
     }
 

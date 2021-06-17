@@ -124,7 +124,7 @@ namespace OdinPlus.Managers
 			CreateNPC<HumanFighter>("Fighter1");
 			CreateNPC<HumanFighter>("Fighter2");
 			CreateNPC<MaterialVillager>("DumbWorker", "MatNPCHuman");
-			CreateNPC<HumanMessager>("DumbWorker", "MessageNPCHuman");
+			CreateNPC<HumanMessenger>("DumbWorker", "MessageNPCHuman");
 			CreateNPC<HumanWorker>("DumbWorker", "WorkerNPCHuman");
 			CreateNPC<HumanVillager>("GuardNPC", "GuardVillager");
 		}

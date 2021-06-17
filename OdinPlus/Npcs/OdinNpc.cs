@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace OdinPlus.Npcs
 {
-  public abstract class OdinNpc : MonoBehaviour, Hoverable, Interactable, OdinInteractable
+  public abstract class OdinNpc : MonoBehaviour, Hoverable, Interactable, IOdinInteractable
   {
     public string m_name;
     public Transform m_head;
@@ -33,8 +33,8 @@ namespace OdinPlus.Npcs
 
     public virtual string GetHoverText()
     {
-      string n = string.Format("<color=lightblue><b>{0}}</b></color>", m_name);
-      n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
+      string n = $"<color=lightblue><b>{m_name}</b></color>";
+      n += $"\n<color=green><b>Credits:{OdinData.Credits}</b></color>";
       return Localization.instance.Localize(n);
     }
 

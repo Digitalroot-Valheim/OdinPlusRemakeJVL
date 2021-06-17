@@ -31,10 +31,7 @@ namespace OdinPlus.Data
 
       BuildMeads(); // Create Meads
 
-
-
-      OdinPlusData = new OdinPlusDataFile();
-      OdinPlusData.Quests = new Dictionary<string, Quest>();
+      OdinPlusData = new OdinPlusDataFile {Quests = new Dictionary<string, Quest>()};
       if (Plugin.CFG_ItemSellValue.Value == "")
       {
         return;
@@ -156,21 +153,24 @@ namespace OdinPlus.Data
 
       using (FileStream fileStream = new FileStream(file.FullName, FileMode.Create, FileAccess.Write))
       {
-        DBG.blogInfo($"Data.Quests: {OdinPlusData?.Quests?.Count}");
-        DBG.blogInfo($"Data.Quests.Json: {JsonSerializationProvider.ToJson(OdinPlusData?.Quests)}");
-        DBG.blogInfo($"Data.Quests.ToList.Json: {JsonSerializationProvider.ToJson(OdinPlusData?.Quests?.ToList())}");
-
-        DBG.blogInfo($"Data.Quests.ForEach: {OdinPlusData?.Quests?.Count}");
-        if (OdinPlusData.Quests != null)
-        {
-          foreach (var q in OdinPlusData.Quests)
-          {
-            DBG.blogInfo($"Json: {q}");
-          }
-        }
-
+#if DEBUG
+        // DBG.blogInfo($"Data.Quests: {OdinPlusData?.Quests?.Count}");
+        // DBG.blogInfo($"Data.Quests.Json: {JsonSerializationProvider.ToJson(OdinPlusData?.Quests)}");
+        // DBG.blogInfo($"Data.Quests.ToList.Json: {JsonSerializationProvider.ToJson(OdinPlusData?.Quests?.ToList())}");
+        //
+        // DBG.blogInfo($"Data.Quests.ForEach: {OdinPlusData?.Quests?.Count}");
+        // if (OdinPlusData.Quests != null)
+        // {
+        //   foreach (var q in OdinPlusData.Quests)
+        //   {
+        //     DBG.blogInfo($"Json: {q}");
+        //   }
+        // }
+#endif
         string dat = JsonSerializationProvider.ToJson(OdinPlusData);
+#if DEBUG
         DBG.blogInfo($"Json: {dat}");
+#endif
         using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
         {
           binaryWriter.Write(dat);
@@ -178,8 +178,6 @@ namespace OdinPlus.Data
           binaryWriter.Close();
         }
 
-        //BinaryFormatter formatter = new BinaryFormatter();
-        //formatter.Serialize(fileStream, Data);
         fileStream.Close();
       }
 

@@ -3,7 +3,7 @@ using OdinPlus.Data;
 
 namespace OdinPlus.Npcs.Humans
 {
-	public class MaterialVillager : QuestVillager, Hoverable, Interactable, OdinInteractable
+	public class MaterialVillager : QuestVillager, Hoverable, Interactable, IOdinInteractable
 	{
 		public readonly string[] m_materials = new string[] { "Wood", "Stone" };
 		public string m_item = "";
@@ -37,7 +37,7 @@ namespace OdinPlus.Npcs.Humans
 				inv.RemoveItem(iname,count);
 				OdinData.AddCredits(30,true);
 				Say("$op_human_thx");
-				ResetQuestCD();
+				ResetQuestCooldown();
 				return true;
 			}
 			else

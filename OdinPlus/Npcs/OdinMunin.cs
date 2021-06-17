@@ -12,7 +12,7 @@ namespace OdinPlus.Npcs
     private int index;
     private string currentChoice = "";
     private float timer;
-    private float questCD = 2f;
+    private float questCD = 5f;
     private Animator m_animator;
     public static OdinMunin instance;
 
@@ -58,7 +58,7 @@ namespace OdinPlus.Npcs
 
       if (QuestManager.instance.Count() >= 10)
       {
-        Say("$op_munin_questfulll");
+        Say("$op_munin_questfull");
         return;
       }
 

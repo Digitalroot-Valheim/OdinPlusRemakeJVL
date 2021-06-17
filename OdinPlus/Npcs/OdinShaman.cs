@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OdinPlus.Npcs
 {
-	class OdinShaman : OdinNpc, Hoverable, Interactable, OdinInteractable
+	class OdinShaman : OdinNpc
 	{
 		//private static bool isInit = false;
 		public Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>{

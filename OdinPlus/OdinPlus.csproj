@@ -361,7 +361,7 @@
     <Compile Include="Items\OdinItem.cs" />
     <Compile Include="Items\OdinMeads.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="Common\OdinInteractable.cs" />
+    <Compile Include="Common\IOdinInteractable.cs" />
     <Compile Include="Pets\PetWolf.cs" />
     <Compile Include="Common\GameTweaker.cs" />
     <Compile Include="StatusEffects\SummonPetStatusEffect.cs" />
@@ -414,7 +414,7 @@
     <Compile Include="Processors\SearchQuestProcessor.cs" />
     <Compile Include="Npcs\Humans\HumanVis.cs" />
     <Compile Include="Npcs\Humans\HumanTrader.cs" />
-    <Compile Include="Npcs\Humans\HumanMessager.cs" />
+    <Compile Include="Npcs\Humans\HumanMessenger.cs" />
     <Compile Include="Npcs\Humans\HumanVillager.cs" />
     <Compile Include="Npcs\Humans\HumanFighter.cs" />
     <Compile Include="Npcs\Humans\MaterialVillager.cs" />
@@ -434,10 +434,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <OdinPlusSourceFiles Include="$(TargetDir)OdinPlus.dll" />
+    <OdinPlusSourceFiles Include="C:\Users\nkd\Source\Repos\OdinPlusRemake\OdinPlus\bin\Debug\OdinPlus.dll" />
   </ItemGroup>
   <ItemGroup>
-    <OdinPlusBuildFiles Include="$(TargetDir)..\$(ProjectName)\**\*.*" />
+    <OdinPlusBuildFiles Include="C:\Users\nkd\Source\Repos\OdinPlusRemake\OdinPlus\bin\Debug\..\OdinPlus\OdinPlus\OdinPlus.dll" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

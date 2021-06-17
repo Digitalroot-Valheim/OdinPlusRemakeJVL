@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OdinPlus.Pets
 {
-	public class PetWolf : MonoBehaviour, OdinInteractable
+	public class PetWolf : MonoBehaviour, IOdinInteractable
 	{
 		#region var
 		private Container container;

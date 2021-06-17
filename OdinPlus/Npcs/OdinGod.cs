@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 //||X||Sell Value Don't Resolve Here!!!
 namespace OdinPlus.Npcs
 {
-	public class OdinGod : OdinNpc, Hoverable, Interactable, OdinInteractable
+	public class OdinGod : OdinNpc, Hoverable, Interactable, IOdinInteractable
 	{
 		#region Var
 		public static OdinGod m_instance;

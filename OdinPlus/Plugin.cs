@@ -211,15 +211,15 @@ namespace OdinPlus
 
         if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject() != null)
         {
-          if (__instance.GetHoverObject().GetComponent<OdinInteractable>() != null)
+          if (__instance.GetHoverObject().GetComponent<IOdinInteractable>() != null)
           {
-            __instance.GetHoverObject().GetComponent<OdinInteractable>().SecondaryInteract(__instance);
+            __instance.GetHoverObject().GetComponent<IOdinInteractable>().SecondaryInteract(__instance);
             return;
           }
 
-          if (__instance.GetHoverObject().GetComponentInParent<OdinInteractable>() != null)
+          if (__instance.GetHoverObject().GetComponentInParent<IOdinInteractable>() != null)
           {
-            __instance.GetHoverObject().GetComponentInParent<OdinInteractable>().SecondaryInteract(__instance);
+            __instance.GetHoverObject().GetComponentInParent<IOdinInteractable>().SecondaryInteract(__instance);
           }
         }
       }
