@@ -49,7 +49,7 @@ namespace OdinPlus.Npcs.Humans
     private void PlaceQuestHuman(string key, Vector3 pos)
     {
       var pgo = ZNetScene.instance.GetPrefab("WorkerNPCHuman");
-      var go = Instantiate(pgo, PrefabManager.Root.transform);
+      var go = Instantiate(pgo, PrefabManager.Instance.Root.transform);
       go.GetComponent<HumanVis>().m_name = key;
       float y;
       ZoneSystem.instance.FindFloor(pos, out y);

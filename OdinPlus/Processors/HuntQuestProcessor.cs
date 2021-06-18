@@ -8,7 +8,7 @@ namespace OdinPlus.Processors
   {
     public HuntQuestProcessor(Quest inq)
     {
-      quest = inq;
+      Quest = inq;
     }
 
     public override void Begin()
@@ -17,22 +17,22 @@ namespace OdinPlus.Processors
       base.Begin();
     }
 
-    public override void Place(LocationMarker lm)
+    public override void Place(LocationMarker locationMarker)
     {
-      HuntTarget.Place(lm.GetPosition(), quest.locName, quest.ID, quest.m_ownerName, quest.Key, quest.Level);
-      base.Place(lm);
+      HuntTarget.Place(locationMarker.GetPosition(), Quest.locName, Quest.ID, Quest.m_ownerName, Quest.Key, Quest.Level);
+      base.Place(locationMarker);
     }
 
     private void SetMonsterName()
     {
-      var Key = quest.Key;
+      var Key = Quest.Key;
       if (Key >= 5 || Key <= 0)
       {
         Key = 4.RollDice() + 1;
       }
 
-      quest.locName = QuestRef.HunterMonsterList[Key - 1];
-      quest.locName = Regex.Replace(quest.locName, @"[_]", "");
+      Quest.locName = QuestRef.HunterMonsterList[Key - 1];
+      Quest.locName = Regex.Replace(Quest.locName, @"[_]", "");
     }
   }
 }

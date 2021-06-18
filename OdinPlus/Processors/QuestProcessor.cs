@@ -6,7 +6,7 @@ namespace OdinPlus.Processors
 {
   public class QuestProcessor
   {
-    protected Quest quest;
+    protected Quest Quest;
 
     public static QuestProcessor Create(Quest inq)
     {
@@ -27,12 +27,12 @@ namespace OdinPlus.Processors
 
     public void SetQuest(Quest inq)
     {
-      quest = inq;
+      Quest = inq;
     }
 
     public QuestProcessor(Quest inq)
     {
-      quest = inq;
+      Quest = inq;
     }
 
     protected QuestProcessor()
@@ -41,28 +41,28 @@ namespace OdinPlus.Processors
 
     public virtual void Init()
     {
-      var list1 = QuestRef.LocDic[quest.GetQuestType()];
-      var list2 = list1[quest.Key];
-      quest.locName = list2.GetRandomElement();
+      var list1 = QuestRef.LocDic[Quest.GetQuestType()];
+      var list2 = list1[Quest.Key];
+      Quest.locName = list2.GetRandomElement();
       QuestManager.Instance.Invoke("ShowWaitError", 10);
-      ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerFindLocation", quest.locName, quest.m_realPostion);
+      ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerFindLocation", Quest.locName, Quest.m_realPostion);
     }
 
     public virtual void Begin()
     {
-      QuestManager.Instance.MyQuests.Add(quest.ID, quest);
-      quest.m_ownerName = Player.m_localPlayer.GetPlayerName();
-      quest.Begin();
+      QuestManager.Instance.MyQuests.Add(Quest.ID, Quest);
+      Quest.m_ownerName = Player.m_localPlayer.GetPlayerName();
+      Quest.Begin();
     }
 
-    public virtual void Place(LocationMarker lm)
+    public virtual void Place(LocationMarker locationMarker)
     {
-      lm.Used();
+      locationMarker.Used();
     }
 
     public virtual void Finish()
     {
-      quest.Finish();
+      Quest.Finish();
     }
   }
 }

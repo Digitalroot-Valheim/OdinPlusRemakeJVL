@@ -124,7 +124,7 @@ namespace OdinPlus.Common
 			var zv = go.AddComponent<ZNetView>();
 			zv.m_persistent = true;
 			zv.m_type = ZDO.ObjectType.Solid;
-			PrefabManager.PrefabList.Add(go.name, go);
+			PrefabManager.Instance.AddManagedPrefab(go.name, go);
 			Prefab = go;
 		}
 		public static void HackLoctaions()

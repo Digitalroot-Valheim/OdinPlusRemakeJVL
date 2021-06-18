@@ -340,11 +340,14 @@
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\Singleton.cs" />
     <Compile Include="Data\OdinPlusDataFile.cs" />
+    <Compile Include="Items\OdinPlusItem.cs" />
     <Compile Include="Items\MeadFactory.cs" />
     <Compile Include="Items\MeadEnum.cs" />
     <Compile Include="Items\MeadInfo.cs" />
     <Compile Include="Items\MeadSize.cs" />
     <Compile Include="Items\MeadsNames.cs" />
+    <Compile Include="Managers\AbstractManager.cs" />
+    <Compile Include="Managers\HealthManager.cs" />
     <Compile Include="Managers\SaveFileManager.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

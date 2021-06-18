@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using OdinPlus.Common;
+using OdinPlus.Items;
 using OdinPlus.StatusEffects;
 using UnityEngine;
 
@@ -16,6 +18,7 @@ namespace OdinPlus.Managers
 
     #region Main
 
+    [UsedImplicitly]
     private void Awake()
     {
       SetupValSE();
@@ -41,7 +44,7 @@ namespace OdinPlus.Managers
         odb.m_StatusEffects.Add(se);
       }
 
-      DBG.blogInfo("Register SE");
+      Log.Debug("Register SE");
     }
 
     #endregion Main
@@ -58,7 +61,7 @@ namespace OdinPlus.Managers
       se.m_cooldownIcon = true;
       se.m_ttl = 600;
       se.PetName = "TrollPet";
-      SElist.Add("ScrollTroll", se);
+      SElist.Add(OdinPlusItem.ScrollTroll, se);
     }
 
     private void initWolfSE()
@@ -71,7 +74,7 @@ namespace OdinPlus.Managers
       se.m_cooldownIcon = true;
       se.m_ttl = 1800;
       se.PetName = "WolfPet";
-      SElist.Add("ScrollWolf", se);
+      SElist.Add(OdinPlusItem.ScrollWolf, se);
     }
 
     #region Buzz_SE

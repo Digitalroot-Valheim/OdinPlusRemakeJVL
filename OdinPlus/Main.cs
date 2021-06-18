@@ -32,7 +32,6 @@ namespace OdinPlus
     public static GameObject OdinPlusRoot;
     public static Action PostZoneAction;
     public static Action RegisterRpcAction;
-    public static Action<ObjectDB> PreObjectDBHook;
 
     public Main()
     {

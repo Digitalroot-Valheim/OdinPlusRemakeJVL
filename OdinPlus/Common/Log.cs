@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using BepInEx.Logging;
 using JetBrains.Annotations;
 
@@ -38,16 +39,24 @@ namespace OdinPlus.Common
     }
 
     [UsedImplicitly]
-    public static void Fatal(Exception e)
+    public static void Fatal(Exception e, int i = 1)
     {
-      Fatal("ERROR");
+      Fatal("FatalError");
       Fatal($"Message: {e.Message}");
       Fatal($"StackTrace: {e.StackTrace}");
       Fatal($"Source: {e.Source}");
+      if (e.Data.Count > 0)
+      {
+        foreach (var key in e.Data.Keys)
+        {
+          Fatal($"key: {key}, value: {e.Data[key]}");
+        }
+      }
+
       if (e.InnerException != null)
       {
-        Fatal("--- InnerException ---");
-        Fatal(e.InnerException);
+        Fatal($"--- InnerException [{i}][Start] ---");
+        Fatal(e.InnerException, ++i);
       }
     }
 
@@ -55,6 +64,28 @@ namespace OdinPlus.Common
     public static void Fatal(object value)
     {
       Instance._loggerRef.LogFatal(value);
+    }
+
+    [UsedImplicitly]
+    public static void Error(Exception e, int i = 1)
+    {
+      Error("ERROR");
+      Error($"Message: {e.Message}");
+      Error($"StackTrace: {e.StackTrace}");
+      Error($"Source: {e.Source}");
+      if (e.Data.Count > 0)
+      {
+        foreach (var key in e.Data.Keys)
+        {
+          Error($"key: {key}, value: {e.Data[key]}");
+        }
+      }
+
+      if (e.InnerException != null)
+      {
+        Error($"--- InnerException [{i}][Start] ---");
+        Error(e.InnerException, ++i);
+      }
     }
 
     [UsedImplicitly]

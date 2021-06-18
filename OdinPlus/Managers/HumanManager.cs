@@ -287,7 +287,7 @@ namespace OdinPlus.Managers
 		public static void CreateSpawner(string cname)
 		{
 			var go = new GameObject(cname + "Spawner");
-			go.transform.SetParent(PrefabManager.Root.transform);
+			go.transform.SetParent(PrefabManager.Instance.Root.transform);
 			var znv = go.AddComponent<ZNetView>();
 			var spn = go.AddComponent<CreatureSpawner>();
 			spn.m_creaturePrefab = PrefabList[cname];
@@ -372,7 +372,7 @@ namespace OdinPlus.Managers
 		}
 		public static void HackingFarm()
 		{
-			Transform t = PrefabManager.Root.transform;
+			Transform t = PrefabManager.Instance.Root.transform;
 			var a = ZoneSystem.instance.m_locations;
 			foreach (var item in a)
 			{
@@ -399,7 +399,7 @@ namespace OdinPlus.Managers
 		private static readonly string[] rstones = new string[] { "Runestone_Meadows", "Runestone_Swamps", "Runestone_BlackForest" };
 		public static void HackingRuneStones()
 		{
-			Transform t = PrefabManager.Root.transform;
+			Transform t = PrefabManager.Instance.Root.transform;
 			var a = ZoneSystem.instance.m_locations;
 			foreach (var item in rstones)
 			{

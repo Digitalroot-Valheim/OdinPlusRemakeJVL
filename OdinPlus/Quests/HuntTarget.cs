@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using HarmonyLib;
 using OdinPlus.Common;
+using OdinPlus.Items;
 using OdinPlus.Managers;
 using UnityEngine;
 
@@ -93,7 +94,7 @@ namespace OdinPlus.Quests
 				}
 			}
 			Tweakers.ValSpawn("vfx_GodExplosion", transform.position);
-			var r = Instantiate(ZNetScene.instance.GetPrefab("OdinLegacy"), transform.localPosition, Quaternion.identity);
+			var r = Instantiate(ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy), transform.localPosition, Quaternion.identity);
 			r.GetComponent<ItemDrop>().m_itemData.m_quality = Key;
 			r.GetComponent<ItemDrop>().m_itemData.m_stack = Level;
 
@@ -118,7 +119,7 @@ namespace OdinPlus.Quests
 			go.AddComponent<HuntTarget>();
 			go.GetComponent<Humanoid>().m_name += " $op_hunt_target";
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
-			var fx = Instantiate(FxAssetManager.GetFxNN("GreenSmoke"), go.transform);
+			var fx = Instantiate(FxAssetManager.Instance.GetFxNN(OdinPlusFx.GreenSmoke), go.transform);
 			fx.transform.position = go.FindObject("Spine2").transform.position;//opt Random smoke
 			return go;
 		}
@@ -129,7 +130,7 @@ namespace OdinPlus.Quests
 			d.m_amountMax = Level + Key;
 			d.m_amountMin = d.m_amountMax;
 			d.m_levelMultiplier = false;
-			d.m_prefab = ZNetScene.instance.GetPrefab("OdinLegacy");
+			d.m_prefab = ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy);
 			m_cDrop.m_drops = new List<CharacterDrop.Drop>();
 			Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value = true;
 			m_cDrop.m_drops.Add(d);

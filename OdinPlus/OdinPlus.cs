@@ -15,29 +15,23 @@ namespace OdinPlus
 
   public class OdinPlus : MonoBehaviour
 	{
-		#region data var
-		public static bool IsInitialized;
+    public static bool IsInitialized;
 		public static bool IsNPCInitialized;
 		public static bool IsPetInitialized;
 		public static bool IsRegistered;
 		public bool IsLoaded;
 		public static OdinPlus Instance;
 		public static bool ZnsInitialized;
-		#endregion
-		#region List
-		public static List<string> traderNameList = new List<string>();
+
+    public static List<string> traderNameList = new List<string>();
 		//public static List<int> preRegList = new List<int>();
 		public static Dictionary<int, GameObject> odbRegList = new Dictionary<int, GameObject>();
 		public static Dictionary<int, GameObject> znsRegList = new Dictionary<int, GameObject>();
 
-		#endregion
-		#region Ojects var
-		public static GameObject Root;
+    public static GameObject Root;
 		public static GameObject PrefabParent;
-		#endregion
-		#region assets var
 
-		public static Sprite OdinCreditIcon;
+    public static Sprite OdinCreditIcon;
 		public static List<Sprite> OdinMeadsIcon = new List<Sprite>();
 		public static Dictionary<string, Sprite> OdinMeadsIcons = new Dictionary<string, Sprite>();
 		public static List<Sprite> OdinSEIcon = new List<Sprite>();
@@ -46,9 +40,7 @@ namespace OdinPlus
 		public static Sprite CoinsIcon;
 		public static Sprite OdinLegacyIcon;
 
-		#endregion
-
-		#region Mono
+    #region Mono
 		private void Awake()
 		{
 			Instance = this;
@@ -59,9 +51,6 @@ namespace OdinPlus
 			PrefabParent.transform.SetParent(Root.transform);
 			PrefabParent.AddComponent<LocationMarker>();
 			
-
-			Main.PreObjectDBHook = (Action<ObjectDB>)Delegate.Combine(Main.PreObjectDBHook, (Action<ObjectDB>)PreObjectDBHook);
-
 			Root.AddComponent<OdinData>();
 			Root.AddComponent<QuestManager>();
 
@@ -73,45 +62,57 @@ namespace OdinPlus
 		#region Patch
 		public static void Initialize()
 		{
+      if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
+      {
+        Log.Debug("ZNetScene.instance is null");
+        return;
+      }
 			initAssets();
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<OdinMeads>();
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
-			Root.AddComponent<PrefabManager>();
-			Root.AddComponent<FxAssetManager>();
+			// Root.AddComponent<PrefabManager>();
+			// Root.AddComponent<FxAssetManager>();
+      FxAssetManager.Instance.Initialize();
+			PrefabManager.Instance.Initialize();
+
+
+
 			IsInitialized = true;
 		}
-		private static void PreObjectDBHook(ObjectDB odb)
+
+    public static void PreObjectDBHook(ObjectDB odb)
 		{
 			StatusEffectsManager.Register(odb);
 		}
+
 		public static void PostObjectDBHook()
 		{
 			ValRegister(ObjectDB.instance);
 		}
 		public static void PreZNetSceneHook(ZNetScene zns)
 		{
+      if (zns == null || zns.m_prefabs == null || zns.m_prefabs.Count <= 0)
+      {
+        return;
+      }
 			ValRegister(zns);
+      PrefabManager.Instance.PostInitialize();
 		}
 		public static void PostZNetSceneHook()
 		{
 			if (!ZnsInitialized)
 			{
-				
-				
-				if (!FxAssetManager.isInit)
-				{
-					FxAssetManager.Init();
-				}
+        FxAssetManager.Instance.PostInitialize();
+
 				if (!PetManager.isInit)
 				{
 					PetManager.Init();
 				}
-				if (!PrefabManager.isInit)
-				{
-					PrefabManager.Init();
-				}
+
+				PrefabManager.Instance.PostInitialize();
+
 				HumanManager.Init();
 				ZnsInitialized = true;
 			}
@@ -182,15 +183,19 @@ namespace OdinPlus
 				m_itemByHash.Add(item.Key, item.Value);
 				odb.m_items.Add(item.Value);
 			}
-			DBG.blogInfo("Register to ODB");
+			Log.Debug("Register to ODB");
 		}
 		public static void ValRegister(ZNetScene zns)
 		{
+      if (zns == null || zns.m_prefabs == null || zns.m_prefabs.Count <= 0)
+      {
+        return;
+      }
 			foreach (var item in odbRegList.Values)
 			{
 				zns.m_prefabs.Add(item);
 			}
-			DBG.blogInfo("Register odb to zns");
+      Log.Debug("Register odb to zns");
 		}
 		public static void ValRegister()
 		{
@@ -201,7 +206,7 @@ namespace OdinPlus
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
 			IsRegistered = true;
-			DBG.blogInfo("Register zns");
+      Log.Debug("Register zns");
 		}
 		public static void OdinPreRegister(Dictionary<string, GameObject> list, string name)
 		{
@@ -209,13 +214,12 @@ namespace OdinPlus
 			{
 				odbRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
-			DBG.blogInfo("Register " + name + " for ODB");
+      Log.Debug("Register " + name + " for ODB");
 		}
 		public static void OdinPostRegister(Dictionary<string, GameObject> list)
 		{
 			foreach (var item in list)
 			{
-
 				znsRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
 		}
@@ -245,7 +249,7 @@ namespace OdinPlus
 			}
 			IsRegistered = false;
 			Instance.IsLoaded = false;
-			DBG.blogWarning("UnRegister all list");
+      Log.Warning("UnRegister all list");
 		}
 		#endregion Feature
 		#region Debug
@@ -256,15 +260,15 @@ namespace OdinPlus
 			Root.AddComponent<OdinMeads>();
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
-			Root.AddComponent<PrefabManager>();
+			// Root.AddComponent<PrefabManager>();
 			Root.AddComponent<QuestManager>();
 			Root.AddComponent<LocationManager>();
-			Root.AddComponent<FxAssetManager>();
+			// Root.AddComponent<FxAssetManager>();
 			//Plugin.RegisterRpcAction();
 
 			IsInitialized = true;
 
-			PostObjectDBHook();
+			//PostObjectDBHook();
 			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;
 			foreach (var item in odbRegList)
 			{

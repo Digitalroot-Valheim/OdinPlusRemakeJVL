@@ -1,5 +1,6 @@
 using System.Text;
 using OdinPlus.Common;
+using OdinPlus.Items;
 using OdinPlus.Managers;
 using OdinPlus.Processors;
 using UnityEngine;
@@ -180,7 +181,7 @@ namespace OdinPlus.Npcs
 
     public static void Reward(int key, int level)
     {
-      var a = Instantiate(ZNetScene.instance.GetPrefab("OdinLegacy"), instance.transform.position + Vector3.up * 2f + Vector3.forward, Quaternion.identity);
+      var a = Instantiate(ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy), instance.transform.position + Vector3.up * 2f + Vector3.forward, Quaternion.identity);
       var id = a.GetComponent<ItemDrop>().m_itemData;
       id.m_stack = key;
       id.m_quality = level;

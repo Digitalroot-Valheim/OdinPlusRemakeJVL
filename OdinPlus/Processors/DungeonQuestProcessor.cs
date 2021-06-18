@@ -8,13 +8,13 @@ namespace OdinPlus.Processors
 	{
 		public DungeonQuestProcessor(Quest inq)
 		{
-			quest = inq;
+			Quest = inq;
 		}
-		public override void Place(LocationMarker lm)
+		public override void Place(LocationMarker locationMarker)
 		{
-			var cinfo = lm.GetCtnInfo();
-			LegacyChest.Place(cinfo.Pos, cinfo.Rot, 3,  quest.ID,quest.m_ownerName, quest.Key, false);
-			base.Place(lm);
+			var cinfo = locationMarker.GetCtnInfo();
+			LegacyChest.Place(cinfo.Pos, cinfo.Rot, 3,  Quest.ID,Quest.m_ownerName, Quest.Key, false);
+			base.Place(locationMarker);
 		}
 
 	}

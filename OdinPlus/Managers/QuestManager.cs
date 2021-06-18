@@ -59,7 +59,15 @@ namespace OdinPlus.Managers
     [UsedImplicitly]
     private void Update()
     {
-      CheckPlace();
+      try
+      {
+        CheckPlace();
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+      
     }
 
     private void CheckPlace()

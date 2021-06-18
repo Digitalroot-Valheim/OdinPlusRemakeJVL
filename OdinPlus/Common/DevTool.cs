@@ -44,11 +44,9 @@ namespace OdinPlus.Common
 			}
 
 		}
-		public static bool IsInitialized()
-		{
-			return instance != null;
-		}
-		private void Update()
+		public static bool IsInitialized => instance != null;
+
+    private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.Alpha0) && Input.GetKey(KeyCode.RightControl))
 			{
@@ -121,7 +119,6 @@ namespace OdinPlus.Common
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad7) && Input.GetKey(KeyCode.RightControl))
 			{
-
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad8) && Input.GetKey(KeyCode.RightControl))
 			{
@@ -428,6 +425,12 @@ namespace OdinPlus.Common
 				{
 					CMD = CMD.Remove(0, 1);
 				}
+
+        if (CMD == "healthcheck")
+        {
+          HealthManager.Instance.HealthCheck();
+        }
+
 				if (CMD == "testa")
 				{
 					DevTool.TestA();

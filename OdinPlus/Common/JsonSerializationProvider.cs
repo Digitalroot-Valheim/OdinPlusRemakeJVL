@@ -29,6 +29,19 @@ namespace OdinPlus.Common
           return new Vector3(a[0], a[1], a[2]);
         });
 
+      JSON.RegisterCustomType(typeof(Quaternion),
+        (x) =>
+        {
+          var q = (Quaternion)x;
+          var a = new[] { q.x, q.y, q.z, q.w };
+          return JSON.ToJSON(a);
+        },
+        (x) =>
+        {
+          var a = JSON.ToObject<float[]>(x);
+          return new Quaternion(a[0], a[1], a[2], a[3]);
+        });
+      
       _customTypeLoaded = true;
 
     }

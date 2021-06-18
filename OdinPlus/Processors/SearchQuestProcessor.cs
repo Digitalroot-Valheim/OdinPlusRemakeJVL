@@ -22,7 +22,7 @@ namespace OdinPlus.Processors
 
     public SearchQuestProcessor(Quest inq)
     {
-      quest = inq;
+      Quest = inq;
     }
 
     public override void Init()
@@ -34,14 +34,14 @@ namespace OdinPlus.Processors
         return;
       }
 
-      quest.locName = m_count.ToString() + m_item;
-      quest.m_range = 0;
+      Quest.locName = m_count.ToString() + m_item;
+      Quest.m_range = 0;
       Begin();
     }
 
     public override void Begin()
     {
-      quest.ID = m_item;
+      Quest.ID = m_item;
       base.Begin();
     }
 
@@ -105,9 +105,9 @@ namespace OdinPlus.Processors
 
     private bool PickItem()
     {
-      var m_itemList = QuestRef.LocDic[quest.GetQuestType()];
+      var m_itemList = QuestRef.LocDic[Quest.GetQuestType()];
       var l1 = new Dictionary<string, int>();
-      foreach (var item in m_itemList[quest.Key])
+      foreach (var item in m_itemList[Quest.Key])
       {
         var a1 = item.Split(new char[] {':'});
         l1.Add(a1[0], int.Parse(a1[1]));
@@ -128,7 +128,7 @@ namespace OdinPlus.Processors
 
       int ind = l1.Count.RollDice();
       m_item = l1.ElementAt(ind).Key;
-      m_count = l1.ElementAt(ind).Value * quest.Level;
+      m_count = l1.ElementAt(ind).Value * Quest.Level;
       OdinData.OdinPlusData.SearchTaskList.Add(m_item, m_count);
       return true;
     }
