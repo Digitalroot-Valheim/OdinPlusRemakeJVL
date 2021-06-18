@@ -103,13 +103,13 @@ namespace OdinPlus.Npcs
 			{
 				return false;
 			}
-			if (!OdinData.RemoveCredits(Plugin.RaiseCost))
+			if (!OdinData.RemoveCredits(Main.RaiseCost))
 			{
 				Say("$op_god_nocrd");
 				return false;
 			}
 
-			user.GetSkills().RaiseSkill(stlist[cskillIndex], Plugin.RaiseFactor);
+			user.GetSkills().RaiseSkill(stlist[cskillIndex], Main.RaiseFactor);
 			Say("$op_raise");
 			return true;
 		}
@@ -123,7 +123,7 @@ namespace OdinPlus.Npcs
 			string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
 			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
 			string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
-			b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n + s + a + b);
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)//trans

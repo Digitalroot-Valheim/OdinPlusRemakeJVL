@@ -1,17 +1,18 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using OdinPlus;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OdinPlus")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OdinPlus")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyTitle(Main.Namespace)]
+[assembly: AssemblyDescription(Main.Name)]
+[assembly: AssemblyConfiguration(AssemblyInfo.Configuration)]
+[assembly: AssemblyCompany(AssemblyInfo.Company)]
+[assembly: AssemblyProduct(AssemblyInfo.Product)]
+[assembly: AssemblyCopyright(AssemblyInfo.Copyright)]
+[assembly: AssemblyTrademark(AssemblyInfo.Trademark)]
+[assembly: AssemblyCulture(AssemblyInfo.Culture)]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -31,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.0")]
-[assembly: AssemblyFileVersion("1.1.0")]
+[assembly: AssemblyVersion(Main.Version)]
+[assembly: AssemblyFileVersion(Main.Version)]

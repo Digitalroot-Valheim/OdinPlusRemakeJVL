@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using HarmonyLib;
+using JetBrains.Annotations;
 using OdinPlus.Data;
 using OdinPlus.Items;
 using OdinPlus.Managers;
@@ -27,22 +28,23 @@ namespace OdinPlus.Common
 		private Action postZone;
 
 		#region Mono
-		private void Awake()
+		[UsedImplicitly]
+    private void Awake()
 		{
 			instance = this;
-			Plugin.posZone = (Action)Delegate.Combine(Plugin.posZone, (Action)Reg);
+			Main.PostZoneAction = (Action)Delegate.Combine(Main.PostZoneAction, (Action)Register);
 		}
-		private void Reg()
+		private void Register()
 		{
 			if (ZNet.instance.IsServer())
 			{
-				ZRoutedRpc.instance.Register<string>("RPC_ServerSetGlobalKey", new Action<long, string>(RPC_ServerSetGlobalKey));
-				ZRoutedRpc.instance.Register("RPC_ServerResetGlobalKey", new Action<long>(RPC_ServerResetGlobalKey));
-				DBG.blogWarning("Server Reg:cheat Global Key");
+				ZRoutedRpc.instance.Register("RPC_ServerSetGlobalKey", new Action<long, string>(RPC_ServerSetGlobalKey));
+				ZRoutedRpc.instance.Register("RPC_ServerResetGlobalKey", RPC_ServerResetGlobalKey);
+				Log.Warning("Server Register:cheat Global Key");
 			}
 
 		}
-		public static bool IsIns()
+		public static bool IsInitialized()
 		{
 			return instance != null;
 		}
@@ -58,12 +60,12 @@ namespace OdinPlus.Common
 			}
 			if (Input.GetKeyDown(KeyCode.F8) && Input.GetKey(KeyCode.RightControl))
 			{
-				OdinPlus.m_instance.Reset();
+				OdinPlus.Instance.Reset();
 			}
 			if (Input.GetKeyDown(KeyCode.F6) && Input.GetKey(KeyCode.RightControl))
 			{
 				OdinPlus.UnRegister();
-				Destroy(Plugin.OdinPlusRoot);
+				Destroy(Main.OdinPlusRoot);
 			}
 			if (Input.GetKeyDown(KeyCode.F9) && Input.GetKey(KeyCode.RightControl))
 			{
@@ -244,7 +246,7 @@ namespace OdinPlus.Common
 					{
 						if (GUILayout.Button(item.ToString()))
 						{
-							QuestManager.instance.CreateQuest(item);
+							QuestManager.Instance.CreateQuest(item);
 						}
 					}
 					GUILayout.EndHorizontal();
@@ -407,8 +409,8 @@ namespace OdinPlus.Common
 		#region Debug
 		public static void TestA()
 		{
-			QuestManager.instance.CheckKey();
-			QuestManager.instance.CreateRandomQuest();
+			QuestManager.Instance.CheckKey();
+			QuestManager.Instance.CreateRandomQuest();
 		}
 		public static void TestB()
 		{
@@ -447,7 +449,7 @@ namespace OdinPlus.Common
 				if (CMD.StartsWith("/ctask"))
 				{
 					CMD = CMD.Remove(0, 6);
-					QuestManager.instance.CreateQuest((QuestType)int.Parse(CMD), Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
+					QuestManager.Instance.CreateQuest((QuestType)int.Parse(CMD), Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
 				}
 			}
 		}

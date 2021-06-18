@@ -9,7 +9,7 @@ namespace OdinPlus.Common
   /// </summary>
   public static class JsonSerializationProvider
   {
-    private static readonly JSONParameters JsonParameters = new JSONParameters {SerializeNullValues = false, SerializeToLowerCaseNames = false, BadListTypeChecking = true, ShowReadOnlyProperties = true, KVStyleStringDictionary = false};
+    private static readonly JSONParameters JsonParameters = new JSONParameters {SerializeNullValues = false, SerializeToLowerCaseNames = false, BadListTypeChecking = true, ShowReadOnlyProperties = true, KVStyleStringDictionary = false, UseEscapedUnicode = true, InlineCircularReferences = true};
     private static bool _customTypeLoaded;
 
     private static void Init()

@@ -1,5 +1,8 @@
-﻿namespace OdinPlus.Common
+﻿using System;
+
+namespace OdinPlus.Common
 {
+	[Obsolete]
 	public static class DBG
 	{
 		#region Debug
@@ -17,15 +20,15 @@
 		}
 		public static void blogInfo(object o)
 		{
-			Plugin.logger.LogInfo(o);
+			Log.Info(o);
 		}
 		public static void blogWarning(object o)
 		{
-			Plugin.logger.LogWarning(o);
+      Log.Warning(o);
 		}
 		public static void blogError(object o)
 		{
-			Plugin.logger.LogError(o);
+      Log.Error(o);
 		}
 		public static void a()
 		{

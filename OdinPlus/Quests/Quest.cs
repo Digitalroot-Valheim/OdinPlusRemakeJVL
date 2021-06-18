@@ -136,7 +136,7 @@ namespace OdinPlus.Quests
 			SetPin();
 			ShowMessage("start");
 			ShowMuninMessage(HintStart);
-			QuestManager.instance.UpdateQuestList();
+			QuestManager.Instance.UpdateQuestList();
 		}
 		public void Discovered()
 		{
@@ -149,8 +149,8 @@ namespace OdinPlus.Quests
 			//Clear();
 			ShowMessage("clear");
 			//HACK
-			QuestManager.instance.MyQuests.Remove(ID);
-			QuestManager.instance.UpdateQuestList();
+			QuestManager.Instance.MyQuests.Remove(ID);
+			QuestManager.Instance.UpdateQuestList();
 		}
 		//clear should change to another method for finish then you don't have to create processer again
 		public void Clear()

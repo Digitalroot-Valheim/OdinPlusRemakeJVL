@@ -77,14 +77,14 @@ namespace OdinPlus.Processors
         inv.RemoveItem(iname, count);
 
         DBG.blogInfo($"Current Quests");
-        foreach (KeyValuePair<string, Quest> kvp in QuestManager.instance.MyQuests)
+        foreach (KeyValuePair<string, Quest> kvp in QuestManager.Instance.MyQuests)
         {
           DBG.blogInfo($"key: {kvp.Key}, value: {kvp.Value.QuestName}");
         }
 
-        if (QuestManager.instance.MyQuests.ContainsKey(item))
+        if (QuestManager.Instance.MyQuests.ContainsKey(item))
         {
-          var quest = QuestManager.instance.MyQuests[item];
+          var quest = QuestManager.Instance.MyQuests[item];
           quest.Finish();
           OdinMunin.Reward(quest.Key, quest.Level);
         }

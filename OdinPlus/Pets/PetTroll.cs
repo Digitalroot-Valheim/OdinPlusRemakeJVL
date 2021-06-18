@@ -41,7 +41,7 @@ namespace OdinPlus.Pets
 		public void FocreAttack()
 		{
 
-			if (Plugin.KS_SecondInteractkey.Value.IsDown())
+			if (Main.KeyboardShortcutSecondInteractKey.Value.IsDown())
 			{
 				var __instance = Player.m_localPlayer;
 				Vector3 aimDir = __instance.GetAimDir(Vector3.zero);

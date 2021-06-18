@@ -104,7 +104,7 @@ namespace OdinPlus.Npcs
       var n = $"<color=lightblue><b>{m_name}</b></color>";
       n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
       n += "\n[<color=yellow><b>1-8</b></color>]$op_offer";
-      n += $"\n<color=yellow><b>[{Plugin.KS_SecondInteractkey.Value.MainKey.ToString()}]</b></color>$op_switch";
+      n += $"\n<color=yellow><b>[{Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString()}]</b></color>$op_switch";
       return Localization.instance.Localize(n);
     }
 

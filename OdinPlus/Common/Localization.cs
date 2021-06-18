@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using HarmonyLib;
 
 //TODO maybe remove the deco for colorize keyword, just let writers do it themselves make a note for them!
@@ -16,7 +17,7 @@ namespace OdinPlus.Common
 {"op_god","Odin"},
 {"op_talk","Talk"},
 {"op_human_quest_take","Accept Quest"},
-{"op_human_message_hand_take","Complete Quest"},
+{"op_human_message_hand","Complete Quest"},
 {"op_god_nocrd","Hard work is the only way to get rewarded."},
 {"op_god_randomitem","I need something useful... like "},
 {"op_god_takeoffer","Nice, bring back more"},
@@ -275,7 +276,7 @@ namespace OdinPlus.Common
 {"op_AxeMeadL_desc","少盖房子多砍树"},
 {"op_AxeMeadL_tooltip","持续时间:<color=orange><b>300</b></color>秒"},
 		};
-		public static void init(string lang, Localization l)
+		public static void Initialize(string lang, Localization l)
 		{
 			lcl = l;
 			//string @str = PlayerPrefs.GetString("language", "");
@@ -293,9 +294,10 @@ namespace OdinPlus.Common
 			MethodInfo meth = AccessTools.Method(typeof(Localization), "AddWord", null, null);
 			meth.Invoke(lcl, element);
 		}
-		public static void UpdateDictinary()
-		{
-			string missing = "Missing Words:";
+
+		public static void UpdateDictionary()
+    {
+      var missingWordsList = new List<string>();
 			foreach (var el in English)
 			{
 				if (t.ContainsKey(el.Key))
@@ -304,10 +306,17 @@ namespace OdinPlus.Common
 					continue;
 				}
 				AddWord(new object[] { el.Key, el.Value });
-				missing+=el.Key;
+				missingWordsList.Add(el.Key);
 			}
-			DBG.blogInfo("Translation added");
-			DBG.blogWarning(missing);
-		}
+			
+      Log.Info("Translation added");
+      
+      if (missingWordsList.Count <= 0) return;
+      Log.Warning("Missing Words:");
+      foreach (var missingWord in missingWordsList)
+      {
+        Log.Warning(missingWord);
+      }
+    }
 	}
 }

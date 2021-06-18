@@ -1,3 +1,4 @@
+using OdinPlus.Common;
 using OdinPlus.Data;
 
 namespace OdinPlus.Npcs.Humans
@@ -17,10 +18,23 @@ namespace OdinPlus.Npcs.Humans
 
     public void Choice1()
     {
-      if (OdinData.GetKey(m_nview.GetZDO().GetString("npcname")))
+      var name = m_nview.GetZDO().GetString("npcname");
+      if (OdinData.GetKey(name))
       {
         Say("Thank you!");
         OdinData.AddCredits(10, true);
+        OdinData.RemoveKey(name);
+        var znv = m_talker.GetComponent<ZNetView>();
+        DBG.blogInfo($"Trying to remove {name}");
+        if (znv == null)
+        {
+          DBG.blogInfo($"Unable to remove znv is null.");
+        }
+        else
+        {
+          DBG.blogInfo($"Removing {name}.");
+          znv.Destroy();
+        }
       }
       else
       {

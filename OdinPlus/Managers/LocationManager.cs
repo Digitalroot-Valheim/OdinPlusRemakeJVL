@@ -20,14 +20,14 @@ namespace OdinPlus.Managers
     private void Awake()
     {
       instance = this;
-      Plugin.RegRPC = (Action) Delegate.Combine(Plugin.RegRPC, (Action) initRPC);
+      Main.RegisterRpcAction = (Action) Delegate.Combine(Main.RegisterRpcAction, (Action) initRPC);
     }
 
     public static void Init()
     {
       if (ZNet.instance.IsServer())
       {
-        if (Plugin.CFG_OdinPosition.Value == Vector3.zero)
+        if (Main.ConfigEntryOdinPosition.Value == Vector3.zero)
         {
           ZoneSystem.LocationInstance temp;
           ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
@@ -39,7 +39,7 @@ namespace OdinPlus.Managers
         }
         else
         {
-          OdinPostion = Plugin.CFG_OdinPosition.Value;
+          OdinPostion = Main.ConfigEntryOdinPosition.Value;
         }
 
         BlackList = OdinData.OdinPlusData.BlackList;
@@ -51,18 +51,18 @@ namespace OdinPlus.Managers
     {
       var a = ZoneSystem.instance.m_locationInstances;
 #if DEBUG
-      DBG.blogInfo($"*** GetValDictionary() - a:{a.Count} ***");
-      DBG.blogInfo($"*** GetValDictionary() - ZoneSystem.instance.m_locations:{ZoneSystem.instance.m_locations.Count} ***");
-
-      foreach (var location in ZoneSystem.instance.m_locations)
-      {
-        DBG.blogInfo($"location.m_location.name:{location.m_location?.name}");
-      }
+      // DBG.blogInfo($"*** GetValDictionary() - a:{a.Count} ***");
+      // DBG.blogInfo($"*** GetValDictionary() - ZoneSystem.instance.m_locations:{ZoneSystem.instance.m_locations.Count} ***");
+      //
+      // foreach (var location in ZoneSystem.instance.m_locations)
+      // {
+      //   DBG.blogInfo($"location.m_location.name:{location.m_location?.name}");
+      // }
 #endif
       foreach (var item in a)
       {
 #if DEBUG
-        DBG.blogInfo($"key:{item.Key}, value:{item.Value}");
+        // DBG.blogInfo($"key:{item.Key}, value:{item.Value}");
 #endif
         m_locationInstances.Add(item.Key, item.Value);
       }
@@ -231,9 +231,9 @@ namespace OdinPlus.Managers
     private void Rpc_GetStartPos(long sender)
     {
       DBG.blogWarning("Server got odin postion request");
-      if (Plugin.CFG_OdinPosition.Value != Vector3.zero)
+      if (Main.ConfigEntryOdinPosition.Value != Vector3.zero)
       {
-        OdinPostion = Plugin.CFG_OdinPosition.Value;
+        OdinPostion = Main.ConfigEntryOdinPosition.Value;
       }
 
       ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] {OdinPostion});
@@ -252,14 +252,14 @@ namespace OdinPlus.Managers
 
     public static void RPC_SendServerFOP(long sender)
     {
-      ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_ReceiveServerFOP", new object[] {Plugin.CFG_ForceOdinPosition.Value});
-      DBG.blogWarning("Server Sent FOP:" + Plugin.CFG_ForceOdinPosition.Value);
+      ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_ReceiveServerFOP", new object[] {Main.ConfigEntryForceOdinPosition.Value});
+      DBG.blogWarning("Server Sent FOP:" + Main.ConfigEntryForceOdinPosition.Value);
     }
 
     public static void RPC_ReceiveServerFOP(long sender, bool result)
     {
       DBG.blogWarning("Client Got FOP:" + result);
-      Plugin.Set_FOP = result;
+      Main.Set_FOP = result;
     }
 
     #endregion RPC

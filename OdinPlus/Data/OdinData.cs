@@ -6,7 +6,6 @@ using OdinPlus.Quests;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 namespace OdinPlus.Data
@@ -32,12 +31,12 @@ namespace OdinPlus.Data
       BuildMeads(); // Create Meads
 
       OdinPlusData = new OdinPlusDataFile {Quests = new Dictionary<string, Quest>()};
-      if (Plugin.CFG_ItemSellValue.Value == "")
+      if (Main.ConfigEntryItemSellValue.Value == "")
       {
         return;
       }
 
-      string[] l1 = Plugin.CFG_ItemSellValue.Value.Split(';');
+      string[] l1 = Main.ConfigEntryItemSellValue.Value.Split(';');
       for (int i = 0; i < l1.Length; i++)
       {
         string[] c = l1[i].Split(':');
@@ -60,21 +59,25 @@ namespace OdinPlus.Data
 
     public static void AddKey(string key)
     {
+      DBG.blogInfo($"AddKey({key})");
       OdinPlusData.BuzzKeys.Add(key);
     }
 
     public static void RemoveKey(string key)
     {
+      DBG.blogInfo($"RemoveKey({key})");
       OdinPlusData.BuzzKeys.Remove(key);
     }
 
     public static bool GetKey(string key)
     {
+      DBG.blogInfo($"GetKey({key})");
       if (OdinPlusData.BuzzKeys.Contains(key))
       {
+        DBG.blogInfo($"Key Found");
         return true;
       }
-
+      DBG.blogInfo($"Key Not Found");
       return false;
     }
 
@@ -132,13 +135,13 @@ namespace OdinPlus.Data
       DBG.blogInfo("OdinData.SaveOdinData()");
       if (DevTool.DisableSaving)
       {
-        OdinPlus.m_instance.isLoaded = true;
+        OdinPlus.Instance.IsLoaded = true;
         return;
       }
 
       #region Save
 
-      QuestManager.instance.Save();
+      QuestManager.Instance.Save();
       OdinPlusData.Credits = Credits;
 
       #endregion Save
@@ -191,7 +194,7 @@ namespace OdinPlus.Data
       DBG.blogWarning("Starting loading data");
       if (DevTool.DisableSaving)
       {
-        OdinPlus.m_instance.isLoaded = true;
+        OdinPlus.Instance.IsLoaded = true;
         return;
       }
 
@@ -200,7 +203,7 @@ namespace OdinPlus.Data
       var file = new FileInfo(Path.Combine(Application.persistentDataPath, $"{name}.odinplus"));
       if (!file.Exists)
       {
-        OdinPlus.m_instance.isLoaded = true;
+        OdinPlus.Instance.IsLoaded = true;
         Credits = 100;
         DBG.blogWarning($"Profile not exists: {name}");
         return;
@@ -224,13 +227,13 @@ namespace OdinPlus.Data
       #region Load
 
       Credits = OdinPlusData.Credits;
-      QuestManager.instance.Load();
+      QuestManager.Instance.Load();
       LocationManager.BlackList = OdinPlusData.BlackList;
       LocationManager.RemoveBlackList();
 
       #endregion Load
 
-      OdinPlus.m_instance.isLoaded = true;
+      OdinPlus.Instance.IsLoaded = true;
       DBG.blogWarning("OdinDataLoaded:" + name);
     }
 

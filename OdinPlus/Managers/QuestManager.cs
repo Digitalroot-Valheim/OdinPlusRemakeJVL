@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
+using JetBrains.Annotations;
 using OdinPlus.Common;
 using OdinPlus.Data;
 using OdinPlus.Processors;
@@ -15,7 +17,7 @@ namespace OdinPlus.Managers
     #region Data
 
     public Dictionary<string, Quest> MyQuests = new Dictionary<string, Quest>();
-    private Quest WaitQuest;
+    private Quest _waitQuest;
     public string[] BuzzKeys = new string[0];
 
     #endregion Data
@@ -29,7 +31,7 @@ namespace OdinPlus.Managers
 
     #region In
 
-    public bool isMain = false;
+    public bool IsMain = false;
     public int Level = 1;
     public int GameKey;
 
@@ -37,7 +39,7 @@ namespace OdinPlus.Managers
 
     #region interal
 
-    public static QuestManager instance;
+    public static QuestManager Instance { get; private set; }
     QuestProcessor _questProcessor;
 
     #endregion interal
@@ -46,13 +48,15 @@ namespace OdinPlus.Managers
 
     #region Main
 
+    [UsedImplicitly]
     private void Awake()
     {
-      instance = this;
+      Instance = this;
       MyQuests = new Dictionary<string, Quest>();
-      Plugin.RegRPC = (Action) Delegate.Combine(Plugin.RegRPC, (Action) RegisterRpc);
+      Main.RegisterRpcAction = (Action) Delegate.Combine(Main.RegisterRpcAction, (Action) RegisterRpc);
     }
 
+    [UsedImplicitly]
     private void Update()
     {
       CheckPlace();
@@ -94,7 +98,7 @@ namespace OdinPlus.Managers
     public void RPC_CreateQuestSucceed(long sender, string id, Vector3 pos)
     {
       CancelWaitError();
-      var quest = WaitQuest;
+      var quest = _waitQuest;
       quest.ID = id;
       quest.m_realPostion = pos;
       _questProcessor.Begin();
@@ -105,8 +109,8 @@ namespace OdinPlus.Managers
     {
       CancelWaitError();
       DBG.InfoCT("Try Agian,the dice is broken");
-      DBG.blogError($"Cannot Place Quest :  {WaitQuest.locName}");
-      WaitQuest = null;
+      DBG.blogError($"Cannot Place Quest :  {_waitQuest.locName}");
+      _waitQuest = null;
     }
 
     #endregion Rpc
@@ -119,7 +123,7 @@ namespace OdinPlus.Managers
 
     public bool CanCreateQuest()
     {
-      if (WaitQuest != null)
+      if (_waitQuest != null)
       {
         DBG.InfoCT("$op_quest_failed_wait");
         return false;
@@ -161,7 +165,7 @@ namespace OdinPlus.Managers
       }
 
       DBG.blogWarning("Dice Rolled");
-      instance.CreateQuest(a[l.RollDice()]);
+      Instance.CreateQuest(a[l.RollDice()]);
     }
 
     public Quest CreateQuest(QuestType type)
@@ -177,16 +181,16 @@ namespace OdinPlus.Managers
       }
 
       //upd multiple overloads
-      WaitQuest = new Quest();
-      WaitQuest.m_type = type;
+      _waitQuest = new Quest();
+      _waitQuest.m_type = type;
       GameKey = CheckKey();
-      WaitQuest.Key = GameKey;
-      WaitQuest.m_realPostion = pos;
+      _waitQuest.Key = GameKey;
+      _waitQuest.m_realPostion = pos;
       //upd ismain?
       //hack LEVEL
-      _questProcessor = QuestProcessor.Create(WaitQuest);
+      _questProcessor = QuestProcessor.Create(_waitQuest);
       _questProcessor.Init();
-      return WaitQuest;
+      return _waitQuest;
     }
 
     public bool GiveUpQuest(int ind)
@@ -241,7 +245,7 @@ namespace OdinPlus.Managers
 
     public bool HasQuest()
     {
-      return !(MyQuests.Count == 0);
+      return MyQuests.Count != 0;
     }
 
     public int Count()
@@ -256,24 +260,24 @@ namespace OdinPlus.Managers
 
     public void PrintQuestList()
     {
-      string n = "";
+      StringBuilder stringBuilder = new StringBuilder();
       foreach (var quest in MyQuests.Values)
       {
-        n += quest.PrintData();
+        stringBuilder.AppendLine(quest.PrintData());
       }
 
-      Tweakers.QuestTopicHugin("Quest List", n);
+      Tweakers.QuestTopicHugin("Quest List", stringBuilder.ToString());
     }
 
     public void UpdateQuestList()
     {
-      string n = "";
+      StringBuilder stringBuilder = new StringBuilder();
       foreach (var quest in MyQuests.Values)
       {
-        n += quest.PrintData();
+        stringBuilder.AppendLine(quest.PrintData());
       }
 
-      Tweakers.addHints(n);
+      Tweakers.addHints(stringBuilder.ToString());
     }
 
     private void ShowWaitError()
@@ -292,7 +296,6 @@ namespace OdinPlus.Managers
 
     public void Save()
     {
-
 #if DEBUG
       //DBG.blogInfo("QuestManager.Save()");
 

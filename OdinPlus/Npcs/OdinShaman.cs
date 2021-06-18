@@ -9,7 +9,7 @@ namespace OdinPlus.Npcs
 {
 	class OdinShaman : OdinNpc
 	{
-		//private static bool isInit = false;
+		//private static bool IsInitialized = false;
 		public Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>{
 		{"TrophyFrostTroll", new GoodsDate { Good = "ScrollTroll", Value = 3 }},
 		{"TrophyWolf", new GoodsDate { Good = "ScrollWolf", Value = 3 }}
@@ -84,7 +84,7 @@ namespace OdinPlus.Npcs
 			//n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
 			//n += "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
 			n += "\n[<color=yellow><b>1-8</b></color>]$op_shaman_offer";
-			//n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_shaman_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			//n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_shaman_use", Plugin.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
 		}
 		public override string GetHoverName()

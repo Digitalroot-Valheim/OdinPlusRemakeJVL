@@ -65,7 +65,7 @@ namespace OdinPlus.Quests
 			{
 				return;
 			}
-			var m_task = QuestManager.instance.GetQuest(ID);
+			var m_task = QuestManager.Instance.GetQuest(ID);
 			if (m_task == null)
 			{
 				DBG.blogInfo("Cant find task,Destroy Hunt Target" + ID);
@@ -78,7 +78,7 @@ namespace OdinPlus.Quests
 		{
 			if (Player.GetClosestPlayer(transform.position, 100).GetHoverName() == m_ownerName)
 			{
-				QuestManager.instance.GetQuest(ID).Finish();
+				QuestManager.Instance.GetQuest(ID).Finish();
 			}
 			else
 			{

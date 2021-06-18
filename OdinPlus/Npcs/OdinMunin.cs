@@ -56,20 +56,20 @@ namespace OdinPlus.Npcs
         return;
       }
 
-      if (QuestManager.instance.Count() >= 10)
+      if (QuestManager.Instance.Count() >= 10)
       {
         Say("$op_munin_questfull");
         return;
       }
 
-      QuestManager.instance.CreateRandomQuest();
+      QuestManager.Instance.CreateRandomQuest();
       Say("$op_munin_wait_hug");
       timer = questCD;
     }
 
     private void GiveUpQuest()
     {
-      if (QuestManager.instance.HasQuest())
+      if (QuestManager.Instance.HasQuest())
       {
         //string n = string.Format("Which Quest you want to give up?", QuestManager.instance.Count());
         string n = "$op_munin_giveup";
@@ -84,13 +84,13 @@ namespace OdinPlus.Npcs
 
     private void ChangeLevel()
     {
-      if (QuestManager.instance.Level == QuestManager.MaxLevel)
+      if (QuestManager.Instance.Level == QuestManager.MaxLevel)
       {
-        QuestManager.instance.Level = 1;
+        QuestManager.Instance.Level = 1;
         return;
       }
 
-      QuestManager.instance.Level++;
+      QuestManager.Instance.Level++;
     }
 
     #endregion Feature
@@ -116,9 +116,9 @@ namespace OdinPlus.Npcs
           ChangeLevel();
           break;
         case 3:
-          if (QuestManager.instance.HasQuest())
+          if (QuestManager.Instance.HasQuest())
           {
-            QuestManager.instance.PrintQuestList();
+            QuestManager.Instance.PrintQuestList();
             Say("$op_munin_wait_hug");
             break;
           }
@@ -144,11 +144,11 @@ namespace OdinPlus.Npcs
     public override string GetHoverText()
     {
       StringBuilder n = new StringBuilder($"<color=lightblue><b>{m_name}</b></color>")
-        .Append($"\n<color=lightblue><b>$op_munin_quest_lvl :{QuestManager.instance.Level}</b></color>")
-        .Append($"\n$op_munin_questnum_b <color=lightblue><b>{QuestManager.instance.Count()}</b></color> $op_munin_questnum_a")
+        .Append($"\n<color=lightblue><b>$op_munin_quest_lvl :{QuestManager.Instance.Level}</b></color>")
+        .Append($"\n$op_munin_questnum_b <color=lightblue><b>{QuestManager.Instance.Count()}</b></color> $op_munin_questnum_a")
         .Append("\n[<color=yellow><b>1-8</b></color>]$op_offer")
         .Append($"\n[<color=yellow><b>$KEY_Use</b></color>]{currentChoice}")
-        .Append($"\n<color=yellow><b>[{Plugin.KS_SecondInteractkey.Value.MainKey.ToString()}]</b></color>$op_switch");
+        .Append($"\n<color=yellow><b>[{Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString()}]</b></color>$op_switch");
       return Localization.instance.Localize(n.ToString());
     }
 
@@ -208,7 +208,7 @@ namespace OdinPlus.Npcs
         int num;
         if (int.TryParse(text, out num))
         {
-          if (!QuestManager.instance.GiveUpQuest(num))
+          if (!QuestManager.Instance.GiveUpQuest(num))
           {
             DBG.InfoCT("$op_munin_noq " + num);
             return;

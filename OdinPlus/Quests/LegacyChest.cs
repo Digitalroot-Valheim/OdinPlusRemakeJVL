@@ -25,13 +25,13 @@ namespace OdinPlus.Quests
 
 				zdo.Set("QuestID", m_id);
 				zdo.Set("QuestSphy", m_sphy);
-				zdo.Set("QuestOwener", m_ownerName);
+				zdo.Set("QuestOwner", m_ownerName);
 				return;
 			}
 
       m_id = zdo.GetString("QuestID", "public");
       m_sphy = zdo.GetBool("QuestSphy", true);
-      m_ownerName = zdo.GetString("QuestOwener", "public");
+      m_ownerName = zdo.GetString("QuestOwner", "public");
       if (!m_sphy)
 			{
 				DestroyImmediate(GetComponent<StaticPhysics>());
@@ -64,7 +64,7 @@ namespace OdinPlus.Quests
 			}
 			if (user.GetHoverName() == m_ownerName)
 			{
-				var quest = QuestManager.instance.GetQuest(m_id);
+				var quest = QuestManager.Instance.GetQuest(m_id);
 				if (quest != null)
 				{
 					//upd should select in base? yes!!!!!!!!!
@@ -73,7 +73,7 @@ namespace OdinPlus.Quests
 				}
 				//upd giveup without destroy?
 			}
-			string n = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color>", m_ownerName);//trans
+			string n = $"Hey you found the chest belong to <color=yellow><b>{m_ownerName}</b></color>";//trans
 			DBG.InfoCT(n);
 
 		}

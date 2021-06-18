@@ -150,7 +150,7 @@ namespace OdinPlus.Managers
 		public static void initIndicator()
 		{
 			Indicator = new GameObject("Indicator");
-			Indicator.transform.SetParent(Plugin.OdinPlusRoot.transform);
+			Indicator.transform.SetParent(Main.OdinPlusRoot.transform);
 			Indicator.AddComponent<StaticTarget>();
 			Indicator.AddComponent<CapsuleCollider>();
 			Indicator.SetActive(false);

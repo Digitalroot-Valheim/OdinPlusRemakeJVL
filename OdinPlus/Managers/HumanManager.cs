@@ -91,7 +91,7 @@ namespace OdinPlus.Managers
 			initSpawner();
 
 			OdinPlus.OdinPostRegister(PrefabList);
-			Plugin.posZone = (Action)Delegate.Combine(Plugin.posZone, (Action)PostZone);
+			Main.PostZoneAction = (Action)Delegate.Combine(Main.PostZoneAction, (Action)PostZone);
 			isInit = true;
 		}
 
