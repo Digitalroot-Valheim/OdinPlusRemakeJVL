@@ -24,7 +24,7 @@ namespace OdinPlus.Managers
     protected override void OnInitialize()
     {
       base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       _root = new GameObject("ObjectList");
       _root.transform.SetParent(OdinPlus.PrefabParent.transform);
       _root.SetActive(false);
@@ -40,13 +40,13 @@ namespace OdinPlus.Managers
     protected override void OnPostInitialize()
     {
       base.OnPostInitialize();
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       OdinPlus.OdinPreRegister(_objectList, nameof(_objectList));
     }
 
     public override bool HasDependencyError()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var dependencyError = !FxAssetManager.Instance.IsInitialized
                             || FxAssetManager.Instance.HasDependencyError();
 
@@ -63,7 +63,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
         if (_meadTasty == null)
         {
@@ -110,7 +110,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         GameObject go = UnityEngine.Object.Instantiate(_meadTasty, _root.transform);
         go.name = iName;
 
@@ -137,7 +137,7 @@ namespace OdinPlus.Managers
 
     private void InitPetItem()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       foreach (var pet in _petItemList)
       {
         CreatePetItemPrefab(pet.Key, pet.Value);
@@ -146,7 +146,7 @@ namespace OdinPlus.Managers
 
     private void InitLegacy()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       string name = OdinPlusItem.OdinLegacy;
       GameObject go = UnityEngine.Object.Instantiate(_trophyGoblinShaman, _root.transform);
       go.name = OdinPlusItem.OdinLegacy;
@@ -166,7 +166,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         return _objectList[name].GetComponent<ItemDrop>().m_itemData;
       }
       catch (Exception e)
@@ -180,7 +180,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         return _objectList[name];
       }
       catch (Exception e)

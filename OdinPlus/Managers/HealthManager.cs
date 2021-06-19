@@ -19,7 +19,7 @@ namespace OdinPlus.Managers
 
     public void HealthCheck()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       if (OnHealthCheck == null)
       {
         Log.Info("Nothing to Monitor");

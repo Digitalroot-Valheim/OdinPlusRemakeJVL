@@ -15,7 +15,7 @@ namespace OdinPlus.Managers
     protected override void OnInitialize()
     {
       base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       _root = new GameObject(OdinPlusItem.MeadTasty);
       _root.transform.SetParent(OdinPlus.PrefabParent.transform);
       _root.SetActive(false);
@@ -32,12 +32,12 @@ namespace OdinPlus.Managers
     protected override void OnPostInitialize()
     {
       base.OnPostInitialize();
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
     }
 
     public override bool HasDependencyError()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var dependencyError = !ResourceAssetManager.Instance.IsInitialized;
 
       if (dependencyError)
@@ -52,7 +52,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
         if (_meadTasty == null)
         {
@@ -87,7 +87,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         GameObject gameObject = UnityEngine.Object.Instantiate(_meadTasty, _root.transform);
         gameObject.name = name;
         var id = gameObject.GetComponent<ItemDrop>().m_itemData.m_shared;
@@ -106,7 +106,7 @@ namespace OdinPlus.Managers
 
     private void InitBuzzMead()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       foreach (var item in StatusEffectsManager.Instance.BuzzList.Keys)
       {
         CreateValMeadPrefab(item);
@@ -115,7 +115,7 @@ namespace OdinPlus.Managers
 
     private void InitValMead()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       foreach (var item in StatusEffectsManager.Instance.ValDataList.Keys)
       {
         CreateValMeadPrefab(item);

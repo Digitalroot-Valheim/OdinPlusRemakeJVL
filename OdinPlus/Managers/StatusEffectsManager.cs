@@ -18,7 +18,7 @@ namespace OdinPlus.Managers
     protected override void OnInitialize()
     {
       base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       SetupValStatusEffects();
       SetupMonsterStatusEffects();
     }
@@ -26,7 +26,7 @@ namespace OdinPlus.Managers
     protected override void OnPostInitialize()
     {
       base.OnPostInitialize();
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       InitBuzzStatusEffects();
       InitTrollStatusEffects();
       InitWolfStatusEffects();
@@ -36,7 +36,7 @@ namespace OdinPlus.Managers
 
     public override bool HasDependencyError()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var dependencyError = !OdinMeadsManager.Instance.IsInitialized
                             || OdinMeadsManager.Instance.HasDependencyError();
 
@@ -53,7 +53,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
         if (StatusEffectsList.Count == 0)
         {
@@ -100,7 +100,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         if (StatusEffectsList.Count == 0)
         {
           return;
@@ -122,7 +122,7 @@ namespace OdinPlus.Managers
 
     private void InitTrollStatusEffects()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var se = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
       se.name = OdinPlusStatusEffect.SE_Troll;
       se.m_icon = Util.LoadResouceIcon(OdinPlusStatusEffect.SE_Troll);
@@ -136,7 +136,7 @@ namespace OdinPlus.Managers
 
     private void InitWolfStatusEffects()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var se = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
       se.name = OdinPlusStatusEffect.SE_Wolf;
       se.m_icon = Util.LoadResouceIcon(OdinPlusStatusEffect.SE_Wolf);
@@ -150,7 +150,7 @@ namespace OdinPlus.Managers
 
     private void InitBuzzStatusEffects()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       CreateBuzzStatusEffects("SpeedMeadsL");
     }
 
@@ -158,7 +158,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var se = ScriptableObject.CreateInstance<BuzzStatusEffect>();
         se.name = name;
         se.m_icon = ResourceAssetManager.Instance.GetIconSprite(name);
@@ -178,7 +178,7 @@ namespace OdinPlus.Managers
 
     private void InitValStatusEffects()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       foreach (var item in ValDataList)
       {
         CreateValStatusEffects(item.Key, item.Value);
@@ -189,7 +189,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var se = ScriptableObject.CreateInstance<SE_Stats>();
         se.name = name;
 
@@ -235,7 +235,7 @@ namespace OdinPlus.Managers
 
     private void InitMonsterStatusEffects()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       foreach (var item in MonsterStatusEffectsList)
       {
         CreateValStatusEffects(item.Key, item.Value);
@@ -244,7 +244,7 @@ namespace OdinPlus.Managers
 
     private void SetupMonsterStatusEffects()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       for (var i = 1; i < 6; i++)
       {
         MonsterStatusEffectsList.Add("MonsterAttackAMP" + i, new StatusEffectData {m_ttl = 0, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1 + (i - 1) * 0.1f});
@@ -253,7 +253,7 @@ namespace OdinPlus.Managers
 
     private void SetupValStatusEffects()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       ValDataList.Add("ExpMeadS", new StatusEffectData {m_ttl = 300, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 50});
       ValDataList.Add("ExpMeadM", new StatusEffectData {m_ttl = 450, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 75});
       ValDataList.Add("ExpMeadL", new StatusEffectData {m_ttl = 600, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 125});

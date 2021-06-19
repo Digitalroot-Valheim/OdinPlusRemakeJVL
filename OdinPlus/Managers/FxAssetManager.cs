@@ -14,7 +14,7 @@ namespace OdinPlus.Managers
     protected override void OnInitialize()
     {
       base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       _root = new GameObject("Assets").transform;
       _root.SetParent(OdinPlus.PrefabParent.transform);
       SetupFxNN();
@@ -24,7 +24,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
         if (_fxNnList.Count == 0)
         {
@@ -75,7 +75,7 @@ namespace OdinPlus.Managers
 
     public override bool HasDependencyError()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var dependencyError = !StatusEffectsManager.Instance.IsInitialized
                             || StatusEffectsManager.Instance.HasDependencyError();
 
@@ -92,7 +92,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var a = UnityEngine.Object.Instantiate(ZNetScene.instance.GetPrefab(prefab), _root);
         a.name = name;
         return a;
@@ -109,7 +109,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var a = UnityEngine.Object.Instantiate(ZNetScene.instance.GetPrefab(prefab).FindObject(par), _root);
         a.name = name;
         return a;
@@ -127,7 +127,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var go = InsVal(prefab, name);
         go.GetComponent<Renderer>().material.color = color;
         SelectList(go, name, whichList);
@@ -147,7 +147,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var gameObject = InsVal(prefab, par, name);
         gameObject.GetComponent<Renderer>().material.color = color;
         SelectList(gameObject, name, whichList);
@@ -170,7 +170,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         switch (whichList)
         {
           case 0:
@@ -193,7 +193,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var ps = gameObject.GetComponent<ParticleSystem>();
         var emission = ps.emission;
         var main = ps.main;
@@ -213,7 +213,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         return _fxNnList[name];
       }
       catch (Exception e)
@@ -226,7 +226,7 @@ namespace OdinPlus.Managers
     // ReSharper disable once InconsistentNaming
     private void SetupFxNN()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       ValFXcc("odin", "odinsmoke", OdinPlusFx.RedSmoke, Color.red, OdinSmoke, 1);
       ValFXcc("odin", "odinsmoke", OdinPlusFx.BlueSmoke, Color.blue, OdinSmoke, 1);
       ValFXcc("odin", "odinsmoke", OdinPlusFx.YellowSmoke, Color.yellow, OdinSmoke, 1);

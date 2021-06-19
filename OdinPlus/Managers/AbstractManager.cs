@@ -18,7 +18,7 @@ namespace OdinPlus.Managers
 
     protected AbstractManager()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (IsInitialized) return;
       Initialize();
@@ -26,7 +26,7 @@ namespace OdinPlus.Managers
 
     public void Initialize()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (IsInitialized) return;
       if (HasDependencyError())
@@ -41,7 +41,7 @@ namespace OdinPlus.Managers
 
     public void PostInitialize()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (!IsInitialized)
       {
@@ -53,7 +53,7 @@ namespace OdinPlus.Managers
 
     public HealthCheckStatus HealthCheck()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var healthCheckStatus = new HealthCheckStatus
       {
         Name = MethodBase.GetCurrentMethod().DeclaringType?.Name,
@@ -80,7 +80,7 @@ namespace OdinPlus.Managers
 
     protected virtual void OnInitialize()
     {
-      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       HealthManager.Instance.OnHealthCheck += HealthCheck;
     }
 
