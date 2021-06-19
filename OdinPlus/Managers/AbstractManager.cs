@@ -12,40 +12,48 @@ namespace OdinPlus.Managers
   /// </summary>
   public abstract class AbstractManager<T> : Singleton<T> where T : AbstractManager<T>, new()
   {
-    private const string Namespace = "OdinPlus.Managers";
+    private protected const string Namespace = "OdinPlus.Managers";
 
     public bool IsInitialized { get; private set; }
 
     protected AbstractManager()
     {
-      Log.Trace($"{Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
-      Log.Trace($"{nameof(IsInitialized)}: {IsInitialized}");
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (IsInitialized) return;
       Initialize();
     }
 
     public void Initialize()
     {
-      Log.Trace($"{Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
-      Log.Trace($"{nameof(IsInitialized)}: {IsInitialized}");
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (IsInitialized) return;
+      if (HasDependencyError())
+      {
+        Log.Fatal("Dependency Error");
+        HealthCheck();
+        return;
+      }
       OnInitialize();
       IsInitialized = true;
     }
 
     public void PostInitialize()
     {
-      Log.Trace($"{Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
-      Log.Trace($"{nameof(IsInitialized)}: {IsInitialized}");
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (!IsInitialized)
       {
         Initialize();
       }
+
       OnPostInitialize();
     }
 
     public HealthCheckStatus HealthCheck()
     {
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       var healthCheckStatus = new HealthCheckStatus
       {
         Name = MethodBase.GetCurrentMethod().DeclaringType?.Name,
@@ -70,17 +78,18 @@ namespace OdinPlus.Managers
       return OnHealthCheck(healthCheckStatus);
     }
 
-   
-    private protected virtual void OnInitialize()
+    protected virtual void OnInitialize()
     {
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       HealthManager.Instance.OnHealthCheck += HealthCheck;
     }
 
-    private protected virtual void OnPostInitialize()
+    protected virtual void OnPostInitialize()
     {
     }
 
-    private protected abstract HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus);
+    public abstract bool HasDependencyError();
 
+    protected abstract HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus);
   }
 }

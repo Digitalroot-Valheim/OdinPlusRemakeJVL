@@ -1,9 +1,7 @@
 using HarmonyLib;
 using OdinPlus.Common;
 using OdinPlus.Data;
-using OdinPlus.Items;
 using OdinPlus.Managers;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -53,9 +51,8 @@ namespace OdinPlus
 			
 			Root.AddComponent<OdinData>();
 			Root.AddComponent<QuestManager>();
-
 			
-			Root.AddComponent<StatusEffectsManager>();
+			// Root.AddComponent<StatusEffectsManager>();
 		}
 		#endregion Mono
 
@@ -67,24 +64,26 @@ namespace OdinPlus
         Log.Debug("ZNetScene.instance is null");
         return;
       }
+			ResourceAssetManager.Instance.Initialize();
 			initAssets();
 			Root.AddComponent<LocationManager>();
-			Root.AddComponent<OdinMeads>();
-			Root.AddComponent<OdinItem>();
+			// Root.AddComponent<OdinMeadsManager>();
+			// Root.AddComponent<OdinItemManager>();
 			Root.AddComponent<PetManager>();
 			// Root.AddComponent<PrefabManager>();
 			// Root.AddComponent<FxAssetManager>();
-      FxAssetManager.Instance.Initialize();
+      OdinMeadsManager.Instance.Initialize();
+			StatusEffectsManager.Instance.Initialize();
+			FxAssetManager.Instance.Initialize();
+      OdinItemManager.Instance.Initialize();
 			PrefabManager.Instance.Initialize();
-
-
 
 			IsInitialized = true;
 		}
 
     public static void PreObjectDBHook(ObjectDB odb)
 		{
-			StatusEffectsManager.Register(odb);
+			StatusEffectsManager.Instance.Register(odb);
 		}
 
 		public static void PostObjectDBHook()
@@ -98,19 +97,22 @@ namespace OdinPlus
         return;
       }
 			ValRegister(zns);
-      PrefabManager.Instance.PostInitialize();
+      // PrefabManager.Instance.PostInitialize();
 		}
 		public static void PostZNetSceneHook()
 		{
 			if (!ZnsInitialized)
 			{
+				ResourceAssetManager.Instance.PostInitialize();
+        OdinMeadsManager.Instance.PostInitialize();
+				StatusEffectsManager.Instance.PostInitialize();
         FxAssetManager.Instance.PostInitialize();
-
+        OdinItemManager.Instance.PostInitialize();
 				if (!PetManager.isInit)
 				{
 					PetManager.Init();
 				}
-
+        
 				PrefabManager.Instance.PostInitialize();
 
 				HumanManager.Init();
@@ -152,14 +154,14 @@ namespace OdinPlus
 		#region Assets
 		public static void initAssets()
 		{
-			OdinCreditIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			OdinCreditIcon = ObjectDB.instance.GetItemPrefab(OdinPlusItem.HelmetOdin).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			OdinSEIcon.Add(OdinCreditIcon);
-			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyFrostTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			WolfHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyWolf").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			CoinsIcon = ObjectDB.instance.GetItemPrefab("Coins").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			TrollHeadIcon = ObjectDB.instance.GetItemPrefab(OdinPlusItem.TrophyFrostTroll).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			WolfHeadIcon = ObjectDB.instance.GetItemPrefab(OdinPlusItem.TrophyWolf).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			CoinsIcon = ObjectDB.instance.GetItemPrefab(OdinPlusItem.Coins).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			OdinLegacyIcon = Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources.OdinLegacy.png")), 100f);
 			//AddIcon("explarge", 0);
-			AddValIcon("MeadTasty", 0);
+			AddValIcon(OdinPlusItem.MeadTasty, 0);
 		}
 		public static void AddIcon(string name, int list)
 		{
@@ -243,7 +245,7 @@ namespace OdinPlus
 			m_namedPrefabs.RemoveList<int, GameObject>(odbRegList);
 			zns.m_prefabs.RemoveList<int, GameObject>(znsRegList);
 			m_namedPrefabs.RemoveList<int, GameObject>(znsRegList);
-			foreach (var item in StatusEffectsManager.SElist.Values)
+			foreach (var item in StatusEffectsManager.Instance.StatusEffectsList.Values)
 			{
 				odb.m_StatusEffects.Remove(item);
 			}
@@ -256,9 +258,9 @@ namespace OdinPlus
 		public void Reset()
 		{
 			initAssets();
-			Root.AddComponent<StatusEffectsManager>();
-			Root.AddComponent<OdinMeads>();
-			Root.AddComponent<OdinItem>();
+			// Root.AddComponent<StatusEffectsManager>();
+			// Root.AddComponent<OdinMeadsManager>();
+			// Root.AddComponent<OdinItemManager>();
 			Root.AddComponent<PetManager>();
 			// Root.AddComponent<PrefabManager>();
 			Root.AddComponent<QuestManager>();

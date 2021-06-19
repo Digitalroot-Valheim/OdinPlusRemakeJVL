@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace OdinPlus.Managers
 {
-	class PetManager : MonoBehaviour
+  internal class PetManager : MonoBehaviour
 	{
 		#region var
 		private static ZNetScene zns;

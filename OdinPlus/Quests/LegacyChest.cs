@@ -22,7 +22,7 @@ namespace OdinPlus.Quests
     [UsedImplicitly]
     private void Awake()
     {
-      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
       _zNetView = gameObject.GetComponent<ZNetView>();
       _container = gameObject.GetComponent<Container>();
@@ -51,7 +51,7 @@ namespace OdinPlus.Quests
     [UsedImplicitly]
     private void Update()
     {
-      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
       if (_container == null)
       {
@@ -92,7 +92,7 @@ namespace OdinPlus.Quests
     {
       try
       {
-        Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+        Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
         if (hold)
         {
           return;
@@ -123,7 +123,7 @@ namespace OdinPlus.Quests
 
     public void WatchMe()
     {
-      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       GameCamera.instance.transform.localPosition = transform.position + Vector3.forward * 1;
     }
 
@@ -154,7 +154,7 @@ namespace OdinPlus.Quests
     {
       try
       {
-        Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+        Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
         Collider[] array = Physics.OverlapBox(position, Vector3.one * p_range);
         foreach (var col in array)
         {

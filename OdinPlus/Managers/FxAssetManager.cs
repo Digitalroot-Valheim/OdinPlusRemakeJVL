@@ -1,35 +1,30 @@
+using OdinPlus.Common;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using JetBrains.Annotations;
-using OdinPlus.Common;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace OdinPlus.Managers
 {
   public class FxAssetManager : AbstractManager<FxAssetManager>
   {
-    public Transform Root;
+    private Transform _root;
     private readonly Dictionary<string, GameObject> _fxNnList = new Dictionary<string, GameObject>();
 
-    [UsedImplicitly]
-    private void Awake()
-    {
-      Root = new GameObject("Assets").transform;
-      Root.SetParent(OdinPlus.PrefabParent.transform);
-    }
-
-    private protected override void OnInitialize()
+    protected override void OnInitialize()
     {
       base.OnInitialize();
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      _root = new GameObject("Assets").transform;
+      _root.SetParent(OdinPlus.PrefabParent.transform);
       SetupFxNN();
     }
 
-    private protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
+    protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
     {
       try
       {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
         if (_fxNnList.Count == 0)
         {
@@ -61,6 +56,12 @@ namespace OdinPlus.Managers
           healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _fxNnList.ContainsKey({OdinPlusFx.GreenSmoke}): {_fxNnList.ContainsKey(OdinPlusFx.GreenSmoke)}";
         }
 
+        if (_root == null)
+        {
+          healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _root == null: {_root == null}";
+        }
+
         return healthCheckStatus;
       }
       catch (Exception e)
@@ -72,82 +73,164 @@ namespace OdinPlus.Managers
       }
     }
 
+    public override bool HasDependencyError()
+    {
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      var dependencyError = !StatusEffectsManager.Instance.IsInitialized
+                            || StatusEffectsManager.Instance.HasDependencyError();
+
+      if (dependencyError)
+      {
+        Log.Fatal($"StatusEffectsManager.Instance.IsInitialized: {StatusEffectsManager.Instance.IsInitialized}");
+        Log.Fatal($"StatusEffectsManager.Instance.HasDependencyError: {StatusEffectsManager.Instance.HasDependencyError()}");
+      }
+
+      return dependencyError;
+    }
+
     private GameObject InsVal(string prefab, string name)
     {
-      var a = Object.Instantiate(ZNetScene.instance.GetPrefab(prefab), Root);
-      a.name = name;
-      return a;
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var a = UnityEngine.Object.Instantiate(ZNetScene.instance.GetPrefab(prefab), _root);
+        a.name = name;
+        return a;
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(prefab), prefab);
+        e.Data.Add(nameof(name), name);
+        throw;
+      }
     }
 
     private GameObject InsVal(string prefab, string par, string name)
     {
-      var a = Object.Instantiate(ZNetScene.instance.GetPrefab(prefab).FindObject(par), Root);
-      a.name = name;
-      return a;
-    }
-
-    private GameObject ValFXcc(string prefab, string name, Color col, int whichList = 0)
-    {
-      var go = InsVal(prefab, name);
-      go.GetComponent<Renderer>().material.color = col;
-      SelectList(go, name, whichList);
-      return go;
-    }
-
-    private GameObject ValFXcc(string prefab, string par, string name, Color col, Action<GameObject> action, int whichList = 0)
-    {
-      var go = InsVal(prefab, par, name);
-      go.GetComponent<Renderer>().material.color = col;
-      SelectList(go, name, whichList);
-      action(go);
-      return go;
-    }
-
-    private void SelectList(GameObject go, string name, int whichList)
-    {
-      switch (whichList)
+      try
       {
-        case 0:
-          break;
-        case 1:
-          _fxNnList.Add(name, go);
-          break;
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var a = UnityEngine.Object.Instantiate(ZNetScene.instance.GetPrefab(prefab).FindObject(par), _root);
+        a.name = name;
+        return a;
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(prefab), prefab);
+        e.Data.Add(nameof(par), par);
+        e.Data.Add(nameof(name), name);
+        throw;
       }
     }
 
-    private static void Nothing(GameObject go)
+    private GameObject ValFXcc(string prefab, string name, Color color, int whichList = 0)
     {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var go = InsVal(prefab, name);
+        go.GetComponent<Renderer>().material.color = color;
+        SelectList(go, name, whichList);
+        return go;
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(prefab), prefab);
+        e.Data.Add(nameof(name), name);
+        e.Data.Add(nameof(color), color.ToString());
+        e.Data.Add(nameof(whichList), whichList);
+        throw;
+      }
     }
 
-    private static void odinSmoke(GameObject go)
+    private GameObject ValFXcc(string prefab, string par, string name, Color color, Action<GameObject> action, int whichList = 0)
     {
-      var ps = go.GetComponent<ParticleSystem>();
-      var e = ps.emission;
-      var m = ps.main;
-      m.maxParticles = 60;
-      e.rateOverTime = 30;
-      m.startLifetime = 1;
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var gameObject = InsVal(prefab, par, name);
+        gameObject.GetComponent<Renderer>().material.color = color;
+        SelectList(gameObject, name, whichList);
+        action(gameObject);
+        return gameObject;
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(prefab), prefab);
+        e.Data.Add(nameof(par), par);
+        e.Data.Add(nameof(name), name);
+        e.Data.Add(nameof(color), color.ToString());
+        e.Data.Add(nameof(action), action.ToString());
+        e.Data.Add(nameof(whichList), whichList);
+        throw;
+      }
     }
 
+    private void SelectList(GameObject gameObject, string name, int whichList)
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        switch (whichList)
+        {
+          case 0:
+            break;
+          case 1:
+            _fxNnList.Add(name, gameObject);
+            break;
+        }
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(gameObject), JsonSerializationProvider.ToJson(gameObject));
+        e.Data.Add(nameof(name), name);
+        e.Data.Add(nameof(whichList), whichList);
+        throw;
+      }
+    }
+
+    private void OdinSmoke(GameObject gameObject)
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var ps = gameObject.GetComponent<ParticleSystem>();
+        var emission = ps.emission;
+        var main = ps.main;
+        main.maxParticles = 60;
+        emission.rateOverTime = 30;
+        main.startLifetime = 1;
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(gameObject), JsonSerializationProvider.ToJson(gameObject));
+        throw;
+      }
+    }
+
+    // ReSharper disable once InconsistentNaming
     public GameObject GetFxNN(string name)
     {
-      return _fxNnList[name];
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        return _fxNnList[name];
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(name), name);
+        throw;
+      }
     }
 
+    // ReSharper disable once InconsistentNaming
     private void SetupFxNN()
     {
-      ValFXcc("odin", "odinsmoke", OdinPlusFx.RedSmoke, Color.red, odinSmoke, 1);
-      ValFXcc("odin", "odinsmoke", OdinPlusFx.BlueSmoke, Color.blue, odinSmoke, 1);
-      ValFXcc("odin", "odinsmoke", OdinPlusFx.YellowSmoke, Color.yellow, odinSmoke, 1);
-      ValFXcc("odin", "odinsmoke", OdinPlusFx.GreenSmoke, Color.green, odinSmoke, 1);
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      ValFXcc("odin", "odinsmoke", OdinPlusFx.RedSmoke, Color.red, OdinSmoke, 1);
+      ValFXcc("odin", "odinsmoke", OdinPlusFx.BlueSmoke, Color.blue, OdinSmoke, 1);
+      ValFXcc("odin", "odinsmoke", OdinPlusFx.YellowSmoke, Color.yellow, OdinSmoke, 1);
+      ValFXcc("odin", "odinsmoke", OdinPlusFx.GreenSmoke, Color.green, OdinSmoke, 1);
     }
-  }
-
-  public static class OdinPlusFx
-  {
-    public static string RedSmoke = nameof(RedSmoke);
-    public static string BlueSmoke = nameof(BlueSmoke);
-    public static string YellowSmoke = nameof(YellowSmoke);
-    public static string GreenSmoke = nameof(GreenSmoke);
   }
 }

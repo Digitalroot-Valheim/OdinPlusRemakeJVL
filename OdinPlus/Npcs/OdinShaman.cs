@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using OdinPlus.Common;
 using OdinPlus.Items;
+using OdinPlus.Managers;
 using UnityEngine;
 
 namespace OdinPlus.Npcs
@@ -99,7 +100,7 @@ namespace OdinPlus.Npcs
 				var gd = GoodsList[name];
 				if (item.m_stack >= gd.Value)
 				{
-					var goodItemData = OdinItem.GetItemData(gd.Good);
+					var goodItemData = OdinItemManager.Instance.GetItemData(gd.Good);
 					if (user.GetInventory().AddItem(goodItemData))
 					{
 						user.GetInventory().RemoveItem(item, gd.Value);

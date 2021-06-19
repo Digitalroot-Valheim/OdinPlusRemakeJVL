@@ -1,12 +1,9 @@
-using System;
-using JetBrains.Annotations;
 using OdinPlus.Common;
 using OdinPlus.Quests;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using OdinPlus.Items;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace OdinPlus.Managers
 {
@@ -16,33 +13,44 @@ namespace OdinPlus.Managers
 
     public GameObject Root { get; private set; }
 
-    [UsedImplicitly]
-    private void Awake()
-    {
-      HealthManager.Instance.OnHealthCheck += HealthCheck;
-    }
-
-    private protected override void OnInitialize()
+    protected override void OnInitialize()
     {
       base.OnInitialize();
-      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       
       Root = new GameObject("OdinPrefab");
       Root.transform.SetParent(OdinPlus.PrefabParent.transform);
     }
 
-    private protected override void OnPostInitialize()
+    protected override void OnPostInitialize()
     {
       base.OnPostInitialize();
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       CreateLegacyChest();
       CreateHuntTargetMonster();
       OdinPlus.OdinPostRegister(_prefabList);
     }
 
-    private protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
+    public override bool HasDependencyError()
+    {
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      var dependencyError = !OdinItemManager.Instance.IsInitialized
+                            || OdinItemManager.Instance.HasDependencyError();
+
+      if (dependencyError)
+      {
+        Log.Fatal($"OdinItemManager.Instance.IsInitialized: {OdinItemManager.Instance.IsInitialized}");
+        Log.Fatal($"OdinItemManager.Instance.HasDependencyError: {OdinItemManager.Instance.HasDependencyError()}");
+      }
+
+      return dependencyError;
+    }
+
+    protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
     {
       try
       {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
         if (_prefabList.Count == 0)
         {
@@ -54,7 +62,7 @@ namespace OdinPlus.Managers
         {
           if (_prefabList.ContainsKey($"{OdinPlusItem.LegacyChest}{i}")) continue;
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _prefabList.ContainsKey({OdinPlusItem.LegacyChest}{i}): {_prefabList.Count}{_prefabList.ContainsKey($"{OdinPlusItem.LegacyChest}{i}")}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _prefabList.ContainsKey({OdinPlusItem.LegacyChest}{i}): {_prefabList.ContainsKey($"{OdinPlusItem.LegacyChest}{i}")}";
         }
 
         foreach (var item in QuestRef.HunterMonsterList)
@@ -78,7 +86,6 @@ namespace OdinPlus.Managers
           healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: chestPrefab == null: true";
         }
 
-
         return healthCheckStatus;
       }
       catch (Exception e)
@@ -92,18 +99,37 @@ namespace OdinPlus.Managers
 
     public void AddManagedPrefab(string name, GameObject gameObject)
     {
-      if (_prefabList.ContainsKey(name)) return;
-      _prefabList.Add(name, gameObject);
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (_prefabList.ContainsKey(name)) return;
+        _prefabList.Add(name, gameObject);
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(name), name);
+        e.Data.Add(nameof(gameObject), JsonSerializationProvider.ToJson(gameObject));
+        throw;
+      }
     }
 
     public GameObject GetManagedPrefab(string name)
     {
-      return !_prefabList.ContainsKey(name) ? null : _prefabList[name];
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        return !_prefabList.ContainsKey(name) ? null : _prefabList[name];
+      }
+      catch (Exception e)
+      {
+        e.Data.Add(nameof(name), name);
+        throw;
+      }
     }
 
     private void CreateHuntTargetMonster()
     {
-      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
       if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
       {
@@ -120,7 +146,7 @@ namespace OdinPlus.Managers
 
     private void CreateLegacyChest()
     {
-      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
       if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
       {
@@ -136,13 +162,13 @@ namespace OdinPlus.Managers
         var chestPrefab = ZNetScene.instance.GetPrefab(OdinPlusItem.Chest);
         Log.Debug($"chestPrefab == null:{chestPrefab == null}");
 
-        GameObject chest = Object.Instantiate(chestPrefab, Root.transform);
+        GameObject chest = UnityEngine.Object.Instantiate(chestPrefab, Root.transform);
         Log.Debug($"chest == null:{chest == null}");
         
 
         chest.name = $"{OdinPlusItem.LegacyChest}{i}";
 
-        Object.DestroyImmediate(chest.GetComponent<Rigidbody>());
+        UnityEngine.Object.DestroyImmediate(chest.GetComponent<Rigidbody>());
         var staticPhysics = chest.AddComponent<StaticPhysics>();
         staticPhysics.m_pushUp = false;
         var container = chest.GetComponent<Container>();
@@ -156,8 +182,8 @@ namespace OdinPlus.Managers
         container.m_width = 1;
         container.m_height = 1;
         container.m_defaultItems.m_drops.Add(new DropTable.DropData {m_item = odinLegacyPrefab, m_stackMax = i, m_stackMin = i, m_weight = 1});
-        
-        Object.Instantiate(FxAssetManager.Instance.GetFxNN(OdinPlusFx.BlueSmoke), chest.transform);
+
+        UnityEngine.Object.Instantiate(FxAssetManager.Instance.GetFxNN(OdinPlusFx.BlueSmoke), chest.transform);
 
         _prefabList.Add(chest.name, chest);
         Log.Debug($"Added {chest.name} to PrefabList:{_prefabList.Count}");

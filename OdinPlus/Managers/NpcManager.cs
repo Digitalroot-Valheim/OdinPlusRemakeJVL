@@ -8,7 +8,7 @@ using UnityEngine;
 namespace OdinPlus.Managers
 {
 
-	class NpcManager : MonoBehaviour
+  internal class NpcManager : MonoBehaviour
 	{
 		public static bool IsInit;
 		public static GameObject Root;
@@ -154,7 +154,7 @@ namespace OdinPlus.Managers
 			m_odinPot.m_talker = m_odinGod.gameObject;
 
 			// Pot does not work ATM. 
-			//foreach (var item in OdinMeads.MeadList)
+			//foreach (var item in OdinMeadsManager.MeadList)
 			//{
 			//	m_odinPot.m_items.Add(new Trader.TradeItem
 			//	{

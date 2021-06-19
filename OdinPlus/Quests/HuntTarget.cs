@@ -58,7 +58,7 @@ namespace OdinPlus.Quests
 				m_ownerName = zdo.GetString("OwnerName", "");
 			}
 			m_mai.SetPatrolPoint();
-			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(StatusEffectsManager.MonsterSEList.ElementAt(Level).Key);
+			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(StatusEffectsManager.Instance.MonsterStatusEffectsList.ElementAt(Level).Key);
 		}
 		private void Update()
 		{

@@ -14,7 +14,6 @@ namespace OdinPlus
 {
   public static class Patch
   {
-
     public static bool CheckPlayerNull()
     {
       if (Player.m_localPlayer != null) return false;
@@ -37,7 +36,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           Component component = __instance.GetComponent<HumanNpc>();
           if (!component) return true;
@@ -68,7 +67,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (Player.m_localPlayer == null || !OdinPlus.IsNPCInitialized) return;
 
@@ -162,7 +161,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (DevTool.IsInitialized)
           {
@@ -192,7 +191,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           var legacyChest = __instance.GetComponent<LegacyChest>();
           if (legacyChest)
@@ -223,7 +222,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
           if (__instance.GetComponent<ZNetView>())
           {
             __instance.gameObject.AddComponent<LocationMarker>();
@@ -251,13 +250,14 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
           {
             Log.Debug("ZNetScene.instance is null");
             return;
           }
+
           if (OdinPlus.IsInitialized) return;
           OdinPlus.Initialize();
         }
@@ -284,7 +284,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           Log.Trace(language);
           BuzzLocal.Initialize(language, __instance);
@@ -313,7 +313,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (__instance.GetComponentInChildren<DungeonGenerator>(true) != null) return;
           __instance.gameObject.AddComponent<LocationMarker>();
@@ -341,7 +341,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
           OdinPlus.PreObjectDBHook(__instance);
         }
         catch (Exception e)
@@ -349,7 +349,6 @@ namespace OdinPlus
           Log.Fatal(e);
         }
       }
-
 
       [HarmonyPostfix]
       [HarmonyPatch("Awake")]
@@ -359,7 +358,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           OdinPlus.PostObjectDBHook();
         }
@@ -391,7 +390,7 @@ namespace OdinPlus
             return;
           }
 
-          // Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}"); // Spammy
+          // Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()"); // Spammy
 
           if (!Main.KeyboardShortcutSecondInteractKey.Value.IsDown() || __instance.GetHoverObject() == null) return;
 
@@ -428,7 +427,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (CheckPlayerNull()) return;
           OdinData.SaveOdinData($"{Player.m_localPlayer.GetPlayerName()}_{ZNet.instance.GetWorldName()}");
@@ -447,7 +446,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (ZNet.instance == null || CheckPlayerNull() || OdinPlus.Instance.IsLoaded) return;
           OdinData.LoadOdinData($"{Player.m_localPlayer.GetPlayerName()}_{ZNet.instance.GetWorldName()}");
@@ -475,7 +474,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (OdinPlus.traderNameList.Contains(trader.m_name))
           {
@@ -498,7 +497,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (OdinPlus.traderNameList.Contains(__instance.m_trader.m_name))
           {
@@ -520,7 +519,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (__instance.m_trader == null) return;
 
@@ -544,7 +543,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           // string name = Traverse.Create(__instance).Field<Trader>("m_trader").Value.m_name;
           var name = __instance.m_trader.m_name;
@@ -597,7 +596,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           if (__instance.gameObject.GetComponent<Character>().m_name == "$op_wolf_name")
           {
@@ -627,7 +626,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
           if (__instance == null || __instance.m_prefabs == null || __instance.m_prefabs.Count <= 0)
           {
             Log.Debug("ZNetScene.instance is null");
@@ -652,12 +651,13 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
           if (__instance == null || __instance.m_prefabs == null || __instance.m_prefabs.Count <= 0)
           {
             Log.Debug("ZNetScene.instance is null");
             return;
           }
+
           if (!OdinPlus.IsInitialized) OdinPlus.Initialize();
           OdinPlus.PreZNetSceneHook(__instance);
         }
@@ -674,7 +674,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
           if (ZNet.instance.IsServer() && ZNet.instance.IsDedicated())
           {
             OdinData.SaveOdinData(ZNet.instance.GetWorldName());
@@ -705,7 +705,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
           Main.PostZoneAction?.Invoke();
           // if (Main.PostZoneAction != null)
           // {
@@ -736,7 +736,7 @@ namespace OdinPlus
       {
         try
         {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
           Main.RegisterRpcAction();
           LocationManager.RequestServerFop();

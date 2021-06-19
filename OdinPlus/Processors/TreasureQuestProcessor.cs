@@ -14,7 +14,7 @@ namespace OdinPlus.Processors
 
     public override void Place(LocationMarker locationMarker)
     {
-      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       var pos = locationMarker.GetPosition();
       float y = 0f;
       float x = 4f;

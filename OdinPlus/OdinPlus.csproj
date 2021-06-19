@@ -338,9 +338,12 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Common\JsonSerializationProvider.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\OdinPlusFx.cs" />
+    <Compile Include="Common\OdinPlusItem.cs" />
+    <Compile Include="Common\OdinPlusPet.cs" />
+    <Compile Include="Common\OdinPlusStatusEffect.cs" />
     <Compile Include="Common\Singleton.cs" />
     <Compile Include="Data\OdinPlusDataFile.cs" />
-    <Compile Include="Items\OdinPlusItem.cs" />
     <Compile Include="Items\MeadFactory.cs" />
     <Compile Include="Items\MeadEnum.cs" />
     <Compile Include="Items\MeadInfo.cs" />
@@ -349,6 +352,7 @@
     <Compile Include="Managers\AbstractManager.cs" />
     <Compile Include="Managers\HealthManager.cs" />
     <Compile Include="Managers\SaveFileManager.cs" />
+    <Compile Include="Common\StatusEffectData.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Managers\StatusEffectsManager.cs" />
@@ -366,8 +370,8 @@
     <Compile Include="Common\Util.cs" />
     <Compile Include="OdinPlus.cs" />
     <Compile Include="Npcs\OdinTrader.cs" />
-    <Compile Include="Items\OdinItem.cs" />
-    <Compile Include="Items\OdinMeads.cs" />
+    <Compile Include="Managers\OdinItemManager.cs" />
+    <Compile Include="Managers\OdinMeadsManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Common\IOdinInteractable.cs" />
     <Compile Include="Pets\PetWolf.cs" />
@@ -463,7 +467,7 @@
   <Target Name="DebugPostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Message Text="DebugPostBuild Called" Importance="high" />
     <Message Text="Copying assemblies to C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" Importance="high" />
-    <Copy SourceFiles="@(OdinPlusSourceFiles)" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(OdinPlusSourceFiles)" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" SkipUnchangedFiles="false" />
   </Target>
   <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
     <Message Text="BeforeBuild Called" Importance="high" />

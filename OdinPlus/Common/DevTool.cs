@@ -67,7 +67,7 @@ namespace OdinPlus.Common
 			}
 			if (Input.GetKeyDown(KeyCode.F9) && Input.GetKey(KeyCode.RightControl))
 			{
-				PrintMeadsLoc();
+				// PrintMeadsLoc();
 			}
 			if (Input.GetKeyDown(KeyCode.F10) && Input.GetKey(KeyCode.RightControl))
 			{
@@ -318,7 +318,7 @@ namespace OdinPlus.Common
 		public static void Monster()
 		{
 			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab("Fenring"), Player.m_localPlayer.transform.position + Vector3.up + Vector3.forward * 2, Quaternion.identity);
-			Traverse.Create(a.GetComponent<Humanoid>()).Field<SEMan>("m_seman").Value.AddStatusEffect(StatusEffectsManager.MonsterSEList.ElementAt(4).Key);
+			Traverse.Create(a.GetComponent<Humanoid>()).Field<SEMan>("m_seman").Value.AddStatusEffect(StatusEffectsManager.Instance.MonsterStatusEffectsList.ElementAt(4).Key);
 		}
 		#endregion Task
 
@@ -383,24 +383,24 @@ namespace OdinPlus.Common
 			}
 		}
 
-		private static void PrintMeadsList()
-		{
-			string s = "";
-			foreach (var item in OdinMeads.MeadList.Keys)
-			{
-				s += item + ",";
-			}
-			DBG.blogWarning(s);
-		}
-		private static void PrintMeadsLoc()
-		{
-			foreach (var item in OdinMeads.MeadList.Keys)
-			{
-				DBG.blogWarning("op_" + item + "_name");
-				DBG.blogWarning("op_" + item + "_desc");
-				DBG.blogWarning("op_" + item + "_tooltip");
-			}
-		}
+		// private static void PrintMeadsList()
+		// {
+		// 	string s = "";
+		// 	foreach (var item in OdinMeadsManager.Instance.MeadList.Keys)
+		// 	{
+		// 		s += item + ",";
+		// 	}
+		// 	DBG.blogWarning(s);
+		// }
+		//private static void PrintMeadsLoc()
+		//{
+		//	foreach (var item in OdinMeadsManager.MeadList.Keys)
+		//	{
+		//		DBG.blogWarning("op_" + item + "_name");
+		//		DBG.blogWarning("op_" + item + "_desc");
+		//		DBG.blogWarning("op_" + item + "_tooltip");
+		//	}
+		//}
 		#endregion Print
 
 		#region Debug

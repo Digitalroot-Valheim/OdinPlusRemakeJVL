@@ -8,6 +8,7 @@ namespace OdinPlus.Managers
 {
   public class HealthManager : Singleton<HealthManager>
   {
+    private protected const string Namespace = "OdinPlus.Managers";
     private readonly List<HealthCheckStatus> _healthCheckStatusList = new List<HealthCheckStatus>();
 
     #region Event
@@ -18,6 +19,7 @@ namespace OdinPlus.Managers
 
     public void HealthCheck()
     {
+      Log.Trace($"{GetType().Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       if (OnHealthCheck == null)
       {
         Log.Info("Nothing to Monitor");
