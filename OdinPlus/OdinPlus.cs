@@ -38,7 +38,7 @@ namespace OdinPlus
 		public static Sprite CoinsIcon;
 		public static Sprite OdinLegacyIcon;
 
-    private void Awake()
+    private void Awake_d()
 		{
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 			Instance = this;

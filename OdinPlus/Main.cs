@@ -40,8 +40,9 @@ namespace OdinPlus
     }
 
     [UsedImplicitly]
-    private void Awake()
+    private void Awake_d()
     {
+      
       Log.Trace($"{Main.Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       ConfigEntryItemSellValue = Config.Bind("Config", "ItemSellValue", "TrophyBlob:20;TrophyBoar:5;TrophyBonemass:50;TrophyDeathsquito:20;TrophyDeer:5;TrophyDragonQueen:50;TrophyDraugr:20;TrophyDraugrElite:30;TrophyDraugrFem:20;TrophyEikthyr:50;TrophyFenring:30;TrophyForestTroll:30;TrophyFrostTroll:20;TrophyGoblin:20;TrophyGoblinBrute:30;TrophyGoblinKing:50;TrophyGoblinShaman:20;TrophyGreydwarf:5;TrophyGreydwarfBrute:15;TrophyGreydwarfShaman:15;TrophyHatchling:20;TrophyLeech:15;TrophyLox:20;TrophyNeck:5;TrophySerpent:30;TrophySGolem:30;TrophySkeleton:10;TrophySkeletonPoison:30;TrophySurtling:20;TrophyTheElder:50;TrophyWolf:20;TrophyWraith:30;AncientSeed:5;BoneFragments:1;Chitin:5;WitheredBone:10;DragonEgg:40;GoblinTotem:20;OdinLegacy:20");
       NexusId = Config.Bind("General", "NexusID", 798, "Nexus mod ID for updates");
@@ -50,7 +51,7 @@ namespace OdinPlus
       ConfigEntryForceOdinPosition = Config.Bind("2Server set only", "Force Odin Position", false);
       RegisterRpcAction = RegisterRpc;
 
-      _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+      // _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 
       OdinPlusRoot = new GameObject("OdinPlus");
       // OdinPlusRoot.AddComponent<ResourceAssetManager>();

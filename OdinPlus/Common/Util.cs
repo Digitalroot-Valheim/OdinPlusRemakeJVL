@@ -85,7 +85,7 @@ namespace OdinPlus.Common
 		}
 		public static Sprite LoadResourceIcon(string name)
 		{
-			return Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources." + name + ".png")), 100f);
+			return Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlusRemakeJVL.Resources." + name + ".png")), 100f);
 		}
 		#endregion LoadResource
 		#region Reflection

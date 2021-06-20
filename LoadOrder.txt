@@ -48,9 +48,7 @@ r = Disabled
     [x] OdinPlus.Managers.OdinMeadsManager.Initialize()
     [x] OdinPlus.Managers.OdinMeadsManager.OnInitialize()
       [x] OdinPlus.Managers.OdinMeadsManager.InitValMead()
-      [e] OdinPlus.Managers.OdinMeadsManager.CreateValMeadPrefab(ExpMeadS)
-        [e] [OdinMeadsManager] Unable to GetStatusEffects(ExpMeadS)
-        [e] [OdinMeadsManager] ExpMeadS not created
+      [x] OdinPlus.Managers.OdinMeadsManager.CreateValMeadPrefab(ExpMeadS)
       [x] OdinPlus.Managers.OdinMeadsManager.InitBuzzMead()
       [x] OdinPlus.OdinPlus.OdinPreRegister(Dictionary<string, GameObject>, _meadList)
     [x] OdinPlus.Managers.OdinItemManager.Initialize()
