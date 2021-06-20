@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using JetBrains.Annotations;
 using OdinPlus.Common;
@@ -97,10 +98,11 @@ namespace OdinPlus.Managers
 
     public void RegisterRpc()
     {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       MyQuests = new Dictionary<string, Quest>();
       ZRoutedRpc.instance.Register("RPC_CreateQuestSucceed", new Action<long, string, Vector3>(RPC_CreateQuestSucceed));
       ZRoutedRpc.instance.Register("RPC_CreateQuestFailed", RPC_CreateQuestFailed);
-      DBG.blogWarning("QuestManager rpc reged");
+      Log.Debug("QuestManager rpc reged");
     }
 
     public void RPC_CreateQuestSucceed(long sender, string id, Vector3 pos)

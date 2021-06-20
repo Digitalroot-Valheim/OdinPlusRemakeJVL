@@ -2,6 +2,7 @@
 using OdinPlus.StatusEffects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -9,41 +10,63 @@ namespace OdinPlus.Managers
 {
   internal class StatusEffectsManager : AbstractManager<StatusEffectsManager>
   {
-    public readonly Dictionary<string, StatusEffect> StatusEffectsList = new Dictionary<string, StatusEffect>();
-    public readonly Dictionary<string, StatusEffect> BuzzList = new Dictionary<string, StatusEffect>();
+    private readonly Dictionary<string, StatusEffect> _statusEffectsList = new Dictionary<string, StatusEffect>();
+    private readonly Dictionary<string, StatusEffect> _buzzList = new Dictionary<string, StatusEffect>();
     //private readonly Dictionary<string, StatusEffect> ValList = new Dictionary<string, StatusEffect>();
-    public readonly Dictionary<string, StatusEffectData> ValDataList = new Dictionary<string, StatusEffectData>();
-    public readonly Dictionary<string, StatusEffectData> MonsterStatusEffectsList = new Dictionary<string, StatusEffectData>();
+    private readonly Dictionary<string, StatusEffectData> _valDataList = new Dictionary<string, StatusEffectData>();
+    private readonly Dictionary<string, StatusEffectData> _monsterStatusEffectsList = new Dictionary<string, StatusEffectData>();
 
-    protected override void OnInitialize()
+    public IEnumerable<string> BuzzListKeys => _buzzList.Keys;
+    public IEnumerable<string> ValDataListKeys => _valDataList.Keys;
+
+    protected override bool OnInitialize()
     {
-      base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      SetupValStatusEffects();
-      SetupMonsterStatusEffects();
+      try
+      {
+        if (!base.OnInitialize()) return false;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        SetupValStatusEffects();
+        SetupMonsterStatusEffects();
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
-    protected override void OnPostInitialize()
+    protected override bool OnPostInitialize()
     {
-      base.OnPostInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      InitBuzzStatusEffects();
-      InitTrollStatusEffects();
-      InitWolfStatusEffects();
-      InitValStatusEffects();
-      InitMonsterStatusEffects();
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (!base.OnPostInitialize()) return false;
+        InitBuzzStatusEffects();
+        InitTrollStatusEffects();
+        InitWolfStatusEffects();
+        InitValStatusEffects();
+        InitMonsterStatusEffects();
+        Register();
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
     public override bool HasDependencyError()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var dependencyError = !OdinMeadsManager.Instance.IsInitialized
-                            || OdinMeadsManager.Instance.HasDependencyError();
+      var dependencyError = !ResourceAssetManager.Instance.IsInitialized
+                            || ResourceAssetManager.Instance.HasDependencyError();
 
       if (dependencyError)
       {
-        Log.Fatal($"OdinMeadsManager.Instance.IsInitialized: {OdinMeadsManager.Instance.IsInitialized}");
-        Log.Fatal($"OdinMeadsManager.Instance.HasDependencyError: {OdinMeadsManager.Instance.HasDependencyError()}");
+        Log.Fatal($"ResourceAssetManager.Instance.IsInitialized: {ResourceAssetManager.Instance.IsInitialized}");
+        Log.Fatal($"ResourceAssetManager.Instance.HasDependencyError: {ResourceAssetManager.Instance.HasDependencyError()}");
       }
 
       return dependencyError;
@@ -55,16 +78,16 @@ namespace OdinPlus.Managers
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
-        if (StatusEffectsList.Count == 0)
+        if (_statusEffectsList.Count == 0)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: StatusEffectsList.Count: {StatusEffectsList.Count}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _statusEffectsList.Count: {_statusEffectsList.Count}";
         }
 
-        if (BuzzList.Count == 0)
+        if (_buzzList.Count == 0)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: BuzzList.Count: {BuzzList.Count}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _buzzList.Count: {_buzzList.Count}";
         }
 
         //if (ValList.Count == 0)
@@ -73,16 +96,16 @@ namespace OdinPlus.Managers
         //  healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: ValList.Count: {ValList.Count}";
         //}
 
-        if (ValDataList.Count == 0)
+        if (_valDataList.Count == 0)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: ValDataList.Count: {ValDataList.Count}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _valDataList.Count: {_valDataList.Count}";
         }
-
-        if (MonsterStatusEffectsList.Count == 0)
+        
+        if (_monsterStatusEffectsList.Count == 0)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: MonsterStatusEffectsList.Count: {MonsterStatusEffectsList.Count}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _monsterStatusEffectsList.Count: {_monsterStatusEffectsList.Count}";
         }
 
         return healthCheckStatus;
@@ -96,69 +119,27 @@ namespace OdinPlus.Managers
       }
     }
 
-    public void Register(ObjectDB objectDB)
+    private void Register()
     {
-      try
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      if (_statusEffectsList.Count == 0)
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        if (StatusEffectsList.Count == 0)
-        {
-          return;
-        }
-
-        foreach (var se in StatusEffectsList.Values)
-        {
-          objectDB.m_StatusEffects.Add(se);
-        }
-
-        Log.Debug("Register Status Effects");
+        return;
       }
-      catch (Exception e)
+
+      foreach (var se in _statusEffectsList.Values)
       {
-        e.Data.Add(nameof(objectDB), JsonSerializationProvider.ToJson(objectDB));
-        throw;
+        ObjectDB.instance.m_StatusEffects.Add(se);
       }
-    }
 
-    private void InitTrollStatusEffects()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var se = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
-      se.name = OdinPlusStatusEffect.SE_Troll;
-      se.m_icon = Util.LoadResouceIcon(OdinPlusStatusEffect.SE_Troll);
-      se.m_name = "$op_ScrollTroll_name";
-      se.m_tooltip = "$op_ScrollTroll_tooltip";
-      se.m_cooldownIcon = true;
-      se.m_ttl = 600;
-      se.PetName = OdinPlusPet.TrollPet;
-      StatusEffectsList.Add(OdinPlusItem.ScrollTroll, se);
-    }
-
-    private void InitWolfStatusEffects()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var se = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
-      se.name = OdinPlusStatusEffect.SE_Wolf;
-      se.m_icon = Util.LoadResouceIcon(OdinPlusStatusEffect.SE_Wolf);
-      se.m_name = "$op_ScrollWolf_name";
-      se.m_tooltip = "$op_ScrollWolf_tooltip";
-      se.m_cooldownIcon = true;
-      se.m_ttl = 1800;
-      se.PetName = OdinPlusPet.WolfPet;
-      StatusEffectsList.Add(OdinPlusItem.ScrollWolf, se);
-    }
-
-    private void InitBuzzStatusEffects()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      CreateBuzzStatusEffects("SpeedMeadsL");
+      Log.Debug("Register Status Effects");
     }
 
     private void CreateBuzzStatusEffects(string name)
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({name})");
         var se = ScriptableObject.CreateInstance<BuzzStatusEffect>();
         se.name = name;
         se.m_icon = ResourceAssetManager.Instance.GetIconSprite(name);
@@ -166,8 +147,8 @@ namespace OdinPlus.Managers
         se.m_tooltip = "$op_" + name + "_tooltip";
         se.m_ttl = 300;
         se.SpeedModifier = 1.5f;
-        StatusEffectsList.Add(name, se);
-        BuzzList.Add(name, se);
+        _statusEffectsList.Add(name, se);
+        _buzzList.Add(name, se);
       }
       catch (Exception e)
       {
@@ -176,20 +157,11 @@ namespace OdinPlus.Managers
       }
     }
 
-    private void InitValStatusEffects()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      foreach (var item in ValDataList)
-      {
-        CreateValStatusEffects(item.Key, item.Value);
-      }
-    }
-
     private void CreateValStatusEffects(string name, StatusEffectData data)
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({name})");
         var se = ScriptableObject.CreateInstance<SE_Stats>();
         se.name = name;
 
@@ -223,7 +195,7 @@ namespace OdinPlus.Managers
         se.m_stealthModifier = data.m_stealthModifier;
         se.m_addMaxCarryWeight = data.m_addMaxCarryWeight;
 
-        StatusEffectsList.Add(name, se);
+        _statusEffectsList.Add(name, se);
       }
       catch (Exception e)
       {
@@ -233,10 +205,71 @@ namespace OdinPlus.Managers
       }
     }
 
+    public KeyValuePair<string, StatusEffectData> GetMonsterStatusEffectsListByIndex(int i)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({i})");
+      if (i < 0 || i <= _monsterStatusEffectsList.Count)
+      {
+        var msg = $"IndexOutOfRange - The value {i} is invalid. The value must be between 0-{_monsterStatusEffectsList.Count - 1}.";
+        Log.Error(msg);
+        throw new IndexOutOfRangeException(msg);
+      }
+      
+      return _monsterStatusEffectsList.ElementAt(i);
+    }
+
+    public StatusEffect GetStatusEffects(string statusEffectsName)
+    {
+      return !_statusEffectsList.ContainsKey(statusEffectsName) ? null : _statusEffectsList[statusEffectsName];
+    }
+
+    private void InitBuzzStatusEffects()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      CreateBuzzStatusEffects("SpeedMeadsL");
+    }
+
     private void InitMonsterStatusEffects()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      foreach (var item in MonsterStatusEffectsList)
+      foreach (var item in _monsterStatusEffectsList)
+      {
+        CreateValStatusEffects(item.Key, item.Value);
+      }
+    }
+
+    private void InitTrollStatusEffects()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      var se = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
+      se.name = OdinPlusStatusEffect.SE_Troll;
+      se.m_icon = Util.LoadResourceIcon(OdinPlusStatusEffect.SE_Troll);
+      se.m_name = "$op_ScrollTroll_name";
+      se.m_tooltip = "$op_ScrollTroll_tooltip";
+      se.m_cooldownIcon = true;
+      se.m_ttl = 600;
+      se.PetName = OdinPlusPet.TrollPet;
+      _statusEffectsList.Add(OdinPlusItem.ScrollTroll, se);
+    }
+
+    private void InitWolfStatusEffects()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      var se = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
+      se.name = OdinPlusStatusEffect.SE_Wolf;
+      se.m_icon = Util.LoadResourceIcon(OdinPlusStatusEffect.SE_Wolf);
+      se.m_name = "$op_ScrollWolf_name";
+      se.m_tooltip = "$op_ScrollWolf_tooltip";
+      se.m_cooldownIcon = true;
+      se.m_ttl = 1800;
+      se.PetName = OdinPlusPet.WolfPet;
+      _statusEffectsList.Add(OdinPlusItem.ScrollWolf, se);
+    }
+
+    private void InitValStatusEffects()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      foreach (var item in _valDataList)
       {
         CreateValStatusEffects(item.Key, item.Value);
       }
@@ -245,36 +278,44 @@ namespace OdinPlus.Managers
     private void SetupMonsterStatusEffects()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      for (var i = 1; i < 6; i++)
+      for (var i = 1; i <= 5; i++)
       {
-        MonsterStatusEffectsList.Add("MonsterAttackAMP" + i, new StatusEffectData {m_ttl = 0, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1 + (i - 1) * 0.1f});
+        _monsterStatusEffectsList.Add($"MonsterAttackAMP{i}", new StatusEffectData {m_ttl = 0, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1 + (i - 1) * 0.1f});
       }
     }
 
     private void SetupValStatusEffects()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      ValDataList.Add("ExpMeadS", new StatusEffectData {m_ttl = 300, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 50});
-      ValDataList.Add("ExpMeadM", new StatusEffectData {m_ttl = 450, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 75});
-      ValDataList.Add("ExpMeadL", new StatusEffectData {m_ttl = 600, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 125});
-      ValDataList.Add("WeightMeadS", new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 100});
-      ValDataList.Add("WeightMeadM", new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 150});
-      ValDataList.Add("WeightMeadL", new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 300});
-      ValDataList.Add("InvisibleMeadS", new StatusEffectData {m_ttl = 60, m_noiseModifier = -1, m_stealthModifier = -1});
-      ValDataList.Add("InvisibleMeadM", new StatusEffectData {m_ttl = 90, m_noiseModifier = -1, m_stealthModifier = -1});
-      ValDataList.Add("InvisibleMeadL", new StatusEffectData {m_ttl = 120, m_noiseModifier = -1, m_stealthModifier = -1});
-      ValDataList.Add("PickaxeMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
-      ValDataList.Add("PickaxeMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
-      ValDataList.Add("PickaxeMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
-      ValDataList.Add("BowsMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
-      ValDataList.Add("BowsMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
-      ValDataList.Add("BowsMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
-      ValDataList.Add("SwordsMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
-      ValDataList.Add("SwordsMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
-      ValDataList.Add("SwordsMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
-      ValDataList.Add("AxeMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
-      ValDataList.Add("AxeMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
-      ValDataList.Add("AxeMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
+      _valDataList.Add("ExpMeadS", new StatusEffectData {m_ttl = 300, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 50});
+      _valDataList.Add("ExpMeadM", new StatusEffectData {m_ttl = 450, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 75});
+      _valDataList.Add("ExpMeadL", new StatusEffectData {m_ttl = 600, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 125});
+      _valDataList.Add("WeightMeadS", new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 100});
+      _valDataList.Add("WeightMeadM", new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 150});
+      _valDataList.Add("WeightMeadL", new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 300});
+      _valDataList.Add("InvisibleMeadS", new StatusEffectData {m_ttl = 60, m_noiseModifier = -1, m_stealthModifier = -1});
+      _valDataList.Add("InvisibleMeadM", new StatusEffectData {m_ttl = 90, m_noiseModifier = -1, m_stealthModifier = -1});
+      _valDataList.Add("InvisibleMeadL", new StatusEffectData {m_ttl = 120, m_noiseModifier = -1, m_stealthModifier = -1});
+      _valDataList.Add("PickaxeMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
+      _valDataList.Add("PickaxeMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
+      _valDataList.Add("PickaxeMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
+      _valDataList.Add("BowsMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
+      _valDataList.Add("BowsMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
+      _valDataList.Add("BowsMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
+      _valDataList.Add("SwordsMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
+      _valDataList.Add("SwordsMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
+      _valDataList.Add("SwordsMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
+      _valDataList.Add("AxeMeadS", new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
+      _valDataList.Add("AxeMeadM", new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
+      _valDataList.Add("AxeMeadL", new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
+    }
+
+    public void UnRegister()
+    {
+      foreach (var item in _statusEffectsList.Values)
+      {
+        ObjectDB.instance.m_StatusEffects.Remove(item);
+      }
     }
   }
 }

@@ -13,22 +13,39 @@ namespace OdinPlus.Managers
 
     public GameObject Root { get; private set; }
 
-    protected override void OnInitialize()
+    protected override bool OnInitialize()
     {
-      base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      
-      Root = new GameObject("OdinPrefab");
-      Root.transform.SetParent(OdinPlus.PrefabParent.transform);
+      try
+      {
+        if (!base.OnInitialize()) return false;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Root = new GameObject("OdinPrefab");
+        Root.transform.SetParent(OdinPlus.PrefabParent.transform);
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
-    protected override void OnPostInitialize()
+    protected override bool OnPostInitialize()
     {
-      base.OnPostInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      CreateLegacyChest();
-      CreateHuntTargetMonster();
-      OdinPlus.OdinPostRegister(_prefabList);
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (!base.OnPostInitialize()) return false;
+        CreateLegacyChest();
+        CreateHuntTargetMonster();
+        OdinPlus.OdinPostRegister(_prefabList);
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
     public override bool HasDependencyError()
@@ -69,7 +86,7 @@ namespace OdinPlus.Managers
         {
           if (_prefabList.ContainsKey($"{item}Hunt")) continue;
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _prefabList.ContainsKey({item}Hunt): {_prefabList.Count}{_prefabList.ContainsKey($"{item}Hunt")}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _prefabList.ContainsKey({item}Hunt): {_prefabList.ContainsKey($"{item}Hunt")}";
         }
 
         var odinLegacyPrefab = ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy);

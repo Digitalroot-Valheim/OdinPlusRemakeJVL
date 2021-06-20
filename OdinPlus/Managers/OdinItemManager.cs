@@ -21,39 +21,62 @@ namespace OdinPlus.Managers
 
     private GameObject _root;
 
-    protected override void OnInitialize()
+    protected override bool OnInitialize()
     {
-      base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _root = new GameObject("ObjectList");
-      _root.transform.SetParent(OdinPlus.PrefabParent.transform);
-      _root.SetActive(false);
+      try
+      {
+        if (!base.OnInitialize()) return false;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        _root = new GameObject("ObjectList");
+        _root.transform.SetParent(OdinPlus.PrefabParent.transform);
+        _root.SetActive(false);
 
-      var objectDB = ObjectDB.instance;
-      _meadTasty = objectDB.GetItemPrefab(OdinPlusItem.MeadTasty);
-      _trophyGoblinShaman = objectDB.GetItemPrefab(OdinPlusItem.TrophyGoblinShaman);
+        var objectDB = ObjectDB.instance;
+        _meadTasty = objectDB.GetItemPrefab(OdinPlusItem.MeadTasty);
+        _trophyGoblinShaman = objectDB.GetItemPrefab(OdinPlusItem.TrophyGoblinShaman);
 
-      InitLegacy();
-      InitPetItem();
+        InitLegacy();
+
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
-    protected override void OnPostInitialize()
+    protected override bool OnPostInitialize()
     {
-      base.OnPostInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      OdinPlus.OdinPreRegister(_objectList, nameof(_objectList));
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (!base.OnPostInitialize()) return false;
+        InitPetItem();
+        OdinPlus.OdinPreRegister(_objectList, nameof(_objectList));
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
     public override bool HasDependencyError()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var dependencyError = !FxAssetManager.Instance.IsInitialized
-                            || FxAssetManager.Instance.HasDependencyError();
+                            || !StatusEffectsManager.Instance.IsInitialized
+                            || FxAssetManager.Instance.HasDependencyError()
+                            || StatusEffectsManager.Instance.HasDependencyError();
 
       if (dependencyError)
       {
         Log.Fatal($"FxAssetManager.Instance.IsInitialized: {FxAssetManager.Instance.IsInitialized}");
         Log.Fatal($"FxAssetManager.Instance.HasDependencyError: {FxAssetManager.Instance.HasDependencyError()}");
+        Log.Fatal($"StatusEffectsManager.Instance.IsInitialized: {StatusEffectsManager.Instance.IsInitialized}");
+        Log.Fatal($"StatusEffectsManager.Instance.HasDependencyError: {StatusEffectsManager.Instance.HasDependencyError()}");
       }
 
       return dependencyError;
@@ -110,22 +133,30 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        GameObject go = UnityEngine.Object.Instantiate(_meadTasty, _root.transform);
-        go.name = iName;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({iName}, {icon.name})");
 
-        var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
+        var statusEffects = StatusEffectsManager.Instance.GetStatusEffects(iName);
+        if (statusEffects == null)
+        {
+          Log.Error($"[{GetType().Name}] Unable to GetStatusEffects({iName})");
+          Log.Error($"[{GetType().Name}] {iName} not created");
+          return;
+        }
+
+        GameObject gameObject = UnityEngine.Object.Instantiate(_meadTasty, _root.transform);
+        gameObject.name = iName;
+        var id = gameObject.GetComponent<ItemDrop>().m_itemData.m_shared;
         id.m_name = $"$op_{iName}_name";
         id.m_icons[0] = icon;
         id.m_description = $"$op_{iName}_desc";
 
         id.m_maxStackSize = 1;
-        id.m_consumeStatusEffect = StatusEffectsManager.Instance.StatusEffectsList[iName];
+        id.m_consumeStatusEffect = statusEffects;
 
-        go.GetComponent<ItemDrop>().m_itemData.m_quality = 4;
+        gameObject.GetComponent<ItemDrop>().m_itemData.m_quality = 4;
         id.m_maxQuality = 5;
 
-        _objectList.Add(iName, go);
+        _objectList.Add(iName, gameObject);
       }
       catch (Exception e)
       {
@@ -148,18 +179,18 @@ namespace OdinPlus.Managers
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       string name = OdinPlusItem.OdinLegacy;
-      GameObject go = UnityEngine.Object.Instantiate(_trophyGoblinShaman, _root.transform);
-      go.name = OdinPlusItem.OdinLegacy;
-      var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
+      GameObject gameObject = UnityEngine.Object.Instantiate(_trophyGoblinShaman, _root.transform);
+      gameObject.name = OdinPlusItem.OdinLegacy;
+      var id = gameObject.GetComponent<ItemDrop>().m_itemData.m_shared;
       id.m_name = $"$op_{name}_name";
       id.m_icons[0] = OdinPlus.OdinLegacyIcon;
       id.m_description = $"$op_{name}_desc";
       id.m_itemType = ItemDrop.ItemData.ItemType.None;
 
-      id.m_maxStackSize = 10;
+      id.m_maxStackSize = 100;
       id.m_maxQuality = 5;
 
-      _objectList.Add(name, go);
+      _objectList.Add(name, gameObject);
     }
 
     public ItemDrop.ItemData GetItemData(string name)

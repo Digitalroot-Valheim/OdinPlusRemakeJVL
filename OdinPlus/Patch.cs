@@ -258,6 +258,12 @@ namespace OdinPlus
             return;
           }
 
+          if (!Util.IsObjectDBReady())
+          {
+            Log.Debug("ObjectDB not ready - skipping");
+            return;
+          }
+
           if (OdinPlus.IsInitialized) return;
           OdinPlus.Initialize();
         }
@@ -285,7 +291,6 @@ namespace OdinPlus
         try
         {
           Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
-
           Log.Trace(language);
           BuzzLocal.Initialize(language, __instance);
           BuzzLocal.UpdateDictionary();
@@ -332,24 +337,6 @@ namespace OdinPlus
     [HarmonyPatch(typeof(ObjectDB))]
     public static class PatchObjectDB
     {
-      [HarmonyPrefix]
-      [HarmonyPatch("Awake")]
-      [HarmonyPriority(Priority.Normal)]
-      [UsedImplicitly]
-      // ReSharper disable once InconsistentNaming
-      public static void PrefixAwake(ObjectDB __instance)
-      {
-        try
-        {
-          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
-          OdinPlus.PreObjectDBHook(__instance);
-        }
-        catch (Exception e)
-        {
-          Log.Fatal(e);
-        }
-      }
-
       [HarmonyPostfix]
       [HarmonyPatch("Awake")]
       [HarmonyPriority(Priority.Normal)]
@@ -360,7 +347,17 @@ namespace OdinPlus
         {
           Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
-          OdinPlus.PostObjectDBHook();
+          if (!Util.IsObjectDBReady())
+          {
+            Log.Debug("ObjectDB not ready - skipping");
+            return;
+          }
+
+          if (!OdinPlus.IsInitialized)
+          {
+            OdinPlus.Initialize();
+          }
+          OdinPlus.ValRegister(ObjectDB.instance);
         }
         catch (Exception e)
         {
@@ -448,7 +445,11 @@ namespace OdinPlus
         {
           Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 
-          if (ZNet.instance == null || CheckPlayerNull() || OdinPlus.Instance.IsLoaded) return;
+          if (ZNet.instance == null || CheckPlayerNull() || OdinPlus.Instance.IsLoaded)
+          {
+            Log.Trace("ZNetScene.instance is null");
+            return;
+          }
           OdinData.LoadOdinData($"{Player.m_localPlayer.GetPlayerName()}_{ZNet.instance.GetWorldName()}");
         }
         catch (Exception e)
@@ -632,8 +633,15 @@ namespace OdinPlus
             Log.Debug("ZNetScene.instance is null");
             return;
           }
-          // if (!OdinPlus.IsInitialized) OdinPlus.Initialize();
-          // OdinPlus.PreZNetSceneHook(__instance);
+
+          if (!Util.IsObjectDBReady())
+          {
+            Log.Debug("ObjectDB not ready - skipping");
+            return;
+          }
+
+          if (!OdinPlus.IsInitialized) OdinPlus.Initialize();
+          OdinPlus.PreZNetSceneHook(__instance);
         }
         catch (Exception e)
         {
@@ -655,6 +663,12 @@ namespace OdinPlus
           if (__instance == null || __instance.m_prefabs == null || __instance.m_prefabs.Count <= 0)
           {
             Log.Debug("ZNetScene.instance is null");
+            return;
+          }
+
+          if (!Util.IsObjectDBReady())
+          {
+            Log.Debug("ObjectDB not ready - skipping");
             return;
           }
 

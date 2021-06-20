@@ -36,16 +36,26 @@ namespace OdinPlus.Managers
       "AxeMeadL"
     };
 
-    protected override void OnInitialize()
+    protected override bool OnInitialize()
     {
-      base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      LoadMeadsIcons();
+      try
+      {
+        if (!base.OnInitialize()) return false;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        LoadMeadsIcons();
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
     public override bool HasDependencyError()
     {
-      return false;
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      return false; // Has no Dependencies
     }
 
     protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
@@ -76,8 +86,8 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        Sprite sprite = Util.LoadResouceIcon(name);
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({name})");
+        Sprite sprite = Util.LoadResourceIcon(name);
         _odinMeadsIcons.Add(name, sprite);
       }
       catch (Exception e)

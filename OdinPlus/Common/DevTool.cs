@@ -317,8 +317,10 @@ namespace OdinPlus.Common
 		}
 		public static void Monster()
 		{
-			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab("Fenring"), Player.m_localPlayer.transform.position + Vector3.up + Vector3.forward * 2, Quaternion.identity);
-			Traverse.Create(a.GetComponent<Humanoid>()).Field<SEMan>("m_seman").Value.AddStatusEffect(StatusEffectsManager.Instance.MonsterStatusEffectsList.ElementAt(4).Key);
+			GameObject gameObject = Instantiate(ZNetScene.instance.GetPrefab("Fenring"), Player.m_localPlayer.transform.position + Vector3.up + Vector3.forward * 2, Quaternion.identity);
+      gameObject.GetComponent<Humanoid>().m_seman.AddStatusEffect(StatusEffectsManager.Instance.GetMonsterStatusEffectsListByIndex(4).Key);
+      // gameObject.GetComponent<Humanoid>().m_seman.AddStatusEffect(StatusEffectsManager.Instance.MonsterStatusEffectsList.ElementAt(4).Key);
+			// Traverse.Create(a.GetComponent<Humanoid>()).Field<SEMan>("m_seman").Value.AddStatusEffect(StatusEffectsManager.Instance.MonsterStatusEffectsList.ElementAt(4).Key);
 		}
 		#endregion Task
 

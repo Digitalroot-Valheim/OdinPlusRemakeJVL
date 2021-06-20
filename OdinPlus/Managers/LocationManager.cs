@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using HarmonyLib;
 using OdinPlus.Common;
 using OdinPlus.Data;
@@ -247,6 +248,7 @@ namespace OdinPlus.Managers
 
     public static void RequestServerFop()
     {
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       ZRoutedRpc.instance.InvokeRoutedRPC("RPC_SendServerFOP", new object[] { });
     }
 

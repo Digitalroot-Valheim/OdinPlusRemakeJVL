@@ -12,37 +12,58 @@ namespace OdinPlus.Managers
     private static Dictionary<string, GameObject> _meadList = new Dictionary<string, GameObject>();
     private static GameObject _root;
 
-    protected override void OnInitialize()
+    protected override bool OnInitialize()
     {
-      base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _root = new GameObject(OdinPlusItem.MeadTasty);
-      _root.transform.SetParent(OdinPlus.PrefabParent.transform);
-      _root.SetActive(false);
+      try
+      {
+        if (!base.OnInitialize()) return false;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 
-      var objectDB = ObjectDB.instance;
-      _meadTasty = objectDB.GetItemPrefab(OdinPlusItem.MeadTasty);
+        if (!Util.IsObjectDBReady())
+        {
+          Log.Debug("ObjectDB not ready - skipping");
+          return false;
+        }
 
-      InitValMead();
-      InitBuzzMead();
+        _root = new GameObject(OdinPlusItem.MeadTasty);
+        _root.transform.SetParent(OdinPlus.PrefabParent.transform);
+        _root.SetActive(false);
+        _meadTasty = ObjectDB.instance.GetItemPrefab(OdinPlusItem.MeadTasty);
 
-      OdinPlus.OdinPreRegister(_meadList, nameof(_meadList));
+        InitValMead();
+        InitBuzzMead();
+
+        OdinPlus.OdinPreRegister(_meadList, nameof(_meadList));
+        return true;
+
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
-    protected override void OnPostInitialize()
+    protected override bool OnPostInitialize()
     {
-      base.OnPostInitialize();
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      return base.OnPostInitialize();
     }
 
     public override bool HasDependencyError()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var dependencyError = !ResourceAssetManager.Instance.IsInitialized;
+      var dependencyError = !ResourceAssetManager.Instance.IsInitialized 
+                            || ResourceAssetManager.Instance.HasDependencyError()
+                            || !StatusEffectsManager.Instance.IsInitialized
+                            || StatusEffectsManager.Instance.HasDependencyError();
 
       if (dependencyError)
       {
         Log.Fatal($"ResourceAssetManager.Instance.IsInitialized: {ResourceAssetManager.Instance.IsInitialized}");
+        Log.Fatal($"ResourceAssetManager.Instance.HasDependencyError: {ResourceAssetManager.Instance.HasDependencyError()}");
+        Log.Fatal($"StatusEffectsManager.Instance.IsInitialized: {StatusEffectsManager.Instance.IsInitialized}");
+        Log.Fatal($"StatusEffectsManager.Instance.HasDependencyError: {StatusEffectsManager.Instance.HasDependencyError()}");
       }
 
       return dependencyError;
@@ -87,14 +108,23 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({name})");
+
+        var statusEffects = StatusEffectsManager.Instance.GetStatusEffects(name);
+        if (statusEffects == null)
+        {
+          Log.Error($"[{GetType().Name}] Unable to GetStatusEffects({name})");
+          Log.Error($"[{GetType().Name}] {name} not created");
+          return;
+        }
+
         GameObject gameObject = UnityEngine.Object.Instantiate(_meadTasty, _root.transform);
         gameObject.name = name;
         var id = gameObject.GetComponent<ItemDrop>().m_itemData.m_shared;
         id.m_name = "$op_" + name + "_name";
         id.m_icons[0] = ResourceAssetManager.Instance.GetIconSprite(name);
         id.m_description = "$op_" + name + "_desc";
-        id.m_consumeStatusEffect = StatusEffectsManager.Instance.StatusEffectsList[name];
+        id.m_consumeStatusEffect = statusEffects;
         _meadList.Add(name, gameObject);
       }
       catch (Exception e)
@@ -107,7 +137,7 @@ namespace OdinPlus.Managers
     private void InitBuzzMead()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      foreach (var item in StatusEffectsManager.Instance.BuzzList.Keys)
+      foreach (var item in StatusEffectsManager.Instance.BuzzListKeys)
       {
         CreateValMeadPrefab(item);
       }
@@ -116,7 +146,7 @@ namespace OdinPlus.Managers
     private void InitValMead()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      foreach (var item in StatusEffectsManager.Instance.ValDataList.Keys)
+      foreach (var item in StatusEffectsManager.Instance.ValDataListKeys)
       {
         CreateValMeadPrefab(item);
       }

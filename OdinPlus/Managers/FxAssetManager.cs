@@ -11,20 +11,29 @@ namespace OdinPlus.Managers
     private Transform _root;
     private readonly Dictionary<string, GameObject> _fxNnList = new Dictionary<string, GameObject>();
 
-    protected override void OnInitialize()
+    protected override bool OnInitialize()
     {
-      base.OnInitialize();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _root = new GameObject("Assets").transform;
-      _root.SetParent(OdinPlus.PrefabParent.transform);
-      SetupFxNN();
+      try
+      {
+        if (!base.OnInitialize()) return false;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        _root = new GameObject("Assets").transform;
+        _root.SetParent(OdinPlus.PrefabParent.transform);
+        SetupFxNN();
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
     protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({healthCheckStatus.HealthStatus})");
         healthCheckStatus.Name = MethodBase.GetCurrentMethod().DeclaringType?.Name;
         if (_fxNnList.Count == 0)
         {
@@ -92,7 +101,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab}, {name})");
         var a = UnityEngine.Object.Instantiate(ZNetScene.instance.GetPrefab(prefab), _root);
         a.name = name;
         return a;
@@ -109,7 +118,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab}, {par}, {name})");
         var a = UnityEngine.Object.Instantiate(ZNetScene.instance.GetPrefab(prefab).FindObject(par), _root);
         a.name = name;
         return a;
@@ -127,7 +136,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab}, {name}, {color}, {whichList})");
         var go = InsVal(prefab, name);
         go.GetComponent<Renderer>().material.color = color;
         SelectList(go, name, whichList);
@@ -147,7 +156,7 @@ namespace OdinPlus.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab}, {par}, {name}, {color}, {action.Method.Name}, {whichList})");
         var gameObject = InsVal(prefab, par, name);
         gameObject.GetComponent<Renderer>().material.color = color;
         SelectList(gameObject, name, whichList);

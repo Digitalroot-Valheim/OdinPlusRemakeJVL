@@ -10,7 +10,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3680FBA-3FA3-4A59-B501-92F20E5210E6}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		LoadOrder.txt = LoadOrder.txt
 		Loclist.txt = Loclist.txt
+		..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\LogOutput.log = ..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\LogOutput.log
+		..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\OdinPlusRemake.Trace.log = ..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\OdinPlusRemake.Trace.log
 		README.md = README.md
 		todo.txt = todo.txt
 	EndProjectSection

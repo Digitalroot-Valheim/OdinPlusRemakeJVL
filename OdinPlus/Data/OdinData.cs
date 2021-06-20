@@ -6,6 +6,7 @@ using OdinPlus.Quests;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlus.Data
@@ -132,7 +133,7 @@ namespace OdinPlus.Data
 
     public static void SaveOdinData(string name)
     {
-      DBG.blogInfo("OdinData.SaveOdinData()");
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}()");
       if (DevTool.DisableSaving)
       {
         OdinPlus.Instance.IsLoaded = true;
@@ -186,12 +187,15 @@ namespace OdinPlus.Data
 
       #endregion Serialize
 
-      DBG.blogWarning("OdinDataSaved:" + name);
+      Log.Debug("OdinDataSaved:" + name);
     }
 
     public static void LoadOdinData(string name)
     {
-      DBG.blogWarning("Starting loading data");
+      // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}()");
+
+      Log.Debug("Starting loading data");
       if (DevTool.DisableSaving)
       {
         OdinPlus.Instance.IsLoaded = true;

@@ -38,11 +38,11 @@ namespace OdinPlus
 		public static Sprite CoinsIcon;
 		public static Sprite OdinLegacyIcon;
 
-    #region Mono
-		private void Awake()
+    private void Awake()
 		{
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 			Instance = this;
-			Root = this.gameObject;
+			Root = gameObject;
 
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
@@ -54,68 +54,74 @@ namespace OdinPlus
 			
 			// Root.AddComponent<StatusEffectsManager>();
 		}
-		#endregion Mono
 
-		#region Patch
+    #region Patch
 		public static void Initialize()
 		{
-      if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
+			// Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}()");
+			if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
       {
         Log.Debug("ZNetScene.instance is null");
         return;
       }
 			ResourceAssetManager.Instance.Initialize();
-			initAssets();
+      InitAssets();
 			Root.AddComponent<LocationManager>();
-			// Root.AddComponent<OdinMeadsManager>();
-			// Root.AddComponent<OdinItemManager>();
 			Root.AddComponent<PetManager>();
-			// Root.AddComponent<PrefabManager>();
-			// Root.AddComponent<FxAssetManager>();
-      OdinMeadsManager.Instance.Initialize();
-			StatusEffectsManager.Instance.Initialize();
+      StatusEffectsManager.Instance.Initialize();
 			FxAssetManager.Instance.Initialize();
+			OdinMeadsManager.Instance.Initialize();
       OdinItemManager.Instance.Initialize();
 			PrefabManager.Instance.Initialize();
 
+      ResourceAssetManager.Instance.PostInitialize();
+      StatusEffectsManager.Instance.PostInitialize();
+			FxAssetManager.Instance.PostInitialize();
+      OdinMeadsManager.Instance.PostInitialize();
+      OdinItemManager.Instance.PostInitialize();
+      PrefabManager.Instance.PostInitialize();
 			IsInitialized = true;
 		}
 
-    public static void PreObjectDBHook(ObjectDB odb)
-		{
-			StatusEffectsManager.Instance.Register(odb);
-		}
+  //  public static void PreObjectDBHook(ObjectDB objectDB)
+		//{
+  //    Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}(ObjectDB.name={objectDB.name})");
+		//	StatusEffectsManager.Instance.Register(objectDB);
+		//}
 
 		public static void PostObjectDBHook()
 		{
-			ValRegister(ObjectDB.instance);
-		}
-		public static void PreZNetSceneHook(ZNetScene zns)
-		{
-      if (zns == null || zns.m_prefabs == null || zns.m_prefabs.Count <= 0)
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      if (!Util.IsObjectDBReady())
       {
+        Log.Debug("ObjectDB is not ready - Skipping");
         return;
       }
-			ValRegister(zns);
+			ValRegister(ObjectDB.instance);
+		}
+		public static void PreZNetSceneHook(ZNetScene zNetScene)
+		{
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}(ZNetScene.name={zNetScene.name})");
+      if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
+      {
+        Log.Debug("ZNetScene.instance is null");
+        return;
+      }
+			ValRegister(zNetScene);
       // PrefabManager.Instance.PostInitialize();
 		}
 		public static void PostZNetSceneHook()
 		{
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 			if (!ZnsInitialized)
 			{
-				ResourceAssetManager.Instance.PostInitialize();
-        OdinMeadsManager.Instance.PostInitialize();
-				StatusEffectsManager.Instance.PostInitialize();
-        FxAssetManager.Instance.PostInitialize();
-        OdinItemManager.Instance.PostInitialize();
 				if (!PetManager.isInit)
 				{
 					PetManager.Init();
 				}
-        
-				PrefabManager.Instance.PostInitialize();
-
 				HumanManager.Init();
+
 				ZnsInitialized = true;
 			}
 
@@ -123,7 +129,7 @@ namespace OdinPlus
 		}
 		public static void PostZone()
 		{
-
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 			LocationManager.Init();
 			InitNPC();
 			if (ZNet.instance != null && ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
@@ -133,11 +139,13 @@ namespace OdinPlus
 		}
 		public static void InitNPC()
 		{
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 			Root.AddComponent<NpcManager>();
 			IsNPCInitialized = true;
 		}
 		public static void Clear()
 		{
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 			PetManager.Clear();
 			QuestManager.Instance.Clear();
 			LocationManager.Clear();
@@ -152,8 +160,9 @@ namespace OdinPlus
 		#endregion Tool
 
 		#region Assets
-		public static void initAssets()
+		public static void InitAssets()
 		{
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 			OdinCreditIcon = ObjectDB.instance.GetItemPrefab(OdinPlusItem.HelmetOdin).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			OdinSEIcon.Add(OdinCreditIcon);
 			TrollHeadIcon = ObjectDB.instance.GetItemPrefab(OdinPlusItem.TrophyFrostTroll).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
@@ -165,42 +174,51 @@ namespace OdinPlus
 		}
 		public static void AddIcon(string name, int list)
 		{
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}({name}, {list})");
 			Sprite a = Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources." + name + ".png")), 100f);
 			OdinMeadsIcons.Add(name, a);
 		}
 		public static void AddValIcon(string name, int list)
 		{
+      Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}({name}, {list})");
 			Sprite a = ObjectDB.instance.GetItemPrefab(name).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			OdinMeadsIcons.Add(name, a);
 		}
 		#endregion Assets
 
 		#region Feature
-		public static void ValRegister(ObjectDB odb)
+		public static void ValRegister(ObjectDB objectDB)
 		{
+      // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}(ObjectDB.name={objectDB.name})");
 
-			var m_itemByHash = Traverse.Create(odb).Field<Dictionary<int, GameObject>>("m_itemByHash").Value;
+			// ToDo: Refactor how this loads into ObjectDB so the hash does not need to be injected. objectDB.UpdateItemHashes();
+			var m_itemByHash = Traverse.Create(objectDB).Field<Dictionary<int, GameObject>>("m_itemByHash").Value;
 			foreach (var item in odbRegList)
 			{
 				m_itemByHash.Add(item.Key, item.Value);
-				odb.m_items.Add(item.Value);
+				objectDB.m_items.Add(item.Value);
 			}
-			Log.Debug("Register to ODB");
+			
+			Log.Debug("Register to ObjectDB");
 		}
-		public static void ValRegister(ZNetScene zns)
+		public static void ValRegister(ZNetScene zNetScene)
 		{
-      if (zns == null || zns.m_prefabs == null || zns.m_prefabs.Count <= 0)
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}(ZNetScene.name={zNetScene.name})");
+			if (ZNetScene.instance == null || ZNetScene.instance.m_prefabs == null || ZNetScene.instance.m_prefabs.Count <= 0)
       {
+        Log.Debug("ZNetScene.instance is null");
         return;
       }
 			foreach (var item in odbRegList.Values)
 			{
-				zns.m_prefabs.Add(item);
+				zNetScene.m_prefabs.Add(item);
 			}
-      Log.Debug("Register odb to zns");
+      Log.Debug("Register objectDB to zNetScene");
 		}
 		public static void ValRegister()
 		{
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}()");
 			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;
 			foreach (var item in znsRegList)
 			{
@@ -208,10 +226,11 @@ namespace OdinPlus
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
 			IsRegistered = true;
-      Log.Debug("Register zns");
+      Log.Debug("Register zNetScene");
 		}
 		public static void OdinPreRegister(Dictionary<string, GameObject> list, string name)
 		{
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}(Dictionary<string, GameObject>, {name})");
 			foreach (var item in list)
 			{
 				odbRegList.Add(item.Key.GetStableHashCode(), item.Value);
@@ -220,44 +239,43 @@ namespace OdinPlus
 		}
 		public static void OdinPostRegister(Dictionary<string, GameObject> list)
 		{
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}(Dictionary<string, GameObject>)");
 			foreach (var item in list)
 			{
 				znsRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
 		}
-		public static void PostRegister(GameObject go)
+		public static void PostRegister(GameObject gameObject)
 		{
-			znsRegList.Add(go.name.GetStableHashCode(), go);
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}(GameObject.name={gameObject.name})");
+			znsRegList.Add(gameObject.name.GetStableHashCode(), gameObject);
 		}
-		public static void PreRegister(GameObject go)
+		public static void PreRegister(GameObject gameObject)
 		{
-			odbRegList.Add(go.name.GetStableHashCode(), go);
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}(GameObject.name={gameObject.name})");
+			odbRegList.Add(gameObject.name.GetStableHashCode(), gameObject);
 		}
 		public static void UnRegister()
 		{
-			var odb = ObjectDB.instance;
-			var zns = ZNetScene.instance;
-			var m_itemByHash = Traverse.Create(odb).Field<Dictionary<int, GameObject>>("m_itemByHash").Value;
-			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;
-			odb.m_items.RemoveList<int, GameObject>(odbRegList);
-			m_itemByHash.RemoveList<int, GameObject>(odbRegList);
-			zns.m_prefabs.RemoveList<int, GameObject>(odbRegList);
-			m_namedPrefabs.RemoveList<int, GameObject>(odbRegList);
-			zns.m_prefabs.RemoveList<int, GameObject>(znsRegList);
-			m_namedPrefabs.RemoveList<int, GameObject>(znsRegList);
-			foreach (var item in StatusEffectsManager.Instance.StatusEffectsList.Values)
-			{
-				odb.m_StatusEffects.Remove(item);
-			}
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}()");
+			ObjectDB.instance.m_items.RemoveList(odbRegList);
+      ObjectDB.instance.m_itemByHash.RemoveList(odbRegList);
+      ZNetScene.instance.m_prefabs.RemoveList(odbRegList);
+      ZNetScene.instance.m_namedPrefabs.RemoveList(odbRegList);
+      ZNetScene.instance.m_prefabs.RemoveList(znsRegList);
+      ZNetScene.instance.m_namedPrefabs.RemoveList(znsRegList);
+			StatusEffectsManager.Instance.UnRegister();
+
 			IsRegistered = false;
 			Instance.IsLoaded = false;
-      Log.Warning("UnRegister all list");
+      Log.Debug("UnRegister all list");
 		}
 		#endregion Feature
 		#region Debug
 		public void Reset()
 		{
-			initAssets();
+      Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}()");
+			InitAssets();
 			// Root.AddComponent<StatusEffectsManager>();
 			// Root.AddComponent<OdinMeadsManager>();
 			// Root.AddComponent<OdinItemManager>();

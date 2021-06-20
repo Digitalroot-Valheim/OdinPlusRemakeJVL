@@ -1,0 +1,78 @@
+x = Loads w/o Error
+e = Error on load
+r = Disabled
+? = Look into more (Refactor?)
+
+[x] OdinPlus.Main.Awake()
+  [r] Loads ResourceAssetManager
+  [x] OdinPlus // ToDo: Change to OdinPlusManager
+  [x] DevTool
+[x] OdinPlus.OdinPlus.Awake()
+[x] OdinPlus.PatchLocalization.PostfixSetupLanguage() // Localization.SetupLanguage
+  [x] BuzzLocal // ToDo: Change to LocalizationManager
+[x] OdinPlus.PatchObjectDB.PrefixAwake()
+    [x] ObjectDB not ready - skipping
+[x] OdinPlus.PatchObjectDB.PostfixAwake()
+    [x] ObjectDB not ready - skipping
+[x] OdinPlus.PatchPlayerProfile.PostfixLoadPlayerData()
+    [x] ZNetScene.instance is null
+[x] OdinPlus.PatchFejdStartup.PostfixStart()
+    [x] ZNetScene.instance is null
+[x] OdinPlus.PatchZNet.PostfixAwake()
+  [?] Main.RegisterRpcAction();
+  [?] OdinPlus.Managers.QuestManager.RegisterRpc() // ToDo: Convert to Manager
+  [?] OdinPlus.LocationManager.RequestServerFop() // ToDo: Convert to Manager
+[x] OdinPlus.PatchZNetScene.PrefixAwake()
+  [x] ObjectDB not ready - skipping
+[x] OdinPlus.PatchZNetScene.PostfixAwake()
+  [x] ObjectDB not ready - skipping
+[x] OdinPlus.PatchObjectDB.PostfixAwake()
+  [x] OdinPlus.OdinPlus.Initialize()
+    [x] OdinPlus.Managers.ResourceAssetManager.Initialize()
+    [x] OdinPlus.Managers.ResourceAssetManager.OnInitialize()
+      [x] OdinPlus.Managers.ResourceAssetManager.LoadMeadsIcons()
+      [x] OdinPlus.Managers.ResourceAssetManager.AddIcon(n+)
+    [x] OdinPlus.OdinPlus.InitAssets()
+      [x] OdinPlus.OdinPlus.AddValIcon(MeadTasty, 0)
+    [x] OdinPlus.Managers.StatusEffectsManager.Initialize()
+    [x] OdinPlus.Managers.StatusEffectsManager.OnInitialize()
+      [x] OdinPlus.Managers.StatusEffectsManager.SetupValStatusEffects()
+      [x] OdinPlus.Managers.StatusEffectsManager.SetupMonsterStatusEffects()
+    [x] OdinPlus.Managers.FxAssetManager.Initialize()
+    [x] OdinPlus.Managers.FxAssetManager.OnInitialize()
+      [x] OdinPlus.Managers.FxAssetManager.SetupFxNN()
+      [x] OdinPlus.Managers.FxAssetManager.ValFXcc()
+      [x] OdinPlus.Managers.FxAssetManager.InsVal()
+      [x] OdinPlus.Managers.FxAssetManager.SelectList()
+      [x] OdinPlus.Managers.FxAssetManager.OdinSmoke()
+    [x] OdinPlus.Managers.OdinMeadsManager.Initialize()
+    [x] OdinPlus.Managers.OdinMeadsManager.OnInitialize()
+      [x] OdinPlus.Managers.OdinMeadsManager.InitValMead()
+      [e] OdinPlus.Managers.OdinMeadsManager.CreateValMeadPrefab(ExpMeadS)
+        [e] [OdinMeadsManager] Unable to GetStatusEffects(ExpMeadS)
+        [e] [OdinMeadsManager] ExpMeadS not created
+      [x] OdinPlus.Managers.OdinMeadsManager.InitBuzzMead()
+      [x] OdinPlus.OdinPlus.OdinPreRegister(Dictionary<string, GameObject>, _meadList)
+    [x] OdinPlus.Managers.OdinItemManager.Initialize()
+    [x] OdinPlus.Managers.OdinItemManager.OnInitialize()
+      [x] OdinPlus.Managers.OdinItemManager.InitLegacy()
+    [x] OdinPlus.Managers.PrefabManager.Initialize()
+    [x] OdinPlus.Managers.PrefabManager.OnInitialize()
+
+    [x] OdinPlus.Managers.ResourceAssetManager.PostInitialize()
+    [x] OdinPlus.Managers.StatusEffectsManager.PostInitialize()
+    [x] OdinPlus.Managers.StatusEffectsManager.OnPostInitialize()
+
+
+  [x] OdinPlus.OdinPlus.PreZNetSceneHook(ZNetScene.name=_GameMain)
+    [x] OdinPlus.OdinPlus.ValRegister(ZNetScene.name=_GameMain)    
+    
+    [x] OdinPlus.Managers.OdinItemManager.InitPetItem()
+    [e] OdinPlus.Managers.OdinItemManager.CreatePetItemPrefab()
+      Message: The given key was not present in the dictionary.
+      Source: mscorlib
+      key: iName, value: ScrollTroll
+      key: icon, value: TrophyFrostTroll (UnityEngine.Sprite)
+
+
+[x] OdinPlus.Managers.HealthManager.HealthCheck() // Loaded becase of healthcheck command

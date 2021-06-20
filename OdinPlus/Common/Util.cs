@@ -9,7 +9,15 @@ using UnityEngine;
 namespace OdinPlus.Common
 {
 	public static class Util
-	{
+  {
+		// Source: EpicLoot
+    public static bool IsObjectDBReady()
+    {
+      Log.Trace($"OdinPlus.Common.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      // Hack, just making sure the built-in items and prefabs have loaded
+      return ObjectDB.instance != null && ObjectDB.instance.m_items.Count != 0 && ObjectDB.instance.GetItemPrefab("Amber") != null;
+    }
+
 
 		#region LoadResource
 		public static Dictionary<string, Texture2D> cachedTextures = new Dictionary<string, Texture2D>();
@@ -75,7 +83,7 @@ namespace OdinPlus.Common
 			}
 			return result;
 		}
-		public static Sprite LoadResouceIcon(string name)
+		public static Sprite LoadResourceIcon(string name)
 		{
 			return Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources." + name + ".png")), 100f);
 		}

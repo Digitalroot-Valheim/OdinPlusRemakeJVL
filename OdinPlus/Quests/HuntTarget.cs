@@ -1,95 +1,94 @@
+using HarmonyLib;
+using OdinPlus.Common;
+using OdinPlus.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using HarmonyLib;
-using OdinPlus.Common;
-using OdinPlus.Items;
-using OdinPlus.Managers;
 using UnityEngine;
 
 //opt:Create base class for task target//notice Use Invoke
 namespace OdinPlus.Quests
 {
-	public class HuntTarget : MonoBehaviour
+  public class HuntTarget : MonoBehaviour
 	{
 		#region var
-		private ZNetView m_nview;
-		public string ID = "";
+		private ZNetView _zNetView;
+		public string Id = "";
 		public int Level=1;
 		public int Key=1;
-		public string m_ownerName = "";
+		public string OwnerName = "";
 		public bool Placing = false;
-		private Character m_chrct;
-		private Humanoid m_hum;
-		private CharacterDrop m_cDrop;
-		private MonsterAI m_mai;
+		private Character _character;
+		private Humanoid _humanoid;
+		private CharacterDrop _characterDrop;
+		private MonsterAI _monsterAi;
 
 		#endregion var
 
 		#region Mono +Death
 		private void Awake()
 		{
-			m_nview = gameObject.GetComponent<ZNetView>();
-			m_chrct = gameObject.GetComponent<Character>();
-			m_mai = gameObject.GetComponent<MonsterAI>();
-			m_cDrop = GetComponent<CharacterDrop>();
-			m_chrct.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDeath), m_chrct.m_onDeath);
-			m_hum = gameObject.GetComponent<Humanoid>();
+			_zNetView = gameObject.GetComponent<ZNetView>();
+			_character = gameObject.GetComponent<Character>();
+			_monsterAi = gameObject.GetComponent<MonsterAI>();
+			_characterDrop = GetComponent<CharacterDrop>();
+			_character.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDeath), _character.m_onDeath);
+			_humanoid = gameObject.GetComponent<Humanoid>();
 
 		}
 		private void Start()
 		{
-			var zdo = m_nview.GetZDO();
-			if (ID != "")
+			var zdo = _zNetView.GetZDO();
+			if (Id != "")
 			{
 
-				zdo.Set("TaskID", ID);
+				zdo.Set("TaskID", Id);
 				zdo.Set("HuntLevel", Level);
 				zdo.Set("HuntKey", Key);
-				zdo.Set("OwnerName", m_ownerName);
+				zdo.Set("OwnerName", OwnerName);
 				Tweakers.ValSpawn("vfx_GodExplosion", transform.position);
 			}
 			else
 			{
-				ID = zdo.GetString("TaskID");
+				Id = zdo.GetString("TaskID");
 				Level = zdo.GetInt("HuntLevel");
 				Key = zdo.GetInt("HuntKey");
-				m_ownerName = zdo.GetString("OwnerName", "");
+				OwnerName = zdo.GetString("OwnerName", "");
 			}
-			m_mai.SetPatrolPoint();
-			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(StatusEffectsManager.Instance.MonsterStatusEffectsList.ElementAt(Level).Key);
+			_monsterAi.SetPatrolPoint();
+      _humanoid.m_seman.AddStatusEffect(StatusEffectsManager.Instance.GetMonsterStatusEffectsListByIndex(Level).Key);
 		}
 		private void Update()
 		{
-			if (ID=="")
+			if (Id=="")
 			{
 				return;
 			}
-			var m_task = QuestManager.Instance.GetQuest(ID);
+			var m_task = QuestManager.Instance.GetQuest(Id);
 			if (m_task == null)
 			{
-				DBG.blogInfo("Cant find task,Destroy Hunt Target" + ID);
-				Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value = false;
-				m_nview.Destroy();
+				DBG.blogInfo("Cant find task,Destroy Hunt Target" + Id);
+				Traverse.Create(_characterDrop).Field<bool>("m_dropsEnabled").Value = false;
+				_zNetView.Destroy();
 				return;
 			}
 		}
 		public void OnDeath()
 		{
-			if (Player.GetClosestPlayer(transform.position, 100).GetHoverName() == m_ownerName)
+			if (Player.GetClosestPlayer(transform.position, 100).GetHoverName() == OwnerName)
 			{
-				QuestManager.Instance.GetQuest(ID).Finish();
+				QuestManager.Instance.GetQuest(Id).Finish();
 			}
 			else
 			{
-				if (m_ownerName == "")
+				if (OwnerName == "")
 				{
 
 				}
 				else
 				{
-					string n = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color>", m_ownerName);//trans
+					string n = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color>", OwnerName);//trans
 					DBG.InfoCT(n);
 				}
 			}
@@ -107,9 +106,9 @@ namespace OdinPlus.Quests
 		{
 			Level = lvl;
 			Key = key;
-			m_chrct.SetLevel(Mathf.Clamp(Level + 2, 2, 5));
-			m_chrct.m_health *= (0.5f * Level + 1);
-			m_hum.m_faction = Character.Faction.Boss;
+			_character.SetLevel(Mathf.Clamp(Level + 2, 2, 5));
+			_character.m_health *= (0.5f * Level + 1);
+			_humanoid.m_faction = Character.Faction.Boss;
 		}
 		public static GameObject CreateMonster(string name)
 		{
@@ -131,9 +130,9 @@ namespace OdinPlus.Quests
 			d.m_amountMin = d.m_amountMax;
 			d.m_levelMultiplier = false;
 			d.m_prefab = ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy);
-			m_cDrop.m_drops = new List<CharacterDrop.Drop>();
-			Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value = true;
-			m_cDrop.m_drops.Add(d);
+			_characterDrop.m_drops = new List<CharacterDrop.Drop>();
+			Traverse.Create(_characterDrop).Field<bool>("m_dropsEnabled").Value = true;
+			_characterDrop.m_drops.Add(d);
 		}
 		public static void Place(Vector3 pos, string monster, string id,string _owner, int p_key, int p_lvl)
 		{
@@ -141,8 +140,8 @@ namespace OdinPlus.Quests
 			ZoneSystem.instance.FindFloor(pos, out y);
 			pos = new Vector3(pos.x, y + 2, pos.z + 5);
 			var Reward = Instantiate(ZNetScene.instance.GetPrefab(monster + "Hunt"), pos, Quaternion.identity);
-			Reward.GetComponent<HuntTarget>().ID = id;
-			Reward.GetComponent<HuntTarget>().m_ownerName=_owner;
+			Reward.GetComponent<HuntTarget>().Id = id;
+			Reward.GetComponent<HuntTarget>().OwnerName=_owner;
 			Reward.GetComponent<HuntTarget>().Setup(p_key, p_lvl);
 			DBG.blogWarning("Placed Hunt " + monster + " at : " + Reward.transform.localPosition);
 		}

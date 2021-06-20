@@ -35,20 +35,39 @@ namespace OdinPlus.Managers
         HealthCheck();
         return;
       }
-      OnInitialize();
-      IsInitialized = true;
+      
+      IsInitialized = OnInitialize();
+      if (!IsInitialized)
+      {
+        HealthManager.Instance.OnHealthCheck -= HealthCheck;
+      }
     }
 
-    public void PostInitialize()
+    protected virtual bool OnInitialize()
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        HealthManager.Instance.OnHealthCheck += HealthCheck;
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
+    }
+
+    public bool PostInitialize()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
-      if (!IsInitialized)
-      {
-        Initialize();
-      }
+      return OnPostInitialize();
+    }
 
-      OnPostInitialize();
+    protected virtual bool OnPostInitialize()
+    {
+      return IsInitialized;
     }
 
     public HealthCheckStatus HealthCheck()
@@ -76,16 +95,6 @@ namespace OdinPlus.Managers
       }
 
       return OnHealthCheck(healthCheckStatus);
-    }
-
-    protected virtual void OnInitialize()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      HealthManager.Instance.OnHealthCheck += HealthCheck;
-    }
-
-    protected virtual void OnPostInitialize()
-    {
     }
 
     public abstract bool HasDependencyError();
