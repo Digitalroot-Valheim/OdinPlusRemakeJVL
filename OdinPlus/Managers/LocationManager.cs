@@ -26,6 +26,7 @@ namespace OdinPlus.Managers
 
     public static void Init()
     {
+      Log.Trace($"OdinPlus.Managers.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       if (ZNet.instance.IsServer())
       {
         if (Main.ConfigEntryOdinPosition.Value == Vector3.zero)

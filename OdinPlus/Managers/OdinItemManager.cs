@@ -31,9 +31,8 @@ namespace OdinPlus.Managers
         _root.transform.SetParent(OdinPlus.PrefabParent.transform);
         _root.SetActive(false);
 
-        var objectDB = ObjectDB.instance;
-        _meadTasty = objectDB.GetItemPrefab(OdinPlusItem.MeadTasty);
-        _trophyGoblinShaman = objectDB.GetItemPrefab(OdinPlusItem.TrophyGoblinShaman);
+        _meadTasty = ObjectDB.instance.GetItemPrefab(OdinPlusItem.MeadTasty);
+        _trophyGoblinShaman = ObjectDB.instance.GetItemPrefab(OdinPlusItem.TrophyGoblinShaman);
 
         InitLegacy();
 
@@ -91,19 +90,19 @@ namespace OdinPlus.Managers
         if (_meadTasty == null)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _meadTasty == null: {_meadTasty == null}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _meadTasty == null: true";
         }
 
         if (_trophyGoblinShaman == null)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _trophyGoblinShaman == null: {_trophyGoblinShaman == null}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _trophyGoblinShaman == null: true";
         }
 
         if (_root == null)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _root == null: {_root == null}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _root == null: true";
         }
 
         if (_petItemList.Count == 0)
@@ -116,6 +115,26 @@ namespace OdinPlus.Managers
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
           healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.Count: {_objectList.Count}";
+        }
+        else
+        {
+          if (!_objectList.ContainsKey(OdinPlusItem.OdinLegacy))
+          {
+            healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
+            healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(OdinPlusItem.OdinLegacy): false";
+          }
+
+          if (!_objectList.ContainsKey(OdinPlusItem.ScrollWolf))
+          {
+            healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
+            healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(OdinPlusItem.ScrollWolf): false";
+          }
+
+          if (!_objectList.ContainsKey(OdinPlusItem.ScrollTroll))
+          {
+            healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
+            healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(OdinPlusItem.ScrollTroll): false";
+          }
         }
 
         return healthCheckStatus;
@@ -171,6 +190,7 @@ namespace OdinPlus.Managers
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       foreach (var pet in _petItemList)
       {
+        if (_objectList.ContainsKey(pet.Key)) continue;
         CreatePetItemPrefab(pet.Key, pet.Value);
       }
     }
@@ -212,7 +232,7 @@ namespace OdinPlus.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        return _objectList[name];
+        return _objectList.ContainsKey(name) ? _objectList[name] : null;
       }
       catch (Exception e)
       {

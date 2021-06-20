@@ -131,6 +131,7 @@ namespace OdinPlus
 		{
       Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
 			LocationManager.Init();
+      OdinItemManager.Instance.PostInitialize();
 			InitNPC();
 			if (ZNet.instance != null && ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
 			{
@@ -212,6 +213,7 @@ namespace OdinPlus
       }
 			foreach (var item in odbRegList.Values)
 			{
+        if (zNetScene.m_prefabs.Contains(item)) continue;
 				zNetScene.m_prefabs.Add(item);
 			}
       Log.Debug("Register objectDB to zNetScene");
@@ -233,6 +235,7 @@ namespace OdinPlus
       Log.Trace($"OdinPlus.OdinPlus.{MethodBase.GetCurrentMethod().Name}(Dictionary<string, GameObject>, {name})");
 			foreach (var item in list)
 			{
+        if (odbRegList.ContainsKey(item.Key.GetStableHashCode())) continue;
 				odbRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
       Log.Debug("Register " + name + " for ODB");

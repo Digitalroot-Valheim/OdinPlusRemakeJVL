@@ -58,21 +58,63 @@ r = Disabled
       [x] OdinPlus.Managers.OdinItemManager.InitLegacy()
     [x] OdinPlus.Managers.PrefabManager.Initialize()
     [x] OdinPlus.Managers.PrefabManager.OnInitialize()
-
     [x] OdinPlus.Managers.ResourceAssetManager.PostInitialize()
+    [x] OdinPlus.Managers.ResourceAssetManager.OnPostInitialize()
     [x] OdinPlus.Managers.StatusEffectsManager.PostInitialize()
     [x] OdinPlus.Managers.StatusEffectsManager.OnPostInitialize()
-
-
-  [x] OdinPlus.OdinPlus.PreZNetSceneHook(ZNetScene.name=_GameMain)
-    [x] OdinPlus.OdinPlus.ValRegister(ZNetScene.name=_GameMain)    
-    
-    [x] OdinPlus.Managers.OdinItemManager.InitPetItem()
-    [e] OdinPlus.Managers.OdinItemManager.CreatePetItemPrefab()
-      Message: The given key was not present in the dictionary.
-      Source: mscorlib
-      key: iName, value: ScrollTroll
-      key: icon, value: TrophyFrostTroll (UnityEngine.Sprite)
-
-
-[x] OdinPlus.Managers.HealthManager.HealthCheck() // Loaded becase of healthcheck command
+      [x] OdinPlus.Managers.StatusEffectsManager.InitBuzzStatusEffects()
+      [x] OdinPlus.Managers.StatusEffectsManager.CreateBuzzStatusEffects(SpeedMeadsL)
+      [x] OdinPlus.Managers.ResourceAssetManager.GetIconSprite()
+      [x] OdinPlus.Managers.StatusEffectsManager.InitTrollStatusEffects()
+      [x] OdinPlus.Managers.StatusEffectsManager.InitWolfStatusEffects()
+      [x] OdinPlus.Managers.StatusEffectsManager.InitValStatusEffects()
+      [x] OdinPlus.Managers.StatusEffectsManager.CreateValStatusEffects(ExpMead[n])
+      [x] OdinPlus.Managers.ResourceAssetManager.GetIconSprite()
+      [x] OdinPlus.Managers.ResourceAssetManager.GetIconSprite()
+      [x] OdinPlus.Managers.StatusEffectsManager.InitMonsterStatusEffects()
+      [x] OdinPlus.Managers.StatusEffectsManager.CreateValStatusEffects(MonsterAttackAMP[1-5])
+      [x] OdinPlus.Managers.ResourceAssetManager.GetIconSprite()
+      [x] OdinPlus.Managers.StatusEffectsManager.Register()
+    [x] OdinPlus.Managers.FxAssetManager.PostInitialize()
+    [x] OdinPlus.Managers.FxAssetManager.OnPostInitialize()
+    [x] OdinPlus.Managers.OdinMeadsManager.PostInitialize()
+    [x] OdinPlus.Managers.OdinMeadsManager.OnPostInitialize()
+    [x] OdinPlus.Managers.OdinItemManager.PostInitialize()
+    [x] OdinPlus.Managers.OdinItemManager.OnPostInitialize()
+      [x] OdinPlus.Managers.OdinItemManager.InitPetItem()
+        [x] OdinPlus.Managers.OdinItemManager.CreatePetItemPrefab(ScrollTroll, TrophyFrostTroll)
+        [x] OdinPlus.Managers.OdinItemManager.CreatePetItemPrefab(ScrollWolf, TrophyWolf)
+      [x] OdinPlus.OdinPlus.OdinPreRegister(Dictionary<string, GameObject>, _objectList)
+    [x] OdinPlus.Managers.PrefabManager.PostInitialize()
+    [x] OdinPlus.Managers.PrefabManager.OnPostInitialize()
+      [x] OdinPlus.Managers.PrefabManager.CreateLegacyChest()
+        [x] OdinPlus.Managers.FxAssetManager.GetFxNN()
+        [x] Added LegacyChest1 to PrefabList:1-10
+      [x] OdinPlus.Managers.PrefabManager.CreateHuntTargetMonster()
+        [x] OdinPlus.Managers.FxAssetManager.GetFxNN()
+        [x] Added TrollHunt to PrefabList:11
+        [x] Added Draugr_EliteHunt to PrefabList:12
+        [x] Added FenringHunt to PrefabList:13
+        [x] Added GoblinBruteHunt to PrefabList:14
+      [x] OdinPlus.OdinPlus.OdinPostRegister(Dictionary<string, GameObject>)
+  [x] OdinPlus.OdinPlus.ValRegister(ObjectDB.name=_GameMain)
+[x] OdinPlus.PatchZoneSystem.PostfixStart()
+  [?] Main.PostZoneAction?.Invoke() // Is this really null? Should it be?
+  [x] OdinPlus.OdinPlus.PostZone()
+    [x] OdinPlus.Managers.LocationManager.Init()
+    [x] OdinPlus.OdinPlus.InitNPC()
+    [x] OdinPlus.OdinData.LoadOdinData(ZNet.instance.GetWorldName()) // Only loads on ZNet.instance.IsDedicated()
+[x] OdinPlus.PatchLocationProxy.PostfixAwake()
+[x] OdinPlus.PatchLocationProxy.PostfixAwake()
+[x] OdinPlus.PatchLocationProxy.PostfixAwake()
+[?] OdinPlus.PatchLocationProxy.PostfixAwake() // Why is this called 4 times?
+[x] OdinPlus.PatchPlayerProfile.PostfixLoadPlayerData()
+  [x] OdinPlus.OdinPlus.LoadOdinData()
+[x] OdinPlus.PatchConsole.PrefixStart()
+[x] OdinPlus.PatchConsole.PrefixStart()
+[?] OdinPlus.PatchConsole.PrefixStart() // Why is this called 3 times?
+  [x] OdinPlus.Managers.HealthManager.HealthCheck() // Loaded becase of healthcheck command
+[x] OdinPlus.PatchPlayerProfile.PrefixSavePlayerToDisk()
+[x] OdinPlus.PatchZNetScene.PostfixShutdown()
+  [x] OdinPlus.OdinPlus.UnRegister()
+  [x] OdinPlus.OdinPlus.Clear()

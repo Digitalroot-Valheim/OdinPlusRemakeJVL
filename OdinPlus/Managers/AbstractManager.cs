@@ -67,6 +67,7 @@ namespace OdinPlus.Managers
 
     protected virtual bool OnPostInitialize()
     {
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
       return IsInitialized;
     }
 

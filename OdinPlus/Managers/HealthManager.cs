@@ -28,6 +28,8 @@ namespace OdinPlus.Managers
 
       _healthCheckStatusList.Clear();
       Log.Info("Requesting Health Check");
+      Log.Info($"ZNetScene.instance.name = {ZNetScene.instance.name}");
+      Log.Info($"ObjectDB.instance.name = {ObjectDB.instance.name}");
       foreach (var @delegate in OnHealthCheck.GetInvocationList().ToList())
       {
         HealthCheckEventHandler subscriber = (HealthCheckEventHandler)@delegate;

@@ -89,18 +89,19 @@ namespace OdinPlus.Managers
           healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _prefabList.ContainsKey({item}Hunt): {_prefabList.ContainsKey($"{item}Hunt")}";
         }
 
-        var odinLegacyPrefab = ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy);
-        if (odinLegacyPrefab == null)
+        foreach (var kvp in _prefabList)
         {
-          healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: odinLegacyPrefab == null: true";
-        }
+          if (ObjectDB.instance.GetItemPrefab(kvp.Key) == null)
+          {
+            healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
+            healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: ObjectDB.instance.GetItemPrefab({kvp.Key}) == null: true";
+          }
 
-        var chestPrefab = ZNetScene.instance.GetPrefab(OdinPlusItem.Chest);
-        if (chestPrefab == null)
-        {
-          healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: chestPrefab == null: true";
+          if (ZNetScene.instance.GetPrefab(kvp.Key) == null)
+          {
+            healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
+            healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: ZNetScene.instance.GetPrefab({kvp.Key}) == null: true";
+          }
         }
 
         return healthCheckStatus;
@@ -171,17 +172,27 @@ namespace OdinPlus.Managers
         return;
       }
 
-      for (int i = 1; i <= 10; i++)
+      if (ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy) == null)
+      {
+        OdinItemManager.Instance.PostInitialize();
+        OdinPlus.ValRegister(ZNetScene.instance);
+      }
+
+      for (var i = 1; i <= 10; i++)
       {
         var odinLegacyPrefab = ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy);
-        Log.Debug($"odinLegacyPrefab == null:{odinLegacyPrefab == null}");
+        if (odinLegacyPrefab == null)
+        {
+          Log.Error($"odinLegacyPrefab == null: true");
+        }
 
         var chestPrefab = ZNetScene.instance.GetPrefab(OdinPlusItem.Chest);
-        Log.Debug($"chestPrefab == null:{chestPrefab == null}");
+        // Log.Debug($"chestPrefab == null:{chestPrefab == null}");
 
         GameObject chest = UnityEngine.Object.Instantiate(chestPrefab, Root.transform);
-        Log.Debug($"chest == null:{chest == null}");
-        
+        // Log.Debug($"chest == null:{chest == null}");
+
+        if (chest is null) continue;
 
         chest.name = $"{OdinPlusItem.LegacyChest}{i}";
 

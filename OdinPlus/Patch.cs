@@ -357,7 +357,9 @@ namespace OdinPlus
           {
             OdinPlus.Initialize();
           }
+          OdinItemManager.Instance.PostInitialize();
           OdinPlus.ValRegister(ObjectDB.instance);
+          OdinPlus.ValRegister(ZNetScene.instance);
         }
         catch (Exception e)
         {
@@ -721,11 +723,6 @@ namespace OdinPlus
         {
           Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
           Main.PostZoneAction?.Invoke();
-          // if (Main.PostZoneAction != null)
-          // {
-          //   Main.PostZoneAction();
-          // }
-
           OdinPlus.PostZone();
         }
         catch (Exception e)

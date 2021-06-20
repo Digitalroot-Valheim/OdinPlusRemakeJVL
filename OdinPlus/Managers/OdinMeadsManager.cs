@@ -30,10 +30,7 @@ namespace OdinPlus.Managers
         _root.SetActive(false);
         _meadTasty = ObjectDB.instance.GetItemPrefab(OdinPlusItem.MeadTasty);
 
-        InitValMead();
-        InitBuzzMead();
 
-        OdinPlus.OdinPreRegister(_meadList, nameof(_meadList));
         return true;
 
       }
@@ -46,8 +43,20 @@ namespace OdinPlus.Managers
 
     protected override bool OnPostInitialize()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      return base.OnPostInitialize();
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (!base.OnPostInitialize()) return false;
+        InitValMead();
+        InitBuzzMead();
+        OdinPlus.OdinPreRegister(_meadList, nameof(_meadList));
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
     }
 
     public override bool HasDependencyError()
