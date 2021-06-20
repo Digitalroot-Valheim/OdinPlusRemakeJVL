@@ -366,6 +366,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Icons\IconManager.cs" />
+    <Compile Include="Items\OdinLegacy.cs" />
     <Compile Include="Items\OdinPlusItem.cs" />
     <Compile Include="StatusEffects\OdinPlusPetsStatusEffects.cs" />
     <Compile Include="Main.cs" />

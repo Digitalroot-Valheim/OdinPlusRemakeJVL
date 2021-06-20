@@ -28,7 +28,7 @@ namespace OdinPlusRemakeJVL
     public static Main Instance;
 
     public static ConfigEntry<int> NexusId;
-    private readonly Dictionary<string, Sprite> _odinMeadsIcons = new Dictionary<string, Sprite>();
+    public readonly Dictionary<string, Sprite> OdinMeadsIcons = new Dictionary<string, Sprite>();
 
     public Main()
     {
@@ -46,8 +46,10 @@ namespace OdinPlusRemakeJVL
 
         _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), Guid);
 
+        ItemManager.OnVanillaItemsAvailable += AddClonedItems;
         AddSprites();
         AddStatusEffects();
+        
       }
       catch (Exception e)
       {
@@ -61,30 +63,36 @@ namespace OdinPlusRemakeJVL
       _harmony?.UnpatchSelf();
     }
 
+    private static void AddClonedItems()
+    {
+      OdinLegacy.Create();
+      ItemManager.OnVanillaItemsAvailable -= AddClonedItems;
+    }
+
     private void AddSprites()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 
       foreach (var meadName in OdinPlusMead.MeadsNames)
       {
-        if (_odinMeadsIcons.ContainsKey(meadName)) continue;
-        _odinMeadsIcons.Add(meadName, IconManager.LoadResourceIcon(meadName));
+        if (OdinMeadsIcons.ContainsKey(meadName)) continue;
+        OdinMeadsIcons.Add(meadName, IconManager.LoadResourceIcon(meadName));
       }
 
       foreach (var odinPlusPetsStatusEffect in OdinPlusPetsStatusEffects.PetsStatusEffectsNames)
       {
-        if (_odinMeadsIcons.ContainsKey(odinPlusPetsStatusEffect)) continue;
-        _odinMeadsIcons.Add(odinPlusPetsStatusEffect, IconManager.LoadResourceIcon(odinPlusPetsStatusEffect));
+        if (OdinMeadsIcons.ContainsKey(odinPlusPetsStatusEffect)) continue;
+        OdinMeadsIcons.Add(odinPlusPetsStatusEffect, IconManager.LoadResourceIcon(odinPlusPetsStatusEffect));
       }
 
-      if (_odinMeadsIcons.ContainsKey(Items.OdinPlusItem.OdinLegacy)) return;
-      _odinMeadsIcons.Add(Items.OdinPlusItem.OdinLegacy, IconManager.LoadResourceIcon(Items.OdinPlusItem.OdinLegacy));
+      if (OdinMeadsIcons.ContainsKey(Items.OdinPlusItem.OdinLegacy)) return;
+      OdinMeadsIcons.Add(Items.OdinPlusItem.OdinLegacy, IconManager.LoadResourceIcon(Items.OdinPlusItem.OdinLegacy));
     }
 
     private void AddStatusEffects()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      foreach (var statusEffect in StatusEffectsManager.CreateStatusEffects(StatusEffectsManager.MasterStatusEffectDataDictionary, _odinMeadsIcons)) 
+      foreach (var statusEffect in StatusEffectsManager.CreateStatusEffects(StatusEffectsManager.MasterStatusEffectDataDictionary, OdinMeadsIcons)) 
       {
         try
         {
@@ -97,9 +105,9 @@ namespace OdinPlusRemakeJVL
         }
         
       }
-      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(StatusEffectsManager.GetSpeedStatusEffect(_odinMeadsIcons), fixReference: false));
-      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(StatusEffectsManager.GetSummonTrollPetStatusEffect(_odinMeadsIcons), fixReference: false));
-      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(StatusEffectsManager.GetSummonWolfPetStatusEffect(_odinMeadsIcons), fixReference: false));
+      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(StatusEffectsManager.GetSpeedStatusEffect(OdinMeadsIcons), fixReference: false));
+      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(StatusEffectsManager.GetSummonTrollPetStatusEffect(OdinMeadsIcons), fixReference: false));
+      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(StatusEffectsManager.GetSummonWolfPetStatusEffect(OdinMeadsIcons), fixReference: false));
     }
 
     private void RegisterObjects()
