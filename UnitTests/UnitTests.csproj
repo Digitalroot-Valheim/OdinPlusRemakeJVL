@@ -13,13 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OdinPlusRemakeJVL\OdinPlusRemakeJVL.csproj" />
     <ProjectReference Include="..\OdinPlus\OdinPlus.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\OdinPlus\packages\Pfhoenix.Valheim.ModProjectReferences.1.0.6\lib\net46\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

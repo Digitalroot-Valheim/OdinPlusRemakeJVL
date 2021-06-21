@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props" Condition="Exists('..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props')" />
   <Import Project="..\packages\JotunnLib.2.0.12\build\JotunnLib.props" Condition="Exists('..\packages\JotunnLib.2.0.12\build\JotunnLib.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -78,6 +79,12 @@
       <HintPath>..\packages\Pfhoenix.Valheim.ModProjectReferences.1.0.6\lib\net46\bepinex.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="fastJSON, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
+      <HintPath>..\packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="ILMerge, Version=1.16.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
+      <HintPath>..\packages\ILMerge.Fody.1.16.0\lib\net45\ILMerge.dll</HintPath>
+    </Reference>
     <Reference Include="Jotunn, Version=2.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\JotunnLib.2.0.12\lib\net462\Jotunn.dll</HintPath>
       <Private>False</Private>
@@ -98,17 +105,14 @@
       <HintPath>..\packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MonoMod, Version=21.4.21.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoMod.21.4.21.3\lib\net40\MonoMod.exe</HintPath>
-      <Private>False</Private>
+    <Reference Include="MonoMod, Version=21.4.29.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoMod.21.4.29.1\lib\net40\MonoMod.exe</HintPath>
     </Reference>
-    <Reference Include="MonoMod.RuntimeDetour, Version=21.4.21.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoMod.RuntimeDetour.21.4.21.3\lib\net40\MonoMod.RuntimeDetour.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="MonoMod.RuntimeDetour, Version=21.4.29.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoMod.RuntimeDetour.21.4.29.1\lib\net40\MonoMod.RuntimeDetour.dll</HintPath>
     </Reference>
-    <Reference Include="MonoMod.Utils, Version=21.4.21.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoMod.Utils.21.4.21.3\lib\net40\MonoMod.Utils.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="MonoMod.Utils, Version=21.4.29.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoMod.Utils.21.4.29.1\lib\net40\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -389,11 +393,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OdinPlus\OdinPlus.csproj">
-      <Project>{D0CDB09C-6767-4C56-81C0-8204CB822909}</Project>
+      <Project>{0f1b0c46-9f3a-437a-a6ab-beebb345a5b4}</Project>
       <Name>OdinPlus</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\AxeMeadL.png" />
   </ItemGroup>
@@ -480,5 +483,8 @@ xcopy "$(TargetDir)Assets\Translations\Chinese\translations.json" "C:\Program Fi
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\JotunnLib.2.0.12\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JotunnLib.2.0.12\build\JotunnLib.props'))" />
+    <Error Condition="!Exists('..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.6.5.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.1\build\Fody.targets'))" />
   </Target>
+  <Import Project="..\packages\Fody.6.5.1\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.1\build\Fody.targets')" />
 </Project>
