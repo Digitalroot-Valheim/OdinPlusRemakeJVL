@@ -449,15 +449,15 @@
     <EmbeddedResource Include="Resources\WeightMeadS.png" />
   </ItemGroup>
   <ItemGroup>
-    <OdinPlusSourceFiles Include="$(TargetDir)OdinPlus.dll" />
+    <OdinPlusSourceFiles Include="$(TargetDir)$(ProjectName).dll" />
   </ItemGroup>
   <ItemGroup>
-    <OdinPlusBuildFiles Include="$(TargetDir)..\OdinPlus\OdinPlus\OdinPlus.dll" />
+    <OdinPlusBuildFiles Include="$(TargetDir)..\$(ProjectName)\$(ProjectName)\$(ProjectName).dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>REM xcopy "$(TargetDir)$(TargetFileName)" "C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" /q /y /i
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
