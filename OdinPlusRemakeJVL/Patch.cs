@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Reflection;
 
@@ -30,11 +29,7 @@ namespace OdinPlusRemakeJVL
             Log.Debug("ZNetScene.instance is null");
             return;
           }
-
-          // ToDo: Create an event for this that triggers off of Main.cs
-          FxAssetManager.Instance.Initialize();
-          FxAssetManager.Instance.PostInitialize();
-
+          Main.Instance.OnZNetSceneReady();
         }
         catch (Exception e)
         {

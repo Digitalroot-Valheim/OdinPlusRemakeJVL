@@ -12,20 +12,30 @@ namespace OdinPlusRemakeJVL.Managers
   {
     private readonly Dictionary<string, GameObject> _fxList = new Dictionary<string, GameObject>();
 
+    public override void Initialize()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
+      if (IsInitialized) return;
+
+      IsInitialized = OnInitialize();
+      if (!IsInitialized)
+      {
+        Log.Fatal($"[{GetType().Name}]: IsInitialized: {IsInitialized}");
+        Log.Fatal($"[{GetType().Name}]: Failed to IsInitialize");
+        Log.Fatal($"[{GetType().Name}]: Checking health status");
+        HealthManager.Instance.HealthCheck();
+        HealthManager.Instance.OnHealthCheck -= HealthCheck;
+      }
+    }
+
     protected override bool OnInitialize()
     {
       try
       {
         if (!base.OnInitialize()) return false;
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-
-        if (!Common.Utils.IsZNetSceneReady())
-        {
-          Log.Debug("ZNetScene.instance is null");
-          return false;
-        }
-
-        CreateFxs();
+        Main.Instance.ZNetSceneReady += OnZNetSceneReady;
         return true;
       }
       catch (Exception e)
@@ -35,6 +45,14 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
+    private void OnZNetSceneReady(object sender, EventArgs e)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      if (HasDependencyError()) return;
+      CreateFxs();
+      ((Main) sender).ZNetSceneReady -= OnZNetSceneReady;
+    }
+
     public override bool HasDependencyError()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -42,7 +60,7 @@ namespace OdinPlusRemakeJVL.Managers
                             
       if (dependencyError)
       {
-        Log.Fatal($"Common.Utils.IsZNetSceneReady(): {Common.Utils.IsZNetSceneReady()}");
+        Log.Fatal($"[{GetType().Name}] Common.Utils.IsZNetSceneReady(): {Common.Utils.IsZNetSceneReady()}");
       }
       return dependencyError;
     }

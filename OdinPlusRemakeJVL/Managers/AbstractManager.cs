@@ -12,7 +12,7 @@ namespace OdinPlusRemakeJVL.Managers
   /// </summary>
   public abstract class AbstractManager<T> : Singleton<T>, IAbstractManager where T : AbstractManager<T>, new()
   {
-    public bool IsInitialized { get; private set; }
+    public bool IsInitialized { get; private protected set; }
 
     protected AbstractManager()
     {
@@ -22,7 +22,7 @@ namespace OdinPlusRemakeJVL.Managers
       Initialize();
     }
 
-    public void Initialize()
+    public virtual void Initialize()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
@@ -61,7 +61,7 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
-    public bool PostInitialize()
+    public virtual bool PostInitialize()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");

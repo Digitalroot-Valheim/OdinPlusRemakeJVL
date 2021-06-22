@@ -1,6 +1,5 @@
-﻿using System;
-using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Managers;
+﻿using OdinPlusRemakeJVL.Common;
+using System;
 
 namespace OdinPlusRemakeJVL.ConsoleCommands
 {
@@ -12,9 +11,7 @@ namespace OdinPlusRemakeJVL.ConsoleCommands
     {
       try
       {
-        // FxAssetManager.Instance.Initialize();
-        // FxAssetManager.Instance.PostInitialize();        // FxAssetManager.Instance.Initialize();
-        // FxAssetManager.Instance.PostInitialize();
+
       }
       catch (Exception e)
       {
