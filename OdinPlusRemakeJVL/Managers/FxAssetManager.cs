@@ -77,7 +77,7 @@ namespace OdinPlusRemakeJVL.Managers
           healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _fxList.Count: {_fxList.Count}";
         }
 
-        foreach (var name in OdinPlusFxNames.AllNames)
+        foreach (var name in FxNames.AllNames)
         {
           if (!_fxList.ContainsKey(name))
           {
@@ -106,10 +106,10 @@ namespace OdinPlusRemakeJVL.Managers
     private void CreateFxs()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      CreateFx("odin", "odinsmoke", OdinPlusFxNames.RedSmoke, Color.red);
-      CreateFx("odin", "odinsmoke", OdinPlusFxNames.BlueSmoke, Color.blue);
-      CreateFx("odin", "odinsmoke", OdinPlusFxNames.YellowSmoke, Color.yellow);
-      CreateFx("odin", "odinsmoke", OdinPlusFxNames.GreenSmoke, Color.green);
+      CreateFx("odin", "odinsmoke", FxNames.RedSmoke, Color.red);
+      CreateFx("odin", "odinsmoke", FxNames.BlueSmoke, Color.blue);
+      CreateFx("odin", "odinsmoke", FxNames.YellowSmoke, Color.yellow);
+      CreateFx("odin", "odinsmoke", FxNames.GreenSmoke, Color.green);
     }
 
     private void CreateFx(string prefab, string particle, string name, Color color)

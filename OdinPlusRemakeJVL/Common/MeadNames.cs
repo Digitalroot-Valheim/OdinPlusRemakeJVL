@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Items
+namespace OdinPlusRemakeJVL.Common
 {
-  public static class OdinPlusMead
+  public static class MeadNames
   {
     public static string ExpMeadS = nameof(ExpMeadS);
     public static string ExpMeadM = nameof(ExpMeadM);
@@ -27,31 +27,6 @@ namespace OdinPlusRemakeJVL.Items
     public static string AxeMeadM = nameof(AxeMeadM);
     public static string AxeMeadL = nameof(AxeMeadL);
 
-    public static readonly List<string> MeadsNames = new List<string>
-    {
-      ExpMeadS,
-      ExpMeadM,
-      ExpMeadL,
-      WeightMeadS,
-      WeightMeadM,
-      WeightMeadL,
-      InvisibleMeadS,
-      InvisibleMeadM,
-      InvisibleMeadL,
-      PickaxeMeadS,
-      PickaxeMeadM,
-      PickaxeMeadL,
-      BowsMeadS,
-      BowsMeadM,
-      BowsMeadL,
-      SwordsMeadS,
-      SwordsMeadM,
-      SwordsMeadL,
-      SpeedMeadsL,
-      AxeMeadS,
-      AxeMeadM,
-      AxeMeadL
-    };
-   
+    public static readonly IEnumerable<string> AllNames = Common.Utils.AllNames(typeof(MeadNames));
   }
 }

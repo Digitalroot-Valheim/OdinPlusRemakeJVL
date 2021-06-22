@@ -1,6 +1,8 @@
-﻿namespace OdinPlusRemakeJVL.Items
+﻿using System.Collections.Generic;
+
+namespace OdinPlusRemakeJVL.Common
 {
-  public static class OdinPlusItem
+  public static class ItemNames
   {
     public static string Chest = nameof(Chest);
     public static string LegacyChest = nameof(LegacyChest);
@@ -13,5 +15,7 @@
     public static string TrophyFrostTroll = nameof(TrophyFrostTroll);
     public static string TrophyWolf = nameof(TrophyWolf);
     public static string Coins = nameof(Coins);
+
+    public static readonly IEnumerable<string> AllNames = Common.Utils.AllNames(typeof(MeadNames));
   }
 }

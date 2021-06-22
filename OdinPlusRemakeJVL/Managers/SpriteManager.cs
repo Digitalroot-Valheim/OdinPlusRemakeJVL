@@ -67,7 +67,7 @@ namespace OdinPlusRemakeJVL.Managers
     {
       Log.Trace($"{nameof(SpriteManager)}.{MethodBase.GetCurrentMethod().Name}()");
 
-      foreach (var meadName in OdinPlusMead.MeadsNames)
+      foreach (var meadName in MeadNames.AllNames)
       {
         if (_spriteDictionary.ContainsKey(meadName)) continue;
         _spriteDictionary.Add(meadName, LoadResourceIcon(meadName));
@@ -79,8 +79,8 @@ namespace OdinPlusRemakeJVL.Managers
         _spriteDictionary.Add(odinPlusPetsStatusEffect, LoadResourceIcon(odinPlusPetsStatusEffect));
       }
 
-      if (_spriteDictionary.ContainsKey(OdinPlusItem.OdinLegacy)) return;
-      _spriteDictionary.Add(OdinPlusItem.OdinLegacy, LoadResourceIcon(OdinPlusItem.OdinLegacy));
+      if (_spriteDictionary.ContainsKey(ItemNames.OdinLegacy)) return;
+      _spriteDictionary.Add(ItemNames.OdinLegacy, LoadResourceIcon(ItemNames.OdinLegacy));
     }
 
     private static Sprite LoadResourceIcon(string name)

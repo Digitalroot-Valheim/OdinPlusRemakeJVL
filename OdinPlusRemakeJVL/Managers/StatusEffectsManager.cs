@@ -74,7 +74,7 @@ namespace OdinPlusRemakeJVL.Managers
         Log.Trace($"[{GetType().Name}] Adding {statusEffect.name}");
         try
         {
-          ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(statusEffect, fixReference: false));
+          Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(statusEffect, fixReference: false));
         }
         catch (Exception e)
         {
@@ -84,11 +84,11 @@ namespace OdinPlusRemakeJVL.Managers
       }
 
       Log.Trace($"[{GetType().Name}] Adding {GetSpeedStatusEffect().name}");
-      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSpeedStatusEffect(), fixReference: false));
+      Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSpeedStatusEffect(), fixReference: false));
       Log.Trace($"[{GetType().Name}] Adding {GetSummonTrollPetStatusEffect().name}");
-      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSummonTrollPetStatusEffect(), fixReference: false));
+      Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSummonTrollPetStatusEffect(), fixReference: false));
       Log.Trace($"[{GetType().Name}] Adding {GetSummonWolfPetStatusEffect().name}");
-      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSummonWolfPetStatusEffect(), fixReference: false));
+      Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSummonWolfPetStatusEffect(), fixReference: false));
     }
 
     private IEnumerable<KeyValuePair<string, StatusEffectData>> GetMasterStatusEffectData()
@@ -106,27 +106,27 @@ namespace OdinPlusRemakeJVL.Managers
 
     private IEnumerable<KeyValuePair<string, StatusEffectData>> GetMeadStatusEffectData()
     {
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.ExpMeadS, new StatusEffectData {m_ttl = 300, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 50});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.ExpMeadM, new StatusEffectData {m_ttl = 450, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 75});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.ExpMeadL, new StatusEffectData {m_ttl = 600, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 125});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.WeightMeadS, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 100});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.WeightMeadM, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 150});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.WeightMeadL, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 300});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.InvisibleMeadS, new StatusEffectData {m_ttl = 60, m_noiseModifier = -1, m_stealthModifier = -1});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.InvisibleMeadM, new StatusEffectData {m_ttl = 90, m_noiseModifier = -1, m_stealthModifier = -1});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.InvisibleMeadL, new StatusEffectData {m_ttl = 120, m_noiseModifier = -1, m_stealthModifier = -1});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.PickaxeMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.PickaxeMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.PickaxeMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.BowsMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.BowsMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.BowsMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.SwordsMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.SwordsMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.SwordsMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.AxeMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.AxeMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
-      yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.AxeMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.ExpMeadS, new StatusEffectData {m_ttl = 300, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 50});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.ExpMeadM, new StatusEffectData {m_ttl = 450, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 75});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.ExpMeadL, new StatusEffectData {m_ttl = 600, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 125});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.WeightMeadS, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 100});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.WeightMeadM, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 150});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.WeightMeadL, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 300});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.InvisibleMeadS, new StatusEffectData {m_ttl = 60, m_noiseModifier = -1, m_stealthModifier = -1});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.InvisibleMeadM, new StatusEffectData {m_ttl = 90, m_noiseModifier = -1, m_stealthModifier = -1});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.InvisibleMeadL, new StatusEffectData {m_ttl = 120, m_noiseModifier = -1, m_stealthModifier = -1});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.PickaxeMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.PickaxeMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.PickaxeMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.BowsMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.BowsMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.BowsMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.SwordsMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.SwordsMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.SwordsMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.AxeMeadS, new StatusEffectData {m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.AxeMeadM, new StatusEffectData {m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
+      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.AxeMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
     }
 
     private IEnumerable<KeyValuePair<string, StatusEffectData>> GetMonsterStatusEffectData()
@@ -183,10 +183,10 @@ namespace OdinPlusRemakeJVL.Managers
     private SpeedStatusEffect GetSpeedStatusEffect()
     {
       var speedStatusEffect = ScriptableObject.CreateInstance<SpeedStatusEffect>();
-      speedStatusEffect.name = $"{OdinPlusMead.SpeedMeadsL}StatusEffect";
-      speedStatusEffect.m_name = $"op_{OdinPlusMead.SpeedMeadsL}_name";
-      speedStatusEffect.m_tooltip = $"$op_{OdinPlusMead.SpeedMeadsL}_tooltip";
-      speedStatusEffect.m_icon = SpriteManager.Instance.GetSprite(OdinPlusMead.SpeedMeadsL);
+      speedStatusEffect.name = $"{MeadNames.SpeedMeadsL}StatusEffect";
+      speedStatusEffect.m_name = $"op_{MeadNames.SpeedMeadsL}_name";
+      speedStatusEffect.m_tooltip = $"$op_{MeadNames.SpeedMeadsL}_tooltip";
+      speedStatusEffect.m_icon = SpriteManager.Instance.GetSprite(MeadNames.SpeedMeadsL);
       speedStatusEffect.m_ttl = 300;
       speedStatusEffect.SpeedModifier = 1.5f;
       return speedStatusEffect;
@@ -197,8 +197,8 @@ namespace OdinPlusRemakeJVL.Managers
       var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
       statusEffect.name = PetsStatusEffectNames.Troll;
       statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Troll);
-      statusEffect.m_name = $"$op_{Items.OdinPlusItem.ScrollTroll}_name";
-      statusEffect.m_tooltip = $"$op_{Items.OdinPlusItem.ScrollTroll}_tooltip";
+      statusEffect.m_name = $"$op_{ItemNames.ScrollTroll}_name";
+      statusEffect.m_tooltip = $"$op_{ItemNames.ScrollTroll}_tooltip";
       statusEffect.m_cooldownIcon = true;
       statusEffect.m_ttl = 600;
       statusEffect.PetName = PetNames.TrollPet;
@@ -210,8 +210,8 @@ namespace OdinPlusRemakeJVL.Managers
       var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
       statusEffect.name = PetsStatusEffectNames.Wolf;
       statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Wolf);
-      statusEffect.m_name = $"$op_{Items.OdinPlusItem.ScrollWolf}_name";
-      statusEffect.m_tooltip = $"$op_{Items.OdinPlusItem.ScrollWolf}_tooltip";
+      statusEffect.m_name = $"$op_{ItemNames.ScrollWolf}_name";
+      statusEffect.m_tooltip = $"$op_{ItemNames.ScrollWolf}_tooltip";
       statusEffect.m_cooldownIcon = true;
       statusEffect.m_ttl = 1800;
       statusEffect.PetName = PetNames.WolfPet;
