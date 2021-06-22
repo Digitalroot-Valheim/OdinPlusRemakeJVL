@@ -81,6 +81,9 @@
       <HintPath>..\packages\Pfhoenix.Valheim.ModProjectReferences.1.0.6\lib\net46\bepinex.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="fastJSON, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
+      <HintPath>..\packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
+    </Reference>
     <Reference Include="ILMerge, Version=1.16.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
       <HintPath>..\packages\ILMerge.Fody.1.16.0\lib\net45\ILMerge.dll</HintPath>
     </Reference>
@@ -371,16 +374,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Icons\IconManager.cs" />
+    <Compile Include="Common\JsonSerializationProvider.cs" />
+    <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\PetNames.cs" />
+    <Compile Include="Common\Singleton.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="ConsoleCommands\AbstractOdinPlusConsoleCommand.cs" />
+    <Compile Include="Common\ConsoleCommandNames.cs" />
+    <Compile Include="ConsoleCommands\HealthCheckCommand.cs" />
+    <Compile Include="Managers\AbstractManager.cs" />
+    <Compile Include="Managers\ConsoleCommandManager.cs" />
+    <Compile Include="Managers\HealthManager.cs" />
+    <Compile Include="Managers\IAbstractManager.cs" />
+    <Compile Include="Managers\SpriteManager.cs" />
     <Compile Include="Items\OdinLegacy.cs" />
     <Compile Include="Items\OdinPlusItem.cs" />
-    <Compile Include="StatusEffects\OdinPlusPetsStatusEffects.cs" />
+    <Compile Include="Common\PetsStatusEffectNames.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Items\OdinPlusMead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusEffects\SpeedStatusEffect.cs" />
     <Compile Include="StatusEffects\StatusEffectData.cs" />
-    <Compile Include="StatusEffects\StatusEffectsManager.cs" />
+    <Compile Include="Managers\StatusEffectsManager.cs" />
     <Compile Include="StatusEffects\SummonPetStatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -395,12 +410,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OdinPlus\OdinPlus.csproj">
-      <Project>{0f1b0c46-9f3a-437a-a6ab-beebb345a5b4}</Project>
-      <Name>OdinPlus</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AxeMeadL.png" />
@@ -483,6 +492,7 @@
   <ItemGroup>
     <OdinPlusBuildFiles Include="$(TargetDir)..\$(ProjectName)\$(ProjectName)\$(ProjectName).dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

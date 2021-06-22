@@ -1,17 +1,98 @@
 ﻿using System;
-using OdinPlusRemakeJVL.Items;
+using System.Linq;
 using System.Collections.Generic;
-using OdinPlus.Common;
-// using OdinPlus.Common;
+using System.Reflection;
+using Jotunn.Entities;
+using Jotunn.Managers;
+using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Items;
+using OdinPlusRemakeJVL.StatusEffects;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.StatusEffects
+namespace OdinPlusRemakeJVL.Managers
 {
-  internal static class StatusEffectsManager
+  internal class StatusEffectsManager : AbstractManager<StatusEffectsManager>
   {
-    public static IEnumerable<KeyValuePair<string, StatusEffectData>> MasterStatusEffectDataDictionary => GetMasterStatusEffectData();
+    protected override bool OnInitialize()
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (!base.OnInitialize()) return false;
+        AddStatusEffects();
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
+    }
 
-    private static IEnumerable<KeyValuePair<string, StatusEffectData>> GetMasterStatusEffectData()
+    public override bool HasDependencyError()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      var dependencyError = !SpriteManager.Instance.IsInitialized
+                            || SpriteManager.Instance.HasDependencyError();
+
+      if (dependencyError)
+      {
+        Log.Fatal($"SpriteManager.Instance.IsInitialized: {SpriteManager.Instance.IsInitialized}");
+        Log.Fatal($"SpriteManager.Instance.HasDependencyError: {SpriteManager.Instance.HasDependencyError()}");
+      }
+
+      return dependencyError;
+    }
+
+    protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        healthCheckStatus.Name = GetType().Name;
+        // if (GetMasterStatusEffectData().Any())
+        // {
+        //   healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
+        //   healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: GetMasterStatusEffectData().Any(): false";
+        // }
+
+        return healthCheckStatus;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        healthCheckStatus.HealthStatus = HealthStatus.Failed;
+        healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: {e.Message}";
+        return healthCheckStatus;
+      }
+    }
+
+    public void AddStatusEffects()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      foreach (SE_Stats statusEffect in CreateStatusEffects(GetMasterStatusEffectData()))
+      {
+        Log.Trace($"[{GetType().Name}] Adding {statusEffect.name}");
+        try
+        {
+          ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(statusEffect, fixReference: false));
+        }
+        catch (Exception e)
+        {
+          e.Data.Add(nameof(statusEffect), JsonSerializationProvider.ToJson(statusEffect));
+          throw;
+        }
+      }
+
+      Log.Trace($"[{GetType().Name}] Adding {GetSpeedStatusEffect().name}");
+      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSpeedStatusEffect(), fixReference: false));
+      Log.Trace($"[{GetType().Name}] Adding {GetSummonTrollPetStatusEffect().name}");
+      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSummonTrollPetStatusEffect(), fixReference: false));
+      Log.Trace($"[{GetType().Name}] Adding {GetSummonWolfPetStatusEffect().name}");
+      ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSummonWolfPetStatusEffect(), fixReference: false));
+    }
+
+    private IEnumerable<KeyValuePair<string, StatusEffectData>> GetMasterStatusEffectData()
     {
       foreach (var keyValuePair in GetMeadStatusEffectData())
       {
@@ -24,7 +105,7 @@ namespace OdinPlusRemakeJVL.StatusEffects
       }
     }
 
-    private static IEnumerable<KeyValuePair<string, StatusEffectData>> GetMeadStatusEffectData()
+    private IEnumerable<KeyValuePair<string, StatusEffectData>> GetMeadStatusEffectData()
     {
       yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.ExpMeadS, new StatusEffectData {m_ttl = 300, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 50});
       yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.ExpMeadM, new StatusEffectData {m_ttl = 450, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 75});
@@ -49,7 +130,7 @@ namespace OdinPlusRemakeJVL.StatusEffects
       yield return new KeyValuePair<string, StatusEffectData>(OdinPlusMead.AxeMeadL, new StatusEffectData {m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f});
     }
 
-    private static IEnumerable<KeyValuePair<string, StatusEffectData>> GetMonsterStatusEffectData()
+    private IEnumerable<KeyValuePair<string, StatusEffectData>> GetMonsterStatusEffectData()
     {
       for (var i = 1; i <= 5; i++)
       {
@@ -57,7 +138,7 @@ namespace OdinPlusRemakeJVL.StatusEffects
       }
     }
 
-    internal static IEnumerable<SE_Stats> CreateStatusEffects(IEnumerable<KeyValuePair<string, StatusEffectData>> keyValuePairs, Dictionary<string, Sprite> odinMeadsIcons)
+    private IEnumerable<SE_Stats> CreateStatusEffects(IEnumerable<KeyValuePair<string, StatusEffectData>> keyValuePairs)
     {
       foreach (var keyValuePair in keyValuePairs)
       {
@@ -67,7 +148,7 @@ namespace OdinPlusRemakeJVL.StatusEffects
           effect.name = $"{keyValuePair.Key}StatusEffect";
           effect.m_name = $"op_{keyValuePair.Key}_name";
           effect.m_tooltip = $"$op_{keyValuePair.Key}_tooltip";
-          effect.m_icon = odinMeadsIcons.ContainsKey(keyValuePair.Key) ? odinMeadsIcons[keyValuePair.Key] : null;
+          effect.m_icon = SpriteManager.Instance.GetSprite(keyValuePair.Key) ?? effect.m_icon;
           effect.m_ttl = 300;
           effect.m_tickInterval = keyValuePair.Value.m_tickInterval;
           effect.m_healthPerTickMinHealthPercentage = keyValuePair.Value.m_healthPerTickMinHealthPercentage;
@@ -95,46 +176,46 @@ namespace OdinPlusRemakeJVL.StatusEffects
           e.Data.Add(nameof(keyValuePair.Value), JsonSerializationProvider.ToJson(keyValuePair.Value));
           throw;
         }
-        yield return effect;
 
+        yield return effect;
       }
     }
 
-    public static SpeedStatusEffect GetSpeedStatusEffect(Dictionary<string, Sprite> odinMeadsIcons)
+    private SpeedStatusEffect GetSpeedStatusEffect()
     {
       var speedStatusEffect = ScriptableObject.CreateInstance<SpeedStatusEffect>();
       speedStatusEffect.name = $"{OdinPlusMead.SpeedMeadsL}StatusEffect";
       speedStatusEffect.m_name = $"op_{OdinPlusMead.SpeedMeadsL}_name";
       speedStatusEffect.m_tooltip = $"$op_{OdinPlusMead.SpeedMeadsL}_tooltip";
-      speedStatusEffect.m_icon = odinMeadsIcons[OdinPlusMead.SpeedMeadsL];
+      speedStatusEffect.m_icon = SpriteManager.Instance.GetSprite(OdinPlusMead.SpeedMeadsL);
       speedStatusEffect.m_ttl = 300;
       speedStatusEffect.SpeedModifier = 1.5f;
       return speedStatusEffect;
     }
 
-    public static SummonPetStatusEffect GetSummonTrollPetStatusEffect(Dictionary<string, Sprite> odinMeadsIcons)
+    private SummonPetStatusEffect GetSummonTrollPetStatusEffect()
     {
       var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
-      statusEffect.name = OdinPlusPetsStatusEffects.Troll;
-      statusEffect.m_icon = odinMeadsIcons[OdinPlusPetsStatusEffects.Troll];
+      statusEffect.name = PetsStatusEffectNames.Troll;
+      statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Troll);
       statusEffect.m_name = $"$op_{Items.OdinPlusItem.ScrollTroll}_name";
       statusEffect.m_tooltip = $"$op_{Items.OdinPlusItem.ScrollTroll}_tooltip";
       statusEffect.m_cooldownIcon = true;
       statusEffect.m_ttl = 600;
-      statusEffect.PetName = OdinPlusPet.TrollPet;
+      statusEffect.PetName = PetNames.TrollPet;
       return statusEffect;
     }
 
-    public static SummonPetStatusEffect GetSummonWolfPetStatusEffect(Dictionary<string, Sprite> odinMeadsIcons)
+    private SummonPetStatusEffect GetSummonWolfPetStatusEffect()
     {
       var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
-      statusEffect.name = OdinPlusPetsStatusEffects.Wolf;
-      statusEffect.m_icon = odinMeadsIcons[OdinPlusPetsStatusEffects.Wolf];
+      statusEffect.name = PetsStatusEffectNames.Wolf;
+      statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Wolf);
       statusEffect.m_name = $"$op_{Items.OdinPlusItem.ScrollWolf}_name";
       statusEffect.m_tooltip = $"$op_{Items.OdinPlusItem.ScrollWolf}_tooltip";
       statusEffect.m_cooldownIcon = true;
       statusEffect.m_ttl = 1800;
-      statusEffect.PetName = OdinPlusPet.WolfPet;
+      statusEffect.PetName = PetNames.WolfPet;
       return statusEffect;
     }
   }

@@ -184,5 +184,6 @@
   "op_npc_name47": "Thurid",
   "op_npc_name48": "Yrsa",
   "op_npc_name49": "Ulfhild",
-  "op_npc_name50": "Åse"
+  "op_npc_name50": "Åse",
+  "op_healthcheck_command_help" :  "Prints the current health of OdinPlus managers for Debugging." 
 }
