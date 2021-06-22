@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Reflection;
-using Jotunn.Entities;
+﻿using Jotunn.Entities;
 using Jotunn.Managers;
 using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Items;
 using OdinPlusRemakeJVL.StatusEffects;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Managers
@@ -67,7 +66,7 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
-    public void AddStatusEffects()
+    private void AddStatusEffects()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       foreach (SE_Stats statusEffect in CreateStatusEffects(GetMasterStatusEffectData()))

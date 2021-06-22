@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace OdinPlusRemakeJVL.Common
 {
@@ -14,6 +15,24 @@ namespace OdinPlusRemakeJVL.Common
       {
         yield return fieldInfo.GetValue(null).ToString();
       }
+    }
+
+    // Source: EpicLoot
+    public static bool IsObjectDBReady()
+    {
+      Log.Trace($"OdinPlusRemakeJVL.Common.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      // Hack, just making sure the built-in items and prefabs have loaded
+      return ObjectDB.instance != null && ObjectDB.instance.m_items.Count != 0 && ObjectDB.instance.GetItemPrefab("Amber") != null;
+    }
+
+
+    public static bool IsZNetSceneReady()
+    {
+      Log.Trace($"OdinPlusRemakeJVL.Common.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"ZNetScene.instance != null : {ZNetScene.instance != null}");
+      Log.Trace($"ZNetScene.instance?.m_prefabs != null : {ZNetScene.instance?.m_prefabs != null}");
+      Log.Trace($"ZNetScene.instance?.m_prefabs?.Count > 0 : {ZNetScene.instance?.m_prefabs?.Count}");
+      return ZNetScene.instance != null && ZNetScene.instance?.m_prefabs != null && ZNetScene.instance?.m_prefabs?.Count > 0;
     }
   }
 }

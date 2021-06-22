@@ -8,6 +8,7 @@ using Jotunn.Managers;
 using OdinPlusRemakeJVL.Items;
 using System.Reflection;
 using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.ConsoleCommands;
 using OdinPlusRemakeJVL.Managers;
 
 namespace OdinPlusRemakeJVL
@@ -44,10 +45,13 @@ namespace OdinPlusRemakeJVL
 
         ItemManager.OnVanillaItemsAvailable += AddClonedItems; // ToDo move this to an item manager.
 
+        ConsoleCommandManager.Instance.AddConsoleCommand(new ForceLoadCommand());
+
         if (!_managers.Contains(HealthManager.Instance)) _managers.Add(HealthManager.Instance);
         if (!_managers.Contains(ConsoleCommandManager.Instance)) _managers.Add(ConsoleCommandManager.Instance);
         if (!_managers.Contains(SpriteManager.Instance)) _managers.Add(SpriteManager.Instance);
         if (!_managers.Contains(StatusEffectsManager.Instance)) _managers.Add(StatusEffectsManager.Instance);
+        // if (!_managers.Contains(FxAssetManager.Instance)) _managers.Add(FxAssetManager.Instance);
 
         foreach (var manager in _managers)
         {
@@ -71,10 +75,22 @@ namespace OdinPlusRemakeJVL
       _harmony?.UnpatchSelf();
     }
 
-    private static void AddClonedItems()
+    private void AddClonedItems()
     {
-      OdinLegacy.Create();
-      ItemManager.OnVanillaItemsAvailable -= AddClonedItems;
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        OdinLegacy.Create();
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        throw;
+      }
+      finally
+      {
+        ItemManager.OnVanillaItemsAvailable -= AddClonedItems;
+      }
     }
 
     private void RegisterObjects()

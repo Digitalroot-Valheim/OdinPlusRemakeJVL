@@ -376,14 +376,18 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Common\JsonSerializationProvider.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\OdinPlusFxNames.cs" />
     <Compile Include="Common\PetNames.cs" />
     <Compile Include="Common\Singleton.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="ConsoleCommands\AbstractOdinPlusConsoleCommand.cs" />
     <Compile Include="Common\ConsoleCommandNames.cs" />
+    <Compile Include="ConsoleCommands\ForceLoadCommand.cs" />
     <Compile Include="ConsoleCommands\HealthCheckCommand.cs" />
+    <Compile Include="Extensions\GameObjectExtensions.cs" />
     <Compile Include="Managers\AbstractManager.cs" />
     <Compile Include="Managers\ConsoleCommandManager.cs" />
+    <Compile Include="Managers\FxAssetManager.cs" />
     <Compile Include="Managers\HealthManager.cs" />
     <Compile Include="Managers\IAbstractManager.cs" />
     <Compile Include="Managers\SpriteManager.cs" />
@@ -392,6 +396,7 @@
     <Compile Include="Common\PetsStatusEffectNames.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Items\OdinPlusMead.cs" />
+    <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusEffects\SpeedStatusEffect.cs" />
     <Compile Include="StatusEffects\StatusEffectData.cs" />

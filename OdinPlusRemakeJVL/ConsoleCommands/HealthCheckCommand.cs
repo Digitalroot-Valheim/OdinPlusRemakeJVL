@@ -1,4 +1,6 @@
-﻿using OdinPlusRemakeJVL.Managers;
+﻿using System;
+using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Managers;
 
 namespace OdinPlusRemakeJVL.ConsoleCommands
 {
@@ -11,11 +13,18 @@ namespace OdinPlusRemakeJVL.ConsoleCommands
       _healthManager = healthManager;
     }
 
-    public override string Name => Common.ConsoleCommandNames.HealthCheck;
+    public override string Name => ConsoleCommandNames.HealthCheck;
 
     public override void Run(string[] args)
     {
-      _healthManager.HealthCheck();
+      try
+      {
+        _healthManager.HealthCheck();
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
     }
   }
 }

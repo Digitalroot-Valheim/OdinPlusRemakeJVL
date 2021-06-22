@@ -16,27 +16,32 @@ namespace OdinPlusRemakeJVL.Managers
 
     protected AbstractManager()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
+      Log.Trace($"[{GetType().BaseType?.Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (IsInitialized) return;
       Initialize();
     }
 
     public void Initialize()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (IsInitialized) return;
       if (HasDependencyError())
       {
-        Log.Fatal("Dependency Error");
-        HealthCheck();
+        Log.Fatal($"[{GetType().Name}]: HasDependencyError(): true");
+        Log.Fatal($"[{GetType().Name}]: Checking health status");
+        HealthManager.Instance.HealthCheck();
         return;
       }
       
       IsInitialized = OnInitialize();
       if (!IsInitialized)
       {
+        Log.Fatal($"[{GetType().Name}]: IsInitialized: {IsInitialized}");
+        Log.Fatal($"[{GetType().Name}]: Failed to IsInitialize");
+        Log.Fatal($"[{GetType().Name}]: Checking health status");
+        HealthManager.Instance.HealthCheck();
         HealthManager.Instance.OnHealthCheck -= HealthCheck;
       }
     }
@@ -45,7 +50,7 @@ namespace OdinPlusRemakeJVL.Managers
     {
       try
       {
-        Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
         HealthManager.Instance.OnHealthCheck += HealthCheck;
         return true;
       }
@@ -58,20 +63,20 @@ namespace OdinPlusRemakeJVL.Managers
 
     public bool PostInitialize()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       Log.Trace($"[{GetType().Name}] {nameof(IsInitialized)}: {IsInitialized}");
       return OnPostInitialize();
     }
 
     protected virtual bool OnPostInitialize()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       return IsInitialized;
     }
 
     public HealthCheckStatus HealthCheck()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       var healthCheckStatus = new HealthCheckStatus
       {
         Name = MethodBase.GetCurrentMethod().DeclaringType?.Name,
@@ -83,7 +88,7 @@ namespace OdinPlusRemakeJVL.Managers
         if (!IsInitialized)
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{MethodBase.GetCurrentMethod().DeclaringType?.Name}]: IsInitialized:{IsInitialized}";
+          healthCheckStatus.Reason = $"[{GetType().Name}]: IsInitialized: {IsInitialized}";
         }
       }
       catch (Exception e)
