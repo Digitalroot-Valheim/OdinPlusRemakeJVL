@@ -7,6 +7,7 @@ using OdinPlusRemakeJVL.ConsoleCommands;
 using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -20,11 +21,12 @@ namespace OdinPlusRemakeJVL
     public const string Name = "OdinPlusRemakeJVL";
     public const string Guid = "digitalroot.valheim.mods.odinplusremakejvl";
     public const string Namespace = "OdinPlusRemakeJVL";
+    public static Main Instance;
+    public static ConfigEntry<int> NexusId;
 
     private Harmony _harmony;
     private readonly List<IAbstractManager> _managers = new List<IAbstractManager>();
-    public static Main Instance;
-    public static ConfigEntry<int> NexusId;
+    private readonly Stopwatch _stopwatch = new Stopwatch();
     
     public Main()
     {
@@ -37,6 +39,7 @@ namespace OdinPlusRemakeJVL
     {
       try
       {
+        StartStopwatch();
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         NexusId = Config.Bind("General", "NexusID", 000, "Nexus mod ID for updates");
 
@@ -65,6 +68,11 @@ namespace OdinPlusRemakeJVL
       {
         Log.Error(e);
       }
+      finally
+      {
+        StopStopwatch();
+        ReportLoadTime(MethodBase.GetCurrentMethod().Name);
+      }
     }
 
     [UsedImplicitly]
@@ -79,20 +87,21 @@ namespace OdinPlusRemakeJVL
 
     public void OnZNetSceneReady()
     {
+      StartStopwatch();
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      Log.Debug($"Calling ZNetSceneReady Subscribers");
+      Log.Debug("Calling ZNetSceneReady Subscribers");
       try
       {
-        Log.Trace($"[{GetType().Name}] Instance != null: {Instance != null}");
-        Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady != null: {Instance?.ZNetSceneReady != null}");
-        Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null: {Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null}");
+        // Log.Trace($"[{GetType().Name}] Instance != null: {Instance != null}");
+        // Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady != null: {Instance?.ZNetSceneReady != null}");
+        // Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null: {Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null}");
 
         foreach (Delegate @delegate in Instance?.ZNetSceneReady?.GetInvocationList()?.ToList())
         {
           try
           {
             Log.Trace($"[{GetType().Name}] {@delegate.Target}.{@delegate.Method.Name}()");
-            EventHandler subscriber = (EventHandler)@delegate;
+            EventHandler subscriber = (EventHandler) @delegate;
             subscriber.Invoke(this, EventArgs.Empty);
           }
           catch (Exception e)
@@ -105,11 +114,38 @@ namespace OdinPlusRemakeJVL
       {
         Log.Error(e);
       }
+      finally
+      {
+        StopStopwatch();
+        ReportLoadTime(MethodBase.GetCurrentMethod().Name);
+      }
     }
 
     private static void HandleDelegateError(MethodInfo method, Exception exception)
     {
       Log.Error($"[{method}] {exception.Message}");
+    }
+
+    #endregion
+
+    #region Performance
+
+    [Conditional("DEBUG")]
+    private void StartStopwatch()
+    {
+      _stopwatch.Restart();
+    }
+
+    [Conditional("DEBUG")]
+    private void StopStopwatch()
+    {
+      _stopwatch.Stop();
+    }
+
+    [Conditional("DEBUG")]
+    private void ReportLoadTime(string method)
+    {
+      Log.Debug($"[{Name}] {method} Execution Time: {_stopwatch.Elapsed.Minutes}m, {_stopwatch.Elapsed.Seconds}s, {_stopwatch.Elapsed.Milliseconds}ms");
     }
 
     #endregion
