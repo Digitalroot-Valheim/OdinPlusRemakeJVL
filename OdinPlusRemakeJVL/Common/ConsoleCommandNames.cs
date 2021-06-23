@@ -6,6 +6,10 @@ namespace OdinPlusRemakeJVL.Common
   {
     internal static string HealthCheck = "healthcheck";
     internal static string ForceLoad = "forceload";
+    internal static string OdinHere = "odinhere";
+    internal static string SetOdin = "setodin";
+    internal static string WhereOdin = "whereodin";
+    internal static string WhereAmI = "whereami";
     public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(ConsoleCommandNames));
   }
 }

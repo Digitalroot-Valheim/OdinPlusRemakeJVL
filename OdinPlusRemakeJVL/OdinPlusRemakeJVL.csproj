@@ -375,6 +375,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Common\DungeonLocationNames.cs" />
+    <Compile Include="Common\GuiUtils.cs" />
     <Compile Include="Common\HunterMonsterNames.cs" />
     <Compile Include="Common\HuntLocationNames.cs" />
     <Compile Include="Common\JsonSerializationProvider.cs" />
@@ -389,6 +390,7 @@
     <Compile Include="Common\ConsoleCommandNames.cs" />
     <Compile Include="ConsoleCommands\ForceLoadCommand.cs" />
     <Compile Include="ConsoleCommands\HealthCheckCommand.cs" />
+    <Compile Include="ConsoleCommands\WhereAmICommand.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
     <Compile Include="Managers\AbstractManager.cs" />
     <Compile Include="Managers\ConsoleCommandManager.cs" />

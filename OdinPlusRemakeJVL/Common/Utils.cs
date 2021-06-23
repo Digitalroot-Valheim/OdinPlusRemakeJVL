@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Common
 {
@@ -34,5 +35,7 @@ namespace OdinPlusRemakeJVL.Common
       // Log.Trace($"ZNetScene.instance?.m_prefabs?.Count > 0 : {ZNetScene.instance?.m_prefabs?.Count}");
       return ZNetScene.instance != null && ZNetScene.instance?.m_prefabs != null && ZNetScene.instance?.m_prefabs?.Count > 0;
     }
+
+    public static Vector3 GetLocalPlayersPosition() => Player.m_localPlayer.transform.position;
   }
 }

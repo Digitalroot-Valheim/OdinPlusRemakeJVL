@@ -12,6 +12,24 @@ namespace OdinPlusRemakeJVL.Managers
   {
     private readonly Dictionary<string, AbstractOdinPlusConsoleCommand> _consoleCommandDictionary = new Dictionary<string, AbstractOdinPlusConsoleCommand>();
 
+    protected override bool OnInitialize()
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (!base.OnInitialize()) return false;
+        
+        AddConsoleCommand(new WhereAmICommand());
+
+        return true;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+        return false;
+      }
+    }
+
     protected override bool OnPostInitialize()
     {
       try
@@ -54,6 +72,11 @@ namespace OdinPlusRemakeJVL.Managers
         healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: {e.Message}";
         return healthCheckStatus;
       }
+    }
+
+    public void WriteToConsole(string msg)
+    {
+      Console.instance.Print(msg);
     }
 
     private void AddConsoleCommands()
