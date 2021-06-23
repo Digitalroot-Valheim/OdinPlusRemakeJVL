@@ -374,11 +374,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Common\DungeonLocationNames.cs" />
+    <Compile Include="Common\HunterMonsterNames.cs" />
+    <Compile Include="Common\HuntLocationNames.cs" />
     <Compile Include="Common\JsonSerializationProvider.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\FxNames.cs" />
     <Compile Include="Common\PetNames.cs" />
+    <Compile Include="Common\QuestType.cs" />
     <Compile Include="Common\Singleton.cs" />
+    <Compile Include="Common\TreasureLocationNames.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="ConsoleCommands\AbstractOdinPlusConsoleCommand.cs" />
     <Compile Include="Common\ConsoleCommandNames.cs" />
