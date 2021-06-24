@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using OdinPlusRemakeJVL.Common;
 using System;
 using System.Reflection;
+using OdinPlusRemakeJVL.Managers;
 
 namespace OdinPlusRemakeJVL
 {
@@ -29,6 +30,7 @@ namespace OdinPlusRemakeJVL
             Log.Debug("ZNetScene.instance is null");
             return;
           }
+
           Main.Instance.OnZNetSceneReady();
         }
         catch (Exception e)
@@ -52,6 +54,37 @@ namespace OdinPlusRemakeJVL
           //
           // OdinPlus.UnRegister();
           // OdinPlus.Clear();
+        }
+        catch (Exception e)
+        {
+          Log.Fatal(e);
+        }
+      }
+    }
+
+    #endregion
+
+    #region ZNet
+
+    [HarmonyPatch(typeof(ZNet))]
+    public static class PatchZNet
+    {
+      [HarmonyPostfix]
+      [HarmonyPatch("Awake")]
+      [HarmonyPriority(Priority.Normal)]
+      [UsedImplicitly]
+      public static void PostfixAwake()
+      {
+        try
+        {
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+          if (!Common.Utils.IsZNetSceneReady())
+          {
+            Log.Debug("ZNet.instance is null");
+            return;
+          }
+
+          Main.Instance.OnZNetReady();
         }
         catch (Exception e)
         {

@@ -12,15 +12,13 @@ namespace OdinPlus.Npcs
 {
 	public class OdinGod : OdinNpc, Hoverable, Interactable, IOdinInteractable
 	{
-		#region Var
-		public static OdinGod m_instance;
+    public static OdinGod m_instance;
 		private List<string> slist = new List<string>();
 		private List<Skills.SkillType> stlist = new List<Skills.SkillType>();
 		private string cskill;
 		private int cskillIndex;
-		#endregion
-		#region util
-		private Vector3 FindSpawnPoint()
+
+    private Vector3 FindSpawnPoint()
 		{
 			var a = Random.Range(10, 10);
 			var b = Random.Range(10, 10);
@@ -49,10 +47,8 @@ namespace OdinPlus.Npcs
 		{
 			//Terrain.ResetTerrain(this.transform.position, 10);
 		}
-		#endregion
-		#region Mono
 
-		private void Awake()
+    private void Awake()
 		{
 			m_instance = this;
 			Summon();
@@ -86,18 +82,15 @@ namespace OdinPlus.Npcs
 				m_instance = null;
 			}
 		}
-		#endregion
-		#region Tool
-		public bool Summon()
+
+    public bool Summon()
 		{
 			//this.transform.parent.localPosition = FindSpawnPoint();
 			ReadSkill();
 			return true;
 		}
 
-		#endregion
-		#region valheim
-		public override bool Interact(Humanoid user, bool hold)
+    public override bool Interact(Humanoid user, bool hold)
 		{
 			if (hold)
 			{
@@ -141,9 +134,8 @@ namespace OdinPlus.Npcs
 			Say("$op_god_takeoffer");
 			return true;
 		}
-		#endregion
-		#region feature
-		private void ReadSkill()
+
+    private void ReadSkill()
 		{
 			slist.Clear();
 			stlist.Clear();
@@ -168,7 +160,5 @@ namespace OdinPlus.Npcs
 			}
 			cskill = slist[cskillIndex];
 		}
-		#endregion
-
-	}
+  }
 }

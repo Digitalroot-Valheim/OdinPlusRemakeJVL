@@ -1,7 +1,5 @@
 ﻿using Jotunn.Entities;
-using Jotunn.Managers;
 using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Items;
 using OdinPlusRemakeJVL.StatusEffects;
 using System;
 using System.Collections.Generic;

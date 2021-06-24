@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace OdinPlusRemakeJVL
 {
@@ -27,7 +28,10 @@ namespace OdinPlusRemakeJVL
     private Harmony _harmony;
     private readonly List<IAbstractManager> _managers = new List<IAbstractManager>();
     private readonly Stopwatch _stopwatch = new Stopwatch();
-    
+
+    public static ConfigEntry<Vector3> ConfigEntryOdinPosition;
+    public static ConfigEntry<bool> ConfigEntryForceOdinPosition;
+
     public Main()
     {
       Log.EnableTrace();
@@ -42,6 +46,8 @@ namespace OdinPlusRemakeJVL
         StartStopwatch();
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         NexusId = Config.Bind("General", "NexusID", 000, "Nexus mod ID for updates");
+        ConfigEntryOdinPosition = Config.Bind("2Server set only", "Odin's Position", Vector3.zero);
+        ConfigEntryForceOdinPosition = Config.Bind("2Server set only", "Force Odin's Position", false);
 
         _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), Guid);
 
@@ -81,7 +87,9 @@ namespace OdinPlusRemakeJVL
       _harmony?.UnpatchSelf();
     }
 
-    #region Event
+    #region Events
+
+    #region ZNetSceneReady
 
     public event EventHandler ZNetSceneReady;
 
@@ -120,6 +128,50 @@ namespace OdinPlusRemakeJVL
         ReportLoadTime(MethodBase.GetCurrentMethod().Name);
       }
     }
+
+    #endregion
+
+    #region ZNetReady
+
+    public event EventHandler ZNetReady;
+
+    public void OnZNetReady()
+    {
+      StartStopwatch();
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Debug("Calling ZNetReady Subscribers");
+      try
+      {
+        // Log.Trace($"[{GetType().Name}] Instance != null: {Instance != null}");
+        // Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady != null: {Instance?.ZNetSceneReady != null}");
+        // Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null: {Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null}");
+
+        foreach (Delegate @delegate in Instance?.ZNetReady?.GetInvocationList()?.ToList())
+        {
+          try
+          {
+            Log.Trace($"[{GetType().Name}] {@delegate.Target}.{@delegate.Method.Name}()");
+            EventHandler subscriber = (EventHandler)@delegate;
+            subscriber.Invoke(this, EventArgs.Empty);
+          }
+          catch (Exception e)
+          {
+            HandleDelegateError(@delegate.Method, e);
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+      finally
+      {
+        StopStopwatch();
+        ReportLoadTime(MethodBase.GetCurrentMethod().Name);
+      }
+    }
+
+    #endregion
 
     private static void HandleDelegateError(MethodInfo method, Exception exception)
     {

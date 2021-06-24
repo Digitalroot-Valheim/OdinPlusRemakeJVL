@@ -219,7 +219,7 @@ namespace OdinPlus.Managers
       ZRoutedRpc.instance.Register<bool>("RPC_ReceiveServerFOP", new Action<long, bool>(RPC_ReceiveServerFOP));
       if (ZNet.instance.IsServer())
       {
-        ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
+        ZRoutedRpc.instance.Register("Rpc_GetStartPos", Rpc_GetStartPos);
         ZRoutedRpc.instance.Register("RPC_SendServerFOP", new Action<long>(RPC_SendServerFOP));
         ZRoutedRpc.instance.Register<string, Vector3>("RPC_ServerFindLocation", new Action<long, string, Vector3>(RPC_ServerFindLocation));
       }

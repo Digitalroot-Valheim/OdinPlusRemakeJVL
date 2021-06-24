@@ -19,6 +19,7 @@ namespace OdinPlusRemakeJVL.Managers
       Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       Log.Trace($"[{GetType().BaseType?.Name}] {nameof(IsInitialized)}: {IsInitialized}");
       if (IsInitialized) return;
+      // ReSharper disable once VirtualMemberCallInConstructor
       Initialize();
     }
 

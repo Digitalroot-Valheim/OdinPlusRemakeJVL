@@ -36,6 +36,13 @@ namespace OdinPlusRemakeJVL.Common
       return ZNetScene.instance != null && ZNetScene.instance?.m_prefabs != null && ZNetScene.instance?.m_prefabs?.Count > 0;
     }
 
+    public static bool IsZNetReady()
+    {
+      Log.Trace($"OdinPlusRemakeJVL.Common.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}");
+      Log.Trace($"ZNet.instance != null : {ZNet.instance != null}");
+      return ZNet.instance != null;
+    }
+
     public static Vector3 GetLocalPlayersPosition() => Player.m_localPlayer.transform.position;
   }
 }
