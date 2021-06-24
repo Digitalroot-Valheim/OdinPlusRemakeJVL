@@ -382,6 +382,7 @@
     <Compile Include="Common\JsonSerializationProvider.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\FxNames.cs" />
+    <Compile Include="Common\MonoBehaviourSingleton.cs" />
     <Compile Include="Common\NpcNames.cs" />
     <Compile Include="Common\PetNames.cs" />
     <Compile Include="Common\QuestType.cs" />
@@ -392,6 +393,7 @@
     <Compile Include="Common\ConsoleCommandNames.cs" />
     <Compile Include="ConsoleCommands\ForceLoadCommand.cs" />
     <Compile Include="ConsoleCommands\HealthCheckCommand.cs" />
+    <Compile Include="ConsoleCommands\OdinHereCommand.cs" />
     <Compile Include="ConsoleCommands\WhereAmICommand.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
     <Compile Include="Managers\AbstractManager.cs" />

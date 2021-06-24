@@ -20,6 +20,7 @@ namespace OdinPlusRemakeJVL.Managers
         if (!base.OnInitialize()) return false;
         
         AddConsoleCommand(new WhereAmICommand());
+        AddConsoleCommand(new OdinHereCommand());
 
         return true;
       }
@@ -90,7 +91,7 @@ namespace OdinPlusRemakeJVL.Managers
 
     public void AddConsoleCommand(AbstractOdinPlusConsoleCommand consoleCommand)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({consoleCommand.Name})");
       _consoleCommandDictionary.Add(consoleCommand.Name, consoleCommand);
     }
   }

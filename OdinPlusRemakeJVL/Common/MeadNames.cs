@@ -27,6 +27,6 @@ namespace OdinPlusRemakeJVL.Common
     public static string AxeMeadM = nameof(AxeMeadM);
     public static string AxeMeadL = nameof(AxeMeadL);
 
-    public static readonly IEnumerable<string> AllNames = Common.Utils.AllNames(typeof(MeadNames));
+    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(MeadNames));
   }
 }

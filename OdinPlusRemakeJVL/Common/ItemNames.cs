@@ -39,6 +39,6 @@ namespace OdinPlusRemakeJVL.Common
     public static string WolfPelt = nameof(WolfPelt);
     public static string Wood = nameof(Wood);
 
-    public static readonly IEnumerable<string> AllNames = Common.Utils.AllNames(typeof(MeadNames));
+    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(MeadNames));
   }
 }

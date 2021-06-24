@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Managers;
 
@@ -19,6 +20,7 @@ namespace OdinPlusRemakeJVL.ConsoleCommands
     {
       try
       {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         _healthManager.HealthCheck();
       }
       catch (Exception e)

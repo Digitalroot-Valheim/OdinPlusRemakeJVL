@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Jotunn.Utils;
 using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.ConsoleCommands;
 using OdinPlusRemakeJVL.Managers;
@@ -16,6 +17,7 @@ namespace OdinPlusRemakeJVL
 {
   [BepInPlugin(Guid, Name, Version)]
   [BepInIncompatibility("buzz.valheim.OdinPlus")]
+  [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
   public class Main : BaseUnityPlugin
   {
     public const string Version = "1.0.0";
@@ -46,8 +48,8 @@ namespace OdinPlusRemakeJVL
         StartStopwatch();
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         NexusId = Config.Bind("General", "NexusID", 000, "Nexus mod ID for updates");
-        ConfigEntryOdinPosition = Config.Bind("2Server set only", "Odin's Position", Vector3.zero);
-        ConfigEntryForceOdinPosition = Config.Bind("2Server set only", "Force Odin's Position", false);
+        ConfigEntryOdinPosition = Config.Bind("2Server set only", "Odins Position", Vector3.zero);
+        ConfigEntryForceOdinPosition = Config.Bind("2Server set only", "Force Odins Position", false);
 
         _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), Guid);
 
@@ -100,10 +102,6 @@ namespace OdinPlusRemakeJVL
       Log.Debug("Calling ZNetSceneReady Subscribers");
       try
       {
-        // Log.Trace($"[{GetType().Name}] Instance != null: {Instance != null}");
-        // Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady != null: {Instance?.ZNetSceneReady != null}");
-        // Log.Trace($"[{GetType().Name}] Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null: {Instance?.ZNetSceneReady?.GetInvocationList().ToList() != null}");
-
         foreach (Delegate @delegate in Instance?.ZNetSceneReady?.GetInvocationList()?.ToList())
         {
           try

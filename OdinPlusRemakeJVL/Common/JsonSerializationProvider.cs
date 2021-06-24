@@ -17,26 +17,26 @@ namespace OdinPlusRemakeJVL.Common
       if (_customTypeLoaded) return;
 
       JSON.RegisterCustomType(typeof(Vector3),
-        (x) =>
+        x =>
         {
           var v3 = (Vector3) x;
           var a = new[] { v3.x, v3.y, v3.z };
           return JSON.ToJSON(a);
         },
-        (x) =>
+        x =>
         {
           var a = JSON.ToObject<float[]>(x);
           return new Vector3(a[0], a[1], a[2]);
         });
 
       JSON.RegisterCustomType(typeof(Quaternion),
-        (x) =>
+        x =>
         {
           var q = (Quaternion)x;
           var a = new[] { q.x, q.y, q.z, q.w };
           return JSON.ToJSON(a);
         },
-        (x) =>
+        x =>
         {
           var a = JSON.ToObject<float[]>(x);
           return new Quaternion(a[0], a[1], a[2], a[3]);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace OdinPlusRemakeJVL.Common
 {
   public static class Utils
   {
-    internal static IEnumerable<string> AllNames(System.Type type)
+    internal static IEnumerable<string> AllNames(Type type)
     {
       var f = type.GetFields().Where(f1=> f1.FieldType == typeof(string));
       // var m = type.GetMembers();
