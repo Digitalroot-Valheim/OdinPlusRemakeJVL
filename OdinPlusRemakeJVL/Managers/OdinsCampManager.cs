@@ -76,14 +76,14 @@ namespace OdinPlusRemakeJVL.Managers
     public void OnZoneSystemLoaded()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition() + new Vector3(-6, 0.1f, -8);
+      _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition() + new Vector3(-6, 0.05f, -8);
       _odinCampGameObject.SetActive(true);
     }
 
     public void OnZNetSceneReady(ZNetScene zNetScene)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({zNetScene.name})");
-      // AddOdin();
+      AddOdin();
       AddPot();
       // AddBird();
       // PrefabManager.Instance.AddPrefab(_odinCampGameObject);
@@ -119,7 +119,6 @@ namespace OdinPlusRemakeJVL.Managers
       _odinCampGameObject.AddComponent<OdinNpc>();
       var odin = _odinCampGameObject.GetComponent<OdinNpc>();
       odin.transform.SetParent(_odinCampGameObject.transform);
-      
     }
 
     private void AddBird()
