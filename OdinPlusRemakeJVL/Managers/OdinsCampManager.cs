@@ -64,16 +64,19 @@ namespace OdinPlusRemakeJVL.Managers
     public void OnSpawnedPlayer(Vector3 position)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({position})");
-      // Common.Utils.Spawn(_odinCampGameObject, _odinCampGameObject.transform.position, Main.RootObject.transform);
       OdinPot pot = _odinCampGameObject.GetComponent<OdinPot>();
-      Log.Trace($"[{GetType().Name}] pot == null : {pot == null}");
       pot?.Spawn(_odinCampGameObject.transform);
+      // var odin = _odinCampGameObject.GetComponent<OdinNpc>();
+      // Log.Trace($"[{GetType().Name}] odin == null : {odin == null}");
+      // odin?.Spawn(_odinCampGameObject.transform);
+      // Debug.Assert(odin != null, nameof(odin) + " != null");
+      // odin.transform.localPosition = Vector3.forward * 4;
     }
 
     public void OnZoneSystemLoaded()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition();
+      _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition() + new Vector3(-6, 0.1f, -8);
       _odinCampGameObject.SetActive(true);
     }
 
@@ -116,7 +119,7 @@ namespace OdinPlusRemakeJVL.Managers
       _odinCampGameObject.AddComponent<OdinNpc>();
       var odin = _odinCampGameObject.GetComponent<OdinNpc>();
       odin.transform.SetParent(_odinCampGameObject.transform);
-      odin.transform.localPosition = _odinCampGameObject.transform.localPosition + Vector3.forward * 4;
+      
     }
 
     private void AddBird()
