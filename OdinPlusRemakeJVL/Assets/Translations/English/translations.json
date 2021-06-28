@@ -187,5 +187,6 @@
   "op_npc_name50": "Åse",
   "op_healthcheck_command_help": "Prints the current health of OdinPlus managers for Debugging.",
   "op_whereami_command_help": "Shows your current position.",
-  "op_forceload_command_help": "Force Load Debugging."
+  "op_forceload_command_help": "Force Load Debugging.",
+  "op_odinhere_command_help": "Spawn Odin close to you."
 }

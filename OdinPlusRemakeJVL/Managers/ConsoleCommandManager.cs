@@ -19,8 +19,11 @@ namespace OdinPlusRemakeJVL.Managers
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         if (!base.OnInitialize()) return false;
         
-        AddConsoleCommand(new WhereAmICommand());
+        AddConsoleCommand(new GotoOdinCommand());
         AddConsoleCommand(new OdinHereCommand());
+        AddConsoleCommand(new WhereAmICommand());
+        AddConsoleCommand(new WhereIsStartTemple());
+        AddConsoleCommand(new WhereIsOdinCommand());
 
         return true;
       }

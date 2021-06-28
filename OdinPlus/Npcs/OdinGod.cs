@@ -12,13 +12,14 @@ namespace OdinPlus.Npcs
 {
 	public class OdinGod : OdinNpc, Hoverable, Interactable, IOdinInteractable
 	{
-    public static OdinGod m_instance;
+    
+		public static OdinGod m_instance;
 		private List<string> slist = new List<string>();
 		private List<Skills.SkillType> stlist = new List<Skills.SkillType>();
 		private string cskill;
 		private int cskillIndex;
 
-    private Vector3 FindSpawnPoint()
+		private Vector3 FindSpawnPoint()
 		{
 			var a = Random.Range(10, 10);
 			var b = Random.Range(10, 10);

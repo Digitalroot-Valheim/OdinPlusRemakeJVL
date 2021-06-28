@@ -1,66 +1,85 @@
-﻿using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Managers;
-using System;
+﻿using Jotunn.Managers;
+using OdinPlusRemakeJVL.Common;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  class OdinNpc : AbstractNpc<OdinNpc>
+  public class OdinNpc : AbstractNpc<OdinNpc>
   {
-    private readonly Action _getPosition;
-    private OdinNpc _odin;
+    // public static GameObject Root;
+    public GameObject Odin;
+    // private Action _getPosition;
 
-    public OdinNpc()
+    public override void Start()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _getPosition = GetPosition;
-    }
 
-    
-    private void Awake()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      Name = "$op_god";
-      Head = gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-      Talker = gameObject;
-      // Summon();
-      InvokeRepeating(_getPosition.Method.Name, 1, 3);
-      Log.Debug("Client start to Calling Request Odin Location");
+      // var prefab = ZNetScene.instance.GetPrefab("odin");
+      var odinPrefab = PrefabManager.Instance.CreateClonedPrefab(GetType().Name, "odin");
+      Log.Trace($"[{GetType().Name}] odinPrefab == null: {odinPrefab == null}");
+      PrefabManager.Instance.AddPrefab(odinPrefab);
+      Odin = Instantiate(odinPrefab);
+      Log.Trace($"[{GetType().Name}] Odin == null: {Odin == null}");
 
-      var prefab = ZNetScene.instance.GetPrefab("odin");
-      var odin = Instantiate(prefab);
-      DestroyImmediate(odin.GetComponent<ZNetView>());
-      DestroyImmediate(odin.GetComponent<ZSyncTransform>());
-      DestroyImmediate(odin.GetComponent<Odin>());
-      DestroyImmediate(odin.GetComponent<Rigidbody>());
-      var aoes = odin.GetComponentsInChildren<Aoe>();
-      var effectAreas = odin.GetComponentsInChildren<EffectArea>();
-      foreach (var item in aoes)
-      {
-        DestroyImmediate(item);
-      }
-      foreach (var item in effectAreas)
+      if (Odin == null) return;
+
+      Log.Trace($"[{GetType().Name}] Remove Prefab stuff we do not want.");
+      DestroyImmediate(Odin.GetComponent<ZNetView>());
+      DestroyImmediate(Odin.GetComponent<ZSyncTransform>());
+      DestroyImmediate(Odin.GetComponent<Odin>());
+      DestroyImmediate(Odin.GetComponent<Rigidbody>());
+      
+      foreach (var item in Odin.GetComponentsInChildren<Aoe>())
       {
         DestroyImmediate(item);
       }
       
-      _odin = odin.AddComponent<OdinNpc>();
-      odin.transform.localPosition = new Vector3(0f, 0, 0f);
+      foreach (var item in Odin.GetComponentsInChildren<EffectArea>())
+      {
+        DestroyImmediate(item);
+      }
 
+      Log.Trace($"[{GetType().Name}] Prefab cleaned up");
+
+
+      // Log.Debug($"[{GetType().Name}] Start rotation: {gameObject.transform.parent.rotation}");
+      // gameObject.transform.parent.Rotate(0, 42, 0);
+      // Log.Debug($"[{GetType().Name}] End rotation: {gameObject.transform.parent.rotation}");
+
+      Head = gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
+      Talker = gameObject;
+      // Summon();
+      // InvokeRepeating(_getPosition.Method.Name, 1, 3);
     }
+
+    public override void OnEnable()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+    }
+
+    //public bool Summon()
+    //{
+    //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+    //  Odin.gameObject.transform.parent.localPosition = FindSpawnPoint();
+    //  ReadSkill();
+    //  return true;
+    //}
+
+
 
     public override string GetHoverText()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{Name}</b></color>");
       // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
       // string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
       // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
       // b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
       // return Localization.instance.Localize(n + s + a + b);
-      return Jotunn.Managers.LocalizationManager.Instance.TryTranslate(stringBuilder.ToString());
+      return Localization.instance.Localize(stringBuilder.ToString());
+      // return $"<color=lightblue><b>Odin</b></color> is here";
     }
 
     public override bool Interact(Humanoid user, bool hold)
@@ -81,23 +100,15 @@ namespace OdinPlusRemakeJVL.Npcs
       return true;
     }
 
-    public override void Start()
-    {
-      base.Start();
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      Log.Debug(gameObject.transform.parent.rotation);
-      gameObject.transform.parent.Rotate(0, 42, 0);
-      Log.Debug(gameObject.transform.parent.rotation);
-    }
-
     public override void SecondaryInteract(Humanoid user)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       // SwitchSkill();
     }
 
-    public override bool UseItem(Humanoid user, ItemDrop.ItemData item)//trans
+    public override bool UseItem(Humanoid user, ItemDrop.ItemData item) //trans
     {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var name = item.m_dropPrefab.name;
       int value = 1;
       //if (!OdinData.ItemSellValue.ContainsKey(name))
@@ -112,21 +123,24 @@ namespace OdinPlusRemakeJVL.Npcs
       return true;
     }
 
-    public void GetPosition()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (_odin.transform.position == Vector3.zero)
-      {
-        LocationManager.Instance.GetStartPosition();
-        return;
-      }
-      Log.Debug("Client Stop Request odin position");
-      CancelInvoke(_getPosition.Method.Name);
-    }
+    //public void GetPosition()
+    //{
+    //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+    //  // if (_odin.transform.position == Vector3.zero)
+    //  // {
+    //  //   LocationManager.Instance.GetStartPosition();
+    //  //   return;
+    //  // }
+
+    //  Log.Debug("Client Stop Request odin position");
+    //  CancelInvoke(_getPosition.Method.Name);
+    //}
 
     public void SetPosition()
     {
-      _odin.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
+      //Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      //Odin.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
+      //Odin.transform.localPosition = Odin.transform.localPosition + Vector3.down;
     }
 
     private void ReadSkill()

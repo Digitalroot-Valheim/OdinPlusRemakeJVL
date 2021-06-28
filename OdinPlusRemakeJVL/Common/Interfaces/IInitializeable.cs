@@ -1,9 +1,11 @@
-﻿namespace OdinPlusRemakeJVL.Managers
+﻿namespace OdinPlusRemakeJVL.Common.Interfaces
 {
-  public interface IAbstractManager
+  public interface IInitializeable
   {
     bool IsInitialized { get; }
+
     void Initialize();
+
     bool PostInitialize();
   }
 }

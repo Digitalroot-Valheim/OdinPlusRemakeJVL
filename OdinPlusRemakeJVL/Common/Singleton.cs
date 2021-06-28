@@ -34,6 +34,7 @@ namespace OdinPlusRemakeJVL.Common
         catch (Exception ex)
         {
           Log.Error($"Failed while initializing singleton of type: {typeof(TSingletonSubClass).FullName}: {ex.Message}");
+          Log.Error(ex);
           throw;
         }
 

@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using OdinPlusRemakeJVL.ConsoleCommands;
 
 namespace OdinPlusRemakeJVL.Managers
 {
-  public class HealthManager : Singleton<HealthManager>, IAbstractManager
+  public class HealthManager : Singleton<HealthManager>, IInitializeable
   {
     private readonly List<HealthCheckStatus> _healthCheckStatusList = new List<HealthCheckStatus>();
 

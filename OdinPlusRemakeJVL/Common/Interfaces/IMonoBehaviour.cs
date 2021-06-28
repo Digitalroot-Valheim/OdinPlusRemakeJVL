@@ -1,4 +1,4 @@
-﻿namespace OdinPlusRemakeJVL.Common
+﻿namespace OdinPlusRemakeJVL.Common.Interfaces
 {
   public interface IMonoBehaviour
   {
@@ -23,7 +23,6 @@
     void OnFailedToConnect();
     void OnFailedToConnectToMasterServer();
     void OnGUI();
-    void OnLevelWasLoaded();
     void OnMasterServerEvent();
     void OnMouseDown();
     void OnMouseUp();
@@ -42,7 +41,6 @@
     void OnPostRender();
     void OnPreCull();
     void OnPreRender();
-    void OnRenderImage();
     void OnRenderObject();
     void OnSerializeNetworkView();
     void OnServerInitialized();

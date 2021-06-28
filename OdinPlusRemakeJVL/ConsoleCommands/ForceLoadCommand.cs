@@ -13,6 +13,7 @@ namespace OdinPlusRemakeJVL.ConsoleCommands
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+
       }
       catch (Exception e)
       {

@@ -1,4 +1,4 @@
-namespace OdinPlusRemakeJVL.Npcs
+namespace OdinPlusRemakeJVL.Common.Interfaces
 {
   internal interface ISecondaryInteractable
   {

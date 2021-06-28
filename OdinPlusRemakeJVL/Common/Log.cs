@@ -83,7 +83,7 @@ namespace OdinPlusRemakeJVL.Common
 
     private void OnLogEvent(object sender, LogEventArgs e)
     {
-      if (e.Source.SourceName == Main.Name)
+      if (e.Source.SourceName == Main.Name || e.Level == (LogLevel.Error | LogLevel.Fatal))
       {
         lock (FileLock)
         {

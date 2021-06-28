@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Managers
 {
-  internal class LocationManager : AbstractManager<LocationManager>
+  internal class LocationManager : AbstractManager<LocationManager>, IOnZNetReady
   {
     private Vector3 _odinsPosition = Vector3.zero;
 
@@ -15,7 +16,6 @@ namespace OdinPlusRemakeJVL.Managers
       {
         if (!base.OnInitialize()) return false;
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        Main.Instance.ZNetReady += OnZNetReady;
         return true;
       }
       catch (Exception e)
@@ -25,13 +25,22 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
-    private void OnZNetReady(object sender, EventArgs e)
+    public void OnZNetReady(ZNet zNet)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       if (HasDependencyError()) return;
       SetupRPC();
       GetStartPosition();
-      ((Main)sender).ZNetReady -= OnZNetReady;
+    }
+
+    public override bool HasDependencyError()
+    {
+      return false;
+    }
+
+    protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
+    {
+      return healthCheckStatus;
     }
 
     private void SetupRPC()
@@ -44,16 +53,6 @@ namespace OdinPlusRemakeJVL.Managers
         // ZRoutedRpc.instance.Register("RPC_SendServerFOP", RPC_SendServerFOP);
         // ZRoutedRpc.instance.Register("RPC_ServerFindLocation", new Action<long, string, Vector3>(RPC_ServerFindLocation));
       }
-    }
-
-    public override bool HasDependencyError()
-    {
-      return false;
-    }
-
-    protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
-    {
-      return healthCheckStatus;
     }
 
     public void GetStartPosition()
@@ -80,7 +79,7 @@ namespace OdinPlusRemakeJVL.Managers
     private void RPC_SetStartPos(long sender, Vector3 pos)
     {
       Log.Debug($"Client received Odin position {pos}");
-      // NpcManager.Root.transform.localPosition = pos;
+      // OdinsCampManager.Root.transform.localPosition = pos;
     }
 
     #endregion

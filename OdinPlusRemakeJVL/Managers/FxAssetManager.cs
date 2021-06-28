@@ -1,4 +1,6 @@
+using Jotunn.Managers;
 using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using OdinPlusRemakeJVL.Extensions;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Managers
 {
-  public class FxAssetManager : AbstractManager<FxAssetManager>
+  public class FxAssetManager : AbstractManager<FxAssetManager>, IOnZNetSceneReady
   {
     private readonly Dictionary<string, GameObject> _fxList = new Dictionary<string, GameObject>();
 
@@ -27,30 +29,6 @@ namespace OdinPlusRemakeJVL.Managers
         HealthManager.Instance.HealthCheck();
         HealthManager.Instance.OnHealthCheck -= HealthCheck;
       }
-    }
-
-    protected override bool OnInitialize()
-    {
-      try
-      {
-        if (!base.OnInitialize()) return false;
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        Main.Instance.ZNetSceneReady += OnZNetSceneReady;
-        return true;
-      }
-      catch (Exception e)
-      {
-        Log.Error(e);
-        return false;
-      }
-    }
-
-    private void OnZNetSceneReady(object sender, EventArgs e)
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (HasDependencyError()) return;
-      CreateFxs();
-      ((Main) sender).ZNetSceneReady -= OnZNetSceneReady;
     }
 
     public override bool HasDependencyError()
@@ -103,21 +81,36 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
-    private void CreateFxs()
+    public void OnZNetSceneReady(ZNetScene zNetScene)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      CreateFx("odin", "odinsmoke", FxNames.RedSmoke, Color.red);
-      CreateFx("odin", "odinsmoke", FxNames.BlueSmoke, Color.blue);
-      CreateFx("odin", "odinsmoke", FxNames.YellowSmoke, Color.yellow);
-      CreateFx("odin", "odinsmoke", FxNames.GreenSmoke, Color.green);
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (HasDependencyError()) return;
+        CreateFxs(zNetScene);
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex);
+      }
     }
 
-    private void CreateFx(string prefab, string particle, string name, Color color)
+    private void CreateFxs(ZNetScene zNetScene)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      CreateFx(zNetScene, "odin", "odinsmoke", FxNames.RedSmoke, Color.red);
+      CreateFx(zNetScene, "odin", "odinsmoke", FxNames.BlueSmoke, Color.blue);
+      CreateFx(zNetScene, "odin", "odinsmoke", FxNames.YellowSmoke, Color.yellow);
+      CreateFx(zNetScene, "odin", "odinsmoke", FxNames.GreenSmoke, Color.green);
+    }
+
+    private void CreateFx(ZNetScene zNetScene, string prefab, string particle, string name, Color color)
     {
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab}, {particle}, {name}, {color})");
-        var gameObject = UnityEngine.Object.Instantiate(ZNetScene.instance.GetPrefab(prefab).FindGameObject(particle));
+        // var gameObject = UnityEngine.Object.Instantiate(zNetScene.GetPrefab(prefab).FindGameObject(particle));
+        var gameObject = UnityEngine.Object.Instantiate(PrefabManager.Instance.GetPrefab(prefab).FindGameObject(particle));
         gameObject.name = name;
         var material = gameObject.GetComponent<Renderer>().material;
         material.color = color;

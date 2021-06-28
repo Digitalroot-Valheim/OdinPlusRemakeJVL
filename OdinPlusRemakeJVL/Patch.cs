@@ -3,12 +3,43 @@ using JetBrains.Annotations;
 using OdinPlusRemakeJVL.Common;
 using System;
 using System.Reflection;
-using OdinPlusRemakeJVL.Managers;
+using UnityEngine;
 
 namespace OdinPlusRemakeJVL
 {
   public class Patch
   {
+    #region Game
+
+    [HarmonyPatch(typeof(Game))]
+    public static class PatchGame
+    {
+      [HarmonyPostfix]
+      [HarmonyPatch("SpawnPlayer")]
+      [HarmonyPriority(Priority.Normal)]
+      [UsedImplicitly]
+      public static void PostfixLoad(Vector3 spawnPoint)
+      {
+        try
+        {
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}({spawnPoint})");
+
+          if (Player.m_localPlayer == null)
+          {
+            Log.Debug("Player is null");
+            return;
+          }
+          Main.Instance.OnSpawnedPlayer(spawnPoint);
+        }
+        catch (Exception e)
+        {
+          ZLog.LogError(e);
+        }
+      }
+    }
+
+    #endregion
+
     #region ZNetScene
 
     [HarmonyPatch(typeof(ZNetScene))]
@@ -31,7 +62,7 @@ namespace OdinPlusRemakeJVL
             return;
           }
 
-          Main.Instance.OnZNetSceneReady();
+          Main.Instance.OnZNetSceneReady(__instance);
         }
         catch (Exception e)
         {
@@ -73,7 +104,8 @@ namespace OdinPlusRemakeJVL
       [HarmonyPatch("Awake")]
       [HarmonyPriority(Priority.Normal)]
       [UsedImplicitly]
-      public static void PostfixAwake()
+      // ReSharper disable once InconsistentNaming
+      public static void PostfixAwake(ZNet __instance)
       {
         try
         {
@@ -84,7 +116,7 @@ namespace OdinPlusRemakeJVL
             return;
           }
 
-          Main.Instance.OnZNetReady();
+          Main.Instance.OnZNetReady(__instance);
         }
         catch (Exception e)
         {
@@ -94,5 +126,31 @@ namespace OdinPlusRemakeJVL
     }
 
     #endregion
+
+    #region ZoneSystem
+
+    [HarmonyPatch(typeof(ZoneSystem))]
+    public static class PatchZoneSystem
+    {
+      [HarmonyPostfix]
+      [HarmonyPatch("Load")]
+      [HarmonyPriority(Priority.Normal)]
+      [UsedImplicitly]
+      public static void PostfixLoad()
+      {
+        try
+        {
+          Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
+          Main.Instance.OnZoneSystemLoaded();
+        }
+        catch (Exception e)
+        {
+          Log.Fatal(e);
+        }
+      }
+    }
+
+    #endregion
+
   }
 }

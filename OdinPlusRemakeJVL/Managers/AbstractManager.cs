@@ -1,6 +1,7 @@
-﻿using System;
+﻿using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
+using System;
 using System.Reflection;
-using OdinPlusRemakeJVL.Common;
 
 namespace OdinPlusRemakeJVL.Managers
 {
@@ -10,7 +11,7 @@ namespace OdinPlusRemakeJVL.Managers
   /// License: "GNU Affero General Public License v3.0"
   /// License ref: https://github.com/Digitalroot/digitalroot-valheim-mods/blob/main/LICENSE
   /// </summary>
-  public abstract class AbstractManager<T> : Singleton<T>, IAbstractManager where T : AbstractManager<T>, new()
+  public abstract class AbstractManager<T> : Singleton<T>, IInitializeable where T : AbstractManager<T>, new()
   {
     public bool IsInitialized { get; private protected set; }
 

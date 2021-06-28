@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdinPlusRemakeJVL", "OdinPl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdinPlus", "OdinPlus\OdinPlus.csproj", "{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSpawn", "SimpleSpawn\SimpleSpawn.csproj", "{1779415A-C71D-4DE4-80E5-764A2BE8B957}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,7 +32,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -39,6 +40,9 @@ Global
 		{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1779415A-C71D-4DE4-80E5-764A2BE8B957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1779415A-C71D-4DE4-80E5-764A2BE8B957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1779415A-C71D-4DE4-80E5-764A2BE8B957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

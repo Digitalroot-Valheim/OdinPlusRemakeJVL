@@ -18,6 +18,7 @@ namespace OdinPlusRemakeJVL.ConsoleCommands
         var msg = $"{position.x},{position.y},{position.z}";
         GuiUtils.PrintToCenterOfScreen(msg);
         ConsoleCommandManager.Instance.WriteToConsole($"(x,y,z) {msg}");
+        Log.Trace($"{GetType().Name}: {msg}");
       }
       catch (Exception e)
       {
