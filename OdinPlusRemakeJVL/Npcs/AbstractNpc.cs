@@ -50,9 +50,16 @@ namespace OdinPlusRemakeJVL.Npcs
 
     private protected void Say(string msg)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name}, {msg})");
       msg = Localization.instance.Localize(msg);
+      Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] Localization.instance == null : {Localization.instance == null}");
+      Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] msg == null : {msg == null}");
+      Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] Name == null : {Name == null}");
       var topic = Localization.instance.Localize(Name);
+      Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] topic == null : {topic == null}");
+      Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] Chat.instance == null : {Chat.instance == null}");
+      Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] Talker == null : {Talker == null}");
+
       Chat.instance.SetNpcText(Talker, Vector3.up * 1.5f, 60f, 5, topic, msg, false);
     }
   }

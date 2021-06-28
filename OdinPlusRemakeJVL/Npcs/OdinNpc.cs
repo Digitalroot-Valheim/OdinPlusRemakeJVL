@@ -13,30 +13,40 @@ namespace OdinPlusRemakeJVL.Npcs
     public void Awake()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var odinPrefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.Odin, ItemNames.Odin);
 
-      Log.Trace($"[{GetType().Name}] odinPrefab == null: {odinPrefab == null}");
-      if (odinPrefab == null) return;
+      var odinPrefab = PrefabManager.Instance.GetPrefab(CustomPrefabNames.Odin);
 
-      Log.Trace($"[{GetType().Name}] Remove Prefab stuff we do not want.");
-
-      DestroyImmediate(odinPrefab.GetComponent<ZNetView>());
-      DestroyImmediate(odinPrefab.GetComponent<ZSyncTransform>());
-      DestroyImmediate(odinPrefab.GetComponent<Odin>());
-      DestroyImmediate(odinPrefab.GetComponent<Rigidbody>());
-
-      foreach (var item in odinPrefab.GetComponentsInChildren<Aoe>())
+      if (odinPrefab == null)
       {
-        DestroyImmediate(item);
+        Log.Trace($"[{GetType().Name}] Creating {CustomPrefabNames.Odin}");
+        odinPrefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.Odin, ItemNames.Odin);
+
+        if (odinPrefab != null)
+        {
+          DestroyImmediate(odinPrefab.GetComponent<ZNetView>());
+          DestroyImmediate(odinPrefab.GetComponent<ZSyncTransform>());
+          DestroyImmediate(odinPrefab.GetComponent<Odin>());
+          DestroyImmediate(odinPrefab.GetComponent<Rigidbody>());
+
+          foreach (var item in odinPrefab.GetComponentsInChildren<Aoe>())
+          {
+            DestroyImmediate(item);
+          }
+
+          foreach (var item in odinPrefab.GetComponentsInChildren<EffectArea>())
+          {
+            DestroyImmediate(item);
+          }
+
+          PrefabManager.Instance.AddPrefab(odinPrefab);
+        }
       }
 
-      foreach (var item in odinPrefab.GetComponentsInChildren<EffectArea>())
+      if (odinPrefab == null)
       {
-        DestroyImmediate(item);
+        Log.Error($"[{GetType().Name}] Error with prefabs.");
+        Log.Error($"[{GetType().Name}] odinPrefab == null: {odinPrefab == null}");
       }
-      Log.Trace($"[{GetType().Name}] Prefab cleaned up");
-
-      PrefabManager.Instance.AddPrefab(odinPrefab);
     }
 
 
@@ -46,8 +56,7 @@ namespace OdinPlusRemakeJVL.Npcs
       // gameObject.transform.parent.Rotate(0, 42, 0);
       // Log.Debug($"[{GetType().Name}] End rotation: {gameObject.transform.parent.rotation}");
 
-      Head = gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-      Talker = gameObject;
+      
     }
 
     public override void OnEnable()
@@ -168,6 +177,10 @@ namespace OdinPlusRemakeJVL.Npcs
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Odin = Common.Utils.Spawn(CustomPrefabNames.Odin, parent.position, parent);
+      Odin.transform.parent.Rotate(0, 42, 0);
+      Head = Odin.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
+      Talker = Odin;
+      Name = "$op_god";
     }
   }
 }

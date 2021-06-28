@@ -65,12 +65,21 @@ namespace OdinPlusRemakeJVL.Managers
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({position})");
       OdinPot pot = _odinCampGameObject.GetComponent<OdinPot>();
-      pot?.Spawn(_odinCampGameObject.transform);
-      // var odin = _odinCampGameObject.GetComponent<OdinNpc>();
-      // Log.Trace($"[{GetType().Name}] odin == null : {odin == null}");
-      // odin?.Spawn(_odinCampGameObject.transform);
-      // Debug.Assert(odin != null, nameof(odin) + " != null");
-      // odin.transform.localPosition = Vector3.forward * 4;
+      if (pot != null)
+      {
+        pot.Spawn(_odinCampGameObject.transform);
+        pot.FirePit.transform.SetParent(_odinCampGameObject.transform);
+        pot.Cauldron.transform.SetParent(_odinCampGameObject.transform);
+        pot.FirePit.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
+        pot.Cauldron.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
+      }
+
+      var odin = _odinCampGameObject.GetComponent<OdinNpc>();
+      if (odin != null)
+      {
+        odin.Spawn(_odinCampGameObject.transform);
+        odin.Odin.transform.localPosition = Vector3.forward * 4;  
+      }
     }
 
     public void OnZoneSystemLoaded()
