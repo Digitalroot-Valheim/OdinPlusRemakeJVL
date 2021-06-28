@@ -107,6 +107,12 @@ namespace OdinPlusRemakeJVL
     private void OnDestroy()
     {
       _harmony?.UnpatchSelf();
+      Log.Debug($"[{GetType().Name}] Calling Managers with IDestroyable");
+      foreach (var destroyable in _initializeables.Select(manager => manager as IDestroyable))
+      {
+        destroyable?.OnDestroy();;
+      }
+      Log.OnDestroy();
     }
 
     #region Events

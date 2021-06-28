@@ -25,6 +25,15 @@ namespace OdinPlusRemakeJVL.Npcs
         {
           Destroy(firePrefab.gameObject.transform.Find("PlayerBase").gameObject);
           firePrefab.transform.Find("_enabled_high").gameObject.SetActive(true);
+          DestroyImmediate(firePrefab.GetComponent<WearNTear>());
+          DestroyImmediate(firePrefab.GetComponent<Fireplace>());
+          firePrefab.GetComponent<Piece>().m_canBeRemoved = false;
+
+          foreach (var item in firePrefab.GetComponentsInChildren<Aoe>())
+          {
+            DestroyImmediate(item);
+          }
+
           PrefabManager.Instance.AddPrefab(firePrefab);
         }
       }
@@ -36,7 +45,10 @@ namespace OdinPlusRemakeJVL.Npcs
         if (cauldronPrefab != null)
         {
           cauldronPrefab.transform.Find("HaveFire").gameObject.SetActive(true);
-          // Cauldron.name = "$op_pot_name";
+          DestroyImmediate(cauldronPrefab.GetComponent<CraftingStation>());
+          DestroyImmediate(cauldronPrefab.GetComponent<WearNTear>());
+          cauldronPrefab.GetComponent<Piece>().m_canBeRemoved = false;
+
           PrefabManager.Instance.AddPrefab(cauldronPrefab);
         }
       }
@@ -76,6 +88,7 @@ namespace OdinPlusRemakeJVL.Npcs
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       FirePit = Common.Utils.Spawn(CustomPrefabNames.FirePit, parent.position, parent);
       Cauldron = Common.Utils.Spawn(CustomPrefabNames.Cauldron, parent.position, parent);
+      // Cauldron.name = "$op_pot_name";
     }
   }
 }

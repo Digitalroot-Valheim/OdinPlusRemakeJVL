@@ -1,10 +1,10 @@
-﻿using System;
+﻿using BepInEx;
+using BepInEx.Logging;
+using JetBrains.Annotations;
+using System;
 using System.IO;
 using System.Text;
 using System.Timers;
-using BepInEx;
-using BepInEx.Logging;
-using JetBrains.Annotations;
 
 namespace OdinPlusRemakeJVL.Common
 {
@@ -213,5 +213,10 @@ namespace OdinPlusRemakeJVL.Common
     }
 
     #endregion
+
+    public static void OnDestroy()
+    {
+      Instance.Dispose();
+    }
   }
 }

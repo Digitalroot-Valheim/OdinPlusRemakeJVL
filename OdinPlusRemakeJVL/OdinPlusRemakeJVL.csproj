@@ -36,6 +36,16 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ScriptEngine|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ScriptEngine\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>embedded</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HarmonyX.2.4.2\lib\net45\0Harmony.dll</HintPath>
@@ -382,6 +392,7 @@
     <Compile Include="Common\GuiUtils.cs" />
     <Compile Include="Common\HunterMonsterNames.cs" />
     <Compile Include="Common\HuntLocationNames.cs" />
+    <Compile Include="Common\Interfaces\IDestroyable.cs" />
     <Compile Include="Common\Interfaces\IMonoBehaviour.cs" />
     <Compile Include="Common\Interfaces\IOnSpawnedPlayer.cs" />
     <Compile Include="Common\Interfaces\IOnZNetReady.cs" />
@@ -546,6 +557,11 @@
     <Error Condition="!Exists('..\packages\JotunnLib.2.0.12\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JotunnLib.2.0.12\build\JotunnLib.props'))" />
     <Error Condition="!Exists('..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props'))" />
     <Error Condition="!Exists('..\packages\Fody.6.5.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.1\build\Fody.targets'))" />
+  </Target>
+  <Target Name="ScriptEnginePostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'ScriptEngine'">
+    <Message Text="DebugPostBuild Called" Importance="high" />
+    <Message Text="Copying assemblies to C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\scripts\" Importance="high" />
+    <Copy SourceFiles="@(OdinPlusSourceFiles)" DestinationFiles="@(OdinPlusSourceFiles->'C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\scripts\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
   </Target>
   <Target Name="DebugPostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Message Text="DebugPostBuild Called" Importance="high" />
