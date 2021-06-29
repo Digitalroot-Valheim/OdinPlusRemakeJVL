@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Jotunn.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Jotunn.Managers;
 using UnityEngine;
-using Object = System.Object;
 
 namespace OdinPlusRemakeJVL.Common
 {
@@ -45,6 +44,14 @@ namespace OdinPlusRemakeJVL.Common
       Log.Trace($"ZNet.instance != null : {ZNet.instance != null}");
       return ZNet.instance != null;
     }
+    
+    public static Vector3 GetGroundHeight(int x, int z) => GetGroundHeight(new Vector3Int(x, 500, z));
+
+    public static Vector3 GetGroundHeight(float x, float z) => GetGroundHeight(new Vector3(x, 500, z));
+
+    public static Vector3 GetGroundHeight(Vector3Int vector3) => new Vector3(vector3.x, ZoneSystem.instance.GetGroundHeight(vector3), vector3.z);
+
+    public static Vector3 GetGroundHeight(Vector3 vector3) => new Vector3(vector3.x, ZoneSystem.instance.GetGroundHeight(vector3), vector3.z);
 
     public static Vector3 GetLocalPlayersPosition() => Player.m_localPlayer.transform.position;
 
