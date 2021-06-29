@@ -22,7 +22,7 @@ namespace OdinPlusRemakeJVL.Npcs
     {
       string n = string.Format("\n<color=lightblue><b>{0}</b></color>", m_name);
       string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
-      return Localization.instance.Localize(n + u);
+      return Common.Utils.Localize(n + u);
     }
 
     public new string GetHoverName()
@@ -59,7 +59,7 @@ namespace OdinPlusRemakeJVL.Npcs
       var icon = __instance.m_coinText.transform.parent.GetChild(0).GetComponent<Image>();
       sell.gameObject.SetActive(!set);
       icon.sprite = !set ? SpriteManager.Instance.GetSprite(ItemNames.Coins) : SpriteManager.Instance.GetSprite(ItemNames.OdinCredit);
-      GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text = Localization.instance.Localize(set ? "OdinStore" : @"$store_topic");
+      GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text = Common.Utils.Localize(set ? "OdinStore" : @"$store_topic");
     }
 
     private new void Say(List<string> texts, string trigger)

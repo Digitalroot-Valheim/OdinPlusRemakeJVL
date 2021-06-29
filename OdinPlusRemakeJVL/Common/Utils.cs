@@ -76,5 +76,10 @@ namespace OdinPlusRemakeJVL.Common
       // PrefabManager.Instance.RegisterToZNetScene(instance);
       return instance;
     }
+
+    public static string Localize(string value)
+    {
+      return Localization.instance.Localize(value);
+    }
   }
 }
