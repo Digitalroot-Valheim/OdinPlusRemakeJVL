@@ -87,6 +87,10 @@ namespace OdinPlusRemakeJVL.Managers
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition() + new Vector3(-6, 0.05f, -8);
       _odinCampGameObject.SetActive(true);
+
+      var pfab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find("ForceField");
+      var nmz = UnityEngine.Object.Instantiate(pfab, _odinCampGameObject.transform);
+      nmz.transform.localScale = Vector3.one * 10;
     }
 
     public void OnZNetSceneReady(ZNetScene zNetScene)
@@ -96,9 +100,6 @@ namespace OdinPlusRemakeJVL.Managers
       AddPot();
       // AddBird();
       // PrefabManager.Instance.AddPrefab(_odinCampGameObject);
-      // PrefabManager.Instance.RegisterToZNetScene(_odinCampGameObject);
-      // ZNetScene.instance.SpawnObject(_odinCampGameObject.gameObject.transform.position, Quaternion.Euler(_odinCampGameObject.gameObject.transform.position), _odinCampGameObject);
-      // ZNetScene.instance.SpawnObject(_odinCampGameObject.gameObject.transform.position, Quaternion.Euler(_odinCampGameObject.gameObject.transform.position), PrefabManager.Instance.GetPrefab("fire_pit"));
     }
 
     //private Vector3 FindSpawnPoint()
@@ -142,10 +143,6 @@ namespace OdinPlusRemakeJVL.Managers
       var pot = _odinCampGameObject.GetComponent<OdinPot>();
       pot.transform.SetParent(_odinCampGameObject.transform);
 
-      // pot.Fire.transform.SetParent(_odinCampGameObject.transform);
-      // pot.Cauldron.transform.SetParent(_odinCampGameObject.transform);
-      // pot.Fire.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
-      // pot.Cauldron.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
       // pot.Talker = _odinCampGameObject.GetComponent<OdinNpc>().gameObject;
 
       // m_odinPot = caul.AddComponent<OdinTrader>();

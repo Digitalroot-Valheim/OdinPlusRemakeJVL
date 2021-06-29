@@ -49,31 +49,16 @@ namespace OdinPlusRemakeJVL.Npcs
       }
     }
 
-
-    public override void Start()
-    {
-      // Log.Debug($"[{GetType().Name}] Start rotation: {gameObject.transform.parent.rotation}");
-      // gameObject.transform.parent.Rotate(0, 42, 0);
-      // Log.Debug($"[{GetType().Name}] End rotation: {gameObject.transform.parent.rotation}");
-
-      
-    }
-
-    public override void OnEnable()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    }
-
     //public bool Summon()
     //{
     //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    //  Odin.gameObject.transform.parent.localPosition = FindSpawnPoint();
     //  ReadSkill();
     //  return true;
     //}
 
     public override string GetHoverText()
     {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{Name}</b></color>");
       // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
@@ -109,6 +94,14 @@ namespace OdinPlusRemakeJVL.Npcs
       // SwitchSkill();
     }
 
+    public override void Start()
+    {
+    }
+
+    public override void OnEnable()
+    {
+    }
+
     public override bool UseItem(Humanoid user, ItemDrop.ItemData item) //trans
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -126,19 +119,6 @@ namespace OdinPlusRemakeJVL.Npcs
       return true;
     }
 
-    //public void GetPosition()
-    //{
-    //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    //  // if (_odin.transform.position == Vector3.zero)
-    //  // {
-    //  //   LocationManager.Instance.GetStartPosition();
-    //  //   return;
-    //  // }
-
-    //  Log.Debug("Client Stop Request odin position");
-    //  CancelInvoke(_getPosition.Method.Name);
-    //}
-
     public void SetPosition()
     {
       //Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -148,19 +128,19 @@ namespace OdinPlusRemakeJVL.Npcs
 
     private void ReadSkill()
     {
-      //slist.Clear();
-      //stlist.Clear();
-      //foreach (object obj in Enum.GetValues(typeof(Skills.SkillType)))
-      //{
-      //  Skills.SkillType skillType = (Skills.SkillType)obj;
-      //  var s = skillType.ToString();
-      //  if (s != "None" && s != "FrostMagic" && s != "All" && s != "FireMagic")
-      //  {
-      //    slist.Add(skillType.ToString());
-      //    stlist.Add(skillType);
-      //  }
-      //}
-      //cskill = slist[cskillIndex];
+      // slist.Clear();
+      // stlist.Clear();
+      // foreach (object obj in Enum.GetValues(typeof(Skills.SkillType)))
+      // {
+      //   Skills.SkillType skillType = (Skills.SkillType)obj;
+      //   var s = skillType.ToString();
+      //   if (s != "None" && s != "FrostMagic" && s != "All" && s != "FireMagic")
+      //   {
+      //     slist.Add(skillType.ToString());
+      //     stlist.Add(skillType);
+      //   }
+      // }
+      // cskill = slist[cskillIndex];
     }
 
     public void SwitchSkill()

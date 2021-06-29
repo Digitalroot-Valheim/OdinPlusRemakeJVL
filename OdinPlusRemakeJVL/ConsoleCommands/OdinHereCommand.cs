@@ -16,7 +16,7 @@ namespace OdinPlusRemakeJVL.ConsoleCommands
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         LocationManager.Instance.GetStartPosition();
-        OdinNpc.Instance.SetPosition();
+        // OdinNpc.Instance.SetPosition();
       }
       catch (Exception e)
       {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  public abstract class AbstractNpc<T> : MonoBehaviourSingleton<T>, Hoverable, Interactable, ISecondaryInteractable where T : AbstractNpc<T>, new()
+  public abstract class AbstractNpc<T> : MonoBehaviour, Hoverable, Interactable, ISecondaryInteractable where T : AbstractNpc<T>, new()
   {
     private string _name;
 
@@ -21,13 +21,13 @@ namespace OdinPlusRemakeJVL.Npcs
 
     public virtual string GetHoverText()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
+      // Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       return Localization.instance.Localize($"<color=lightblue><b>{Name}</b></color>");
     }
 
     public virtual string GetHoverName()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
+      // Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
       return Localization.instance.Localize(Name);
     }
 
@@ -40,6 +40,16 @@ namespace OdinPlusRemakeJVL.Npcs
     public virtual bool UseItem(Humanoid user, ItemDrop.ItemData item)
     {
       return false;
+    }
+
+    public virtual void OnApplicationQuit()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+    }
+
+    public virtual void OnDestroy()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
     }
 
     public abstract void SecondaryInteract(Humanoid user);
@@ -60,7 +70,7 @@ namespace OdinPlusRemakeJVL.Npcs
       Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] Chat.instance == null : {Chat.instance == null}");
       Log.Trace($"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] Talker == null : {Talker == null}");
 
-      Chat.instance.SetNpcText(Talker, Vector3.up * 1.5f, 60f, 5, topic, msg, false);
+      Chat.instance?.SetNpcText(Talker, Vector3.up * 3f, 60f, 8, topic, msg, false);
     }
   }
 }
