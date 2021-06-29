@@ -394,7 +394,9 @@
     <Compile Include="Common\HuntLocationNames.cs" />
     <Compile Include="Common\Interfaces\IDestroyable.cs" />
     <Compile Include="Common\Interfaces\IMonoBehaviour.cs" />
+    <Compile Include="Common\Interfaces\IOnPrefabsRegistered.cs" />
     <Compile Include="Common\Interfaces\IOnSpawnedPlayer.cs" />
+    <Compile Include="Common\Interfaces\IOnVanillaItemsAvailable.cs" />
     <Compile Include="Common\Interfaces\IOnZNetReady.cs" />
     <Compile Include="Common\Interfaces\IOnZNetSceneReady.cs" />
     <Compile Include="Common\Interfaces\IOnZoneSystemLoaded.cs" />
@@ -438,6 +440,7 @@
     <Compile Include="Common\Interfaces\ISecondaryInteractable.cs" />
     <Compile Include="Npcs\OdinNpc.cs" />
     <Compile Include="Npcs\OdinPot.cs" />
+    <Compile Include="Npcs\OdinTrader.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusEffects\SpeedStatusEffect.cs" />

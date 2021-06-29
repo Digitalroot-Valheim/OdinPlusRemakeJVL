@@ -18,7 +18,7 @@ using UnityEngine;
 namespace OdinPlusRemakeJVL
 {
   [BepInPlugin(Guid, Name, Version)]
-  [BepInDependency(Jotunn.Main.ModGuid, BepInDependency.DependencyFlags.HardDependency)]
+  [BepInDependency(Jotunn.Main.ModGuid)]
   [BepInIncompatibility("buzz.valheim.OdinPlus")]
   [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
   public class Main : BaseUnityPlugin
@@ -45,6 +45,8 @@ namespace OdinPlusRemakeJVL
     private List<IInitializeable> _initializeables;
     private readonly Stopwatch _stopwatch = new Stopwatch();
     internal static GameObject RootObject;
+    public static List<string> traderNameList = new List<string>();
+    public static int Credits;
 
     [UsedImplicitly]
     private void Awake()
@@ -63,6 +65,9 @@ namespace OdinPlusRemakeJVL
 
         RootObject = new GameObject(Name);
         DontDestroyOnLoad(RootObject);
+
+        Jotunn.Managers.ItemManager.OnVanillaItemsAvailable += OnVanillaItemsAvailable;
+        Jotunn.Managers.PrefabManager.OnPrefabsRegistered += OnPrefabsRegistered; ;
 
         _initializeables = new List<IInitializeable>()
         {
@@ -110,10 +115,55 @@ namespace OdinPlusRemakeJVL
       Log.Debug($"[{GetType().Name}] Calling Managers with IDestroyable");
       foreach (var destroyable in _initializeables.Select(manager => manager as IDestroyable))
       {
-        destroyable?.OnDestroy();;
+        try
+        {
+          destroyable?.OnDestroy();
+        }
+        catch (Exception e)
+        {
+          Log.Error(e);
+        }
       }
+
       Log.OnDestroy();
     }
+
+
+    #region Refactor
+
+    public static void AddCredits(int val, Transform m_head)
+    {
+      AddCredits(val);
+      Player.m_localPlayer.m_skillLevelupEffects.Create(m_head.position, m_head.rotation, m_head);
+    }
+
+    public static bool RemoveCredits(int s)
+    {
+      if (Credits - s < 0)
+      {
+        return false;
+      }
+
+      Credits -= s;
+      return true;
+    }
+
+    public static void AddCredits(int val)
+    {
+      Credits += val;
+    }
+
+    public static void AddCredits(int val, bool _notice)
+    {
+      AddCredits(val);
+      if (_notice)
+      {
+        string n = String.Format("Odin Credits added : <color=lightblue><b>[{0}]</b></color>", Credits);
+        MessageHud.instance.ShowBiomeFoundMsg(n, true); //trans
+      }
+    }
+
+    #endregion
 
     #region Events
 
@@ -131,7 +181,14 @@ namespace OdinPlusRemakeJVL
         Log.Debug($"[{GetType().Name}] Calling Managers with IOnZNetSceneReady");
         foreach (var onZNetSceneReady in _initializeables.Select(manager => manager as IOnZNetSceneReady))
         {
-          onZNetSceneReady?.OnZNetSceneReady(zNetScene);
+          try
+          {
+            onZNetSceneReady?.OnZNetSceneReady(zNetScene);
+          }
+          catch (Exception e)
+          {
+            Log.Error(e);
+          }
         }
 
         Log.Debug($"[{GetType().Name}] Calling ZNetSceneReady Event Subscribers");
@@ -142,7 +199,7 @@ namespace OdinPlusRemakeJVL
             try
             {
               Log.Trace($"[{GetType().Name}] {@delegate.Method.DeclaringType?.Name}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
+              EventHandler subscriber = (EventHandler) @delegate;
               subscriber.Invoke(this, new OnZNetSceneReadyEventArgs(zNetScene));
             }
             catch (Exception e)
@@ -179,7 +236,14 @@ namespace OdinPlusRemakeJVL
         Log.Debug($"[{GetType().Name}] Calling Managers with IOnZNetReady");
         foreach (var onZNetReady in _initializeables.Select(manager => manager as IOnZNetReady))
         {
-          onZNetReady?.OnZNetReady(zNet);
+          try
+          {
+            onZNetReady?.OnZNetReady(zNet);
+          }
+          catch (Exception e)
+          {
+            Log.Error(e);
+          }
         }
 
         Log.Debug($"[{GetType().Name}] Calling ZNetReady Event Subscribers");
@@ -190,7 +254,7 @@ namespace OdinPlusRemakeJVL
             try
             {
               Log.Trace($"[{GetType().Name}] {@delegate.Target}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
+              EventHandler subscriber = (EventHandler) @delegate;
               subscriber.Invoke(this, new OnZNetReadyEventArgs(zNet));
             }
             catch (Exception e)
@@ -199,7 +263,6 @@ namespace OdinPlusRemakeJVL
             }
           }
         }
-
       }
       catch (Exception e)
       {
@@ -230,7 +293,14 @@ namespace OdinPlusRemakeJVL
         Log.Debug($"[{GetType().Name}] Calling Managers with IOnZoneSystemLoaded");
         foreach (var onZoneSystemLoaded in _initializeables.Select(manager => manager as IOnZoneSystemLoaded))
         {
-          onZoneSystemLoaded?.OnZoneSystemLoaded();
+          try
+          {
+            onZoneSystemLoaded?.OnZoneSystemLoaded();
+          }
+          catch (Exception e)
+          {
+            Log.Error(e);
+          }
         }
 
         Log.Debug($"[{GetType().Name}] Calling ZoneSystemLoaded Event Subscribers");
@@ -241,7 +311,7 @@ namespace OdinPlusRemakeJVL
             try
             {
               Log.Trace($"[{GetType().Name}] {@delegate.Target}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
+              EventHandler subscriber = (EventHandler) @delegate;
               subscriber.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
@@ -250,7 +320,6 @@ namespace OdinPlusRemakeJVL
             }
           }
         }
-        
       }
       catch (Exception e)
       {
@@ -279,7 +348,14 @@ namespace OdinPlusRemakeJVL
         Log.Debug($"[{GetType().Name}] Calling Managers with IOnSpawnedPlayer");
         foreach (var onSpawnedPlayer in _initializeables.Select(manager => manager as IOnSpawnedPlayer))
         {
-          onSpawnedPlayer?.OnSpawnedPlayer(spawnPoint);
+          try
+          {
+            onSpawnedPlayer?.OnSpawnedPlayer(spawnPoint);
+          }
+          catch (Exception e)
+          {
+            Log.Error(e);
+          }
         }
 
         Log.Debug($"[{GetType().Name}] Calling SpawnedPlayer Event Subscribers");
@@ -290,7 +366,7 @@ namespace OdinPlusRemakeJVL
             try
             {
               Log.Trace($"[{GetType().Name}] {@delegate.Method.DeclaringType?.Name}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
+              EventHandler subscriber = (EventHandler) @delegate;
               subscriber.Invoke(this, new OnSpawnedPlayerEventArgs(spawnPoint));
             }
             catch (Exception e)
@@ -306,6 +382,72 @@ namespace OdinPlusRemakeJVL
       }
       finally
       {
+        StopStopwatch();
+        ReportLoadTime(MethodBase.GetCurrentMethod().Name);
+      }
+    }
+
+    #endregion
+
+    #region Jotunn Events
+
+    private void OnPrefabsRegistered()
+    {
+      StartStopwatch();
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      try
+      {
+        Log.Debug($"[{GetType().Name}] Calling Managers with IOnPrefabsRegistered");
+        foreach (var onPrefabsRegistered in _initializeables.Select(manager => manager as IOnPrefabsRegistered))
+        {
+          try
+          {
+            onPrefabsRegistered?.OnPrefabsRegistered();
+          }
+          catch (Exception e)
+          {
+            Log.Error(e);
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+      finally
+      {
+        Jotunn.Managers.PrefabManager.OnPrefabsRegistered -= OnPrefabsRegistered;
+        StopStopwatch();
+        ReportLoadTime(MethodBase.GetCurrentMethod().Name);
+      }
+    }
+
+    private void OnVanillaItemsAvailable()
+    {
+      StartStopwatch();
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      try
+      {
+        Log.Debug($"[{GetType().Name}] Calling Managers with IOnVanillaItemsAvailable");
+        foreach (var onVanillaItemsAvailable in _initializeables.Select(manager => manager as IOnVanillaItemsAvailable))
+        {
+          try
+          {
+            onVanillaItemsAvailable?.OnVanillaItemsAvailable();
+          }
+          catch (Exception e)
+          {
+            Log.Error(e);
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+      finally
+      {
+        Jotunn.Managers.ItemManager.OnVanillaItemsAvailable -= OnVanillaItemsAvailable;
         StopStopwatch();
         ReportLoadTime(MethodBase.GetCurrentMethod().Name);
       }

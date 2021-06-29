@@ -1,11 +1,12 @@
 ﻿using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using OdinPlusRemakeJVL.Items;
 using System;
 using System.Reflection;
 
 namespace OdinPlusRemakeJVL.Managers
 {
-  internal class ItemManager : AbstractManager<ItemManager>
+  internal class ItemManager : AbstractManager<ItemManager>, IOnVanillaItemsAvailable
   {
     //private GameObject _meadTasty;
     //private GameObject _trophyGoblinShaman;
@@ -18,29 +19,11 @@ namespace OdinPlusRemakeJVL.Managers
 
     // private readonly Dictionary<string, GameObject> _objectList = new Dictionary<string, GameObject>();
 
-    protected override bool OnInitialize()
-    {
-      try
-      {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        if (!base.OnInitialize()) return false;
-        Jotunn.Managers.ItemManager.OnVanillaItemsAvailable += AddClonedItems;
-        return true;
-      }
-      catch (Exception e)
-      {
-        Log.Error(e);
-        return false;
-      }
-    }
-
     public override bool HasDependencyError()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var dependencyError = !SpriteManager.Instance.IsInitialized
                             || SpriteManager.Instance.HasDependencyError()
-                            // || !FxAssetManager.Instance.IsInitialized
-                            // || FxAssetManager.Instance.HasDependencyError()
                             || !StatusEffectsManager.Instance.IsInitialized
                             || StatusEffectsManager.Instance.HasDependencyError();
 
@@ -118,7 +101,7 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
-    private void AddClonedItems()
+    public void OnVanillaItemsAvailable()
     {
       try
       {
@@ -128,11 +111,6 @@ namespace OdinPlusRemakeJVL.Managers
       catch (Exception e)
       {
         Log.Error(e);
-        throw;
-      }
-      finally
-      {
-        Jotunn.Managers.ItemManager.OnVanillaItemsAvailable -= AddClonedItems;
       }
     }
   }

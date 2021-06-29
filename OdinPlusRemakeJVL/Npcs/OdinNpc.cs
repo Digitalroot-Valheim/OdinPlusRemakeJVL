@@ -2,11 +2,12 @@
 using OdinPlusRemakeJVL.Common;
 using System.Reflection;
 using System.Text;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  public class OdinNpc : AbstractNpc<OdinNpc>
+  public class OdinNpc : AbstractNpc<OdinNpc>, ISecondaryInteractable
   {
     public GameObject Odin;
 
@@ -58,7 +59,6 @@ namespace OdinPlusRemakeJVL.Npcs
 
     public override string GetHoverText()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{Name}</b></color>");
       // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
@@ -157,7 +157,6 @@ namespace OdinPlusRemakeJVL.Npcs
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Odin = Common.Utils.Spawn(CustomPrefabNames.Odin, parent.position, parent);
-      Odin.transform.parent.Rotate(0, 42, 0);
       Head = Odin.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
       Talker = Odin;
       Name = "$op_god";

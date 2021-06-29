@@ -1,4 +1,6 @@
-﻿using OdinPlusRemakeJVL.Common;
+﻿using Jotunn.Managers;
+using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +10,9 @@ using Debug = System.Diagnostics.Debug;
 
 namespace OdinPlusRemakeJVL.Managers
 {
-  internal class SpriteManager : AbstractManager<SpriteManager>
+  internal class SpriteManager : AbstractManager<SpriteManager>, IOnVanillaItemsAvailable, IOnPrefabsRegistered
   {
     private readonly Dictionary<string, Sprite> _spriteDictionary = new Dictionary<string, Sprite>();
-
-    protected override bool OnInitialize()
-    {
-      try
-      {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        if (!base.OnInitialize()) return false;
-        AddSprites();
-        return true;
-      }
-      catch (Exception e)
-      {
-        Log.Error(e);
-        return false;
-      }
-    }
 
     public override bool HasDependencyError()
     {
@@ -45,7 +31,7 @@ namespace OdinPlusRemakeJVL.Managers
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
           healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _spriteDictionary.Any(): false";
         }
-        
+
         return healthCheckStatus;
       }
       catch (Exception e)
@@ -57,34 +43,106 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
+    public void OnVanillaItemsAvailable()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      foreach (var meadName in MeadNames.AllNames)
+      {
+        AddSpriteFromResource(meadName);
+      }
+
+      foreach (var odinPlusPetsStatusEffect in PetsStatusEffectNames.AllNames)
+      {
+        AddSpriteFromResource(odinPlusPetsStatusEffect);
+      }
+
+      AddSpriteFromResource(ItemNames.OdinLegacy);
+    }
+
+    public void OnPrefabsRegistered()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      AddSpriteFromPrefab(ItemNames.OdinCredit, ItemNames.HelmetOdin);
+      AddSpriteFromPrefab(ItemNames.ScrollTroll, ItemNames.TrophyFrostTroll);
+      AddSpriteFromPrefab(ItemNames.ScrollWolf, ItemNames.TrophyWolf);
+      AddSpriteFromPrefab(ItemNames.Coins);
+    }
+
+    private void AddSpriteFromPrefab(string name, string prefabName)
+    {
+      try
+      {
+        Log.Trace($"{nameof(SpriteManager)}.{MethodBase.GetCurrentMethod().Name}({name},{prefabName})");
+        if (!_spriteDictionary.ContainsKey(name))
+        {
+          _spriteDictionary.Add(name, LoadPrefabIcon(prefabName));
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+    }
+
+    private void AddSpriteFromPrefab(string prefabName)
+    {
+      try
+      {
+        Log.Trace($"{nameof(SpriteManager)}.{MethodBase.GetCurrentMethod().Name}({prefabName})");
+        if (!_spriteDictionary.ContainsKey(prefabName))
+        {
+          _spriteDictionary.Add(prefabName, LoadPrefabIcon(prefabName));
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+    }
+
+    private void AddSpriteFromResource(string prefabName)
+    {
+      try
+      {
+        Log.Trace($"{nameof(SpriteManager)}.{MethodBase.GetCurrentMethod().Name}({prefabName})");
+        if (!_spriteDictionary.ContainsKey(prefabName))
+        {
+          _spriteDictionary.Add(prefabName, LoadResourceIcon(prefabName));
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+    }
+
+    private static byte[] GetResource(Assembly asm, string resourceName)
+    {
+      var manifestResourceStream = asm.GetManifestResourceStream(resourceName);
+      Debug.Assert(manifestResourceStream != null, nameof(manifestResourceStream) + " != null");
+      var array = new byte[manifestResourceStream.Length];
+      manifestResourceStream.Read(array, 0, (int) manifestResourceStream.Length);
+      return array;
+    }
+
     public Sprite GetSprite(string name)
     {
       return _spriteDictionary.ContainsKey(name) ? _spriteDictionary[name] : null;
     }
 
-    private void AddSprites()
+    private static Sprite LoadPrefabIcon(string name)
     {
-      Log.Trace($"{nameof(SpriteManager)}.{MethodBase.GetCurrentMethod().Name}()");
-
-      foreach (var meadName in MeadNames.AllNames)
-      {
-        if (_spriteDictionary.ContainsKey(meadName)) continue;
-        _spriteDictionary.Add(meadName, LoadResourceIcon(meadName));
-      }
-
-      foreach (var odinPlusPetsStatusEffect in PetsStatusEffectNames.AllNames)
-      {
-        if (_spriteDictionary.ContainsKey(odinPlusPetsStatusEffect)) continue;
-        _spriteDictionary.Add(odinPlusPetsStatusEffect, LoadResourceIcon(odinPlusPetsStatusEffect));
-      }
-
-      if (_spriteDictionary.ContainsKey(ItemNames.OdinLegacy)) return;
-      _spriteDictionary.Add(ItemNames.OdinLegacy, LoadResourceIcon(ItemNames.OdinLegacy));
+      return PrefabManager.Instance.GetPrefab(name).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
     }
 
     private static Sprite LoadResourceIcon(string name)
     {
       return LoadSpriteFromTexture(LoadTextureRaw(GetResource(Assembly.GetCallingAssembly(), "OdinPlusRemakeJVL.Resources." + name + ".png")));
+    }
+
+    private static Sprite LoadSpriteFromTexture(Texture2D spriteTexture, float pixelsPerUnit = 100f)
+    {
+      return spriteTexture ? Sprite.Create(spriteTexture, new Rect(0f, 0f, spriteTexture.width, spriteTexture.height), new Vector2(0f, 0f), pixelsPerUnit) : null;
     }
 
     private static Texture2D LoadTextureRaw(byte[] file)
@@ -98,21 +156,8 @@ namespace OdinPlusRemakeJVL.Managers
           return texture2D;
         }
       }
+
       return null;
-    }
-
-    private static byte[] GetResource(Assembly asm, string resourceName)
-    {
-      var manifestResourceStream = asm.GetManifestResourceStream(resourceName);
-      Debug.Assert(manifestResourceStream != null, nameof(manifestResourceStream) + " != null");
-      var array = new byte[manifestResourceStream.Length];
-      manifestResourceStream.Read(array, 0, (int)manifestResourceStream.Length);
-      return array;
-    }
-
-    private static Sprite LoadSpriteFromTexture(Texture2D spriteTexture, float pixelsPerUnit = 100f)
-    {
-      return spriteTexture ? Sprite.Create(spriteTexture, new Rect(0f, 0f, spriteTexture.width, spriteTexture.height), new Vector2(0f, 0f), pixelsPerUnit) : null;
     }
   }
 }

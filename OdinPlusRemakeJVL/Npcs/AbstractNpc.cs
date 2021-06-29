@@ -1,11 +1,10 @@
 ﻿using OdinPlusRemakeJVL.Common;
 using System.Reflection;
-using OdinPlusRemakeJVL.Common.Interfaces;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  public abstract class AbstractNpc<T> : MonoBehaviour, Hoverable, Interactable, ISecondaryInteractable where T : AbstractNpc<T>, new()
+  public abstract class AbstractNpc<T> : MonoBehaviour, Hoverable, Interactable where T : AbstractNpc<T>, new()
   {
     private string _name;
 

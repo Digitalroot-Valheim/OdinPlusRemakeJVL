@@ -6,20 +6,12 @@ namespace OdinPlus.Npcs
 {
 	class OdinTrader : Trader, Hoverable, Interactable
 	{
-		#region Var
-		public GameObject m_talker;
+    public GameObject m_talker;
 
-		#endregion,
-		#region Mono
-		private new void Start() { }
+    private new void Start() { }
 		private new void Update() { }
 
-		#endregion
-		#region Features
-
-		#endregion
-		#region Valheim
-		public new string GetHoverText()
+    public new string GetHoverText()
 		{
 			string n = string.Format("\n<color=lightblue><b>{0}</b></color>", m_name);
 			string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
@@ -43,8 +35,6 @@ namespace OdinPlus.Npcs
 		{
 			return false;
 		}
-		#endregion
-		#region Tool
 
     protected void Say(string text)
     {
@@ -61,9 +51,7 @@ namespace OdinPlus.Npcs
       GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text = Localization.instance.Localize(set ? "OdinStore" : @"$store_topic");
     }
 
-		#endregion
-		#region private 
-		private new void Say(List<string> texts, string trigger) {
+    private new void Say(List<string> texts, string trigger) {
     }
 		private new void Say(string text, string trigger) {
     }
@@ -73,6 +61,5 @@ namespace OdinPlus.Npcs
     }
 		private new void OnSold() {
     }
-		#endregion
-	}
+  }
 }

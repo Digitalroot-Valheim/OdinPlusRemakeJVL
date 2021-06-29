@@ -13,6 +13,7 @@ namespace OdinPlusRemakeJVL.Managers
   internal class OdinsCampManager : AbstractManager<OdinsCampManager>, IOnZoneSystemLoaded, IOnZNetSceneReady, IOnSpawnedPlayer
   {
     private GameObject _odinCampGameObject;
+    private GameObject terrain;
 
     protected override bool OnInitialize()
     {
@@ -78,24 +79,25 @@ namespace OdinPlusRemakeJVL.Managers
       if (odin != null)
       {
         odin.Spawn(_odinCampGameObject.transform);
-        odin.Odin.transform.localPosition = Vector3.forward * 4;  
+        odin.Odin.transform.localPosition = Vector3.forward * 3f;
+        odin.Odin.transform.localPosition = Vector3.down * 0.1f;
+        odin.Odin.transform.Rotate(0f, 45f, 0f);  
       }
     }
 
     public void OnZoneSystemLoaded()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition() + new Vector3(-6, 0.05f, -8);
+      _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition() + new Vector3(-12.6f, 0.05f, -11f);
       _odinCampGameObject.SetActive(true);
 
-      var pfab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find("ForceField");
-      var nmz = UnityEngine.Object.Instantiate(pfab, _odinCampGameObject.transform);
-      nmz.transform.localScale = Vector3.one * 10;
+      AddForceField();
     }
 
     public void OnZNetSceneReady(ZNetScene zNetScene)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({zNetScene.name})");
+      AddTerrain();
       AddOdin();
       AddPot();
       // AddBird();
@@ -123,6 +125,18 @@ namespace OdinPlusRemakeJVL.Managers
     //  return new Vector3(a, c, b);
     //}
 
+    private void AddBird()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+    }
+
+    private void AddForceField()
+    {
+      var forceFieldPreFab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find(ItemNames.ForceField);
+      var forceField = UnityEngine.Object.Instantiate(forceFieldPreFab, _odinCampGameObject.transform);
+      forceField.transform.localScale = Vector3.one * 10;
+    }
+
     private void AddOdin()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -131,22 +145,46 @@ namespace OdinPlusRemakeJVL.Managers
       odin.transform.SetParent(_odinCampGameObject.transform);
     }
 
-    private void AddBird()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    }
-
     private void AddPot()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       _odinCampGameObject.AddComponent<OdinPot>();
       var pot = _odinCampGameObject.GetComponent<OdinPot>();
       pot.transform.SetParent(_odinCampGameObject.transform);
-
-      // pot.Talker = _odinCampGameObject.GetComponent<OdinNpc>().gameObject;
+      pot.Talker = _odinCampGameObject.GetComponent<OdinNpc>().gameObject;
 
       // m_odinPot = caul.AddComponent<OdinTrader>();
       // OdinPlus.traderNameList.Add(m_odinPot.m_name);
+    }
+
+    private void AddTerrain()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      if (terrain == null)
+      {
+        terrain = new GameObject("terrain");
+        //terrain.AddComponent<ZNetView>();
+        //terrain.AddComponent<Piece>();
+        var tm = terrain.AddComponent<TerrainModifier>();
+        terrain.gameObject.transform.SetParent(_odinCampGameObject.transform);
+        terrain.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        tm.m_playerModifiction = false;
+        tm.m_levelOffset = 0.01f;
+
+        tm.m_level = true;
+        tm.m_levelRadius = 4f;
+        tm.m_square = false;
+
+        tm.m_smooth = false;
+
+        tm.m_smoothRadius = 9.5f;
+        tm.m_smoothPower = 3f;
+
+
+        tm.m_paintRadius = 3.5f;
+        tm.m_paintCleared = true;
+        tm.m_paintType = TerrainModifier.PaintType.Dirt;
+      }
     }
 
     public Vector3 OdinCampLocation()

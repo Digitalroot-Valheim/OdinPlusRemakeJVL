@@ -38,10 +38,13 @@ namespace OdinPlusRemakeJVL.Common
     public static string WolfFang = nameof(WolfFang);
     public static string WolfPelt = nameof(WolfPelt);
     public static string Wood = nameof(Wood);
+    public static string ForceField = nameof(ForceField);
     public static string Cauldron = "piece_cauldron";
     public static string FirePit = "fire_pit";
     public static string Odin = "odin";
+    public static string OdinCredit = nameof(OdinCredit);
 
     public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(MeadNames));
+
   }
 }

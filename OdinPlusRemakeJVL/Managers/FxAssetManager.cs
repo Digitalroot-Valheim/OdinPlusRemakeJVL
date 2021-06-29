@@ -109,7 +109,6 @@ namespace OdinPlusRemakeJVL.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab}, {particle}, {name}, {color})");
-        // var gameObject = UnityEngine.Object.Instantiate(zNetScene.GetPrefab(prefab).FindGameObject(particle));
         var gameObject = UnityEngine.Object.Instantiate(PrefabManager.Instance.GetPrefab(prefab).FindGameObject(particle));
         gameObject.name = name;
         var material = gameObject.GetComponent<Renderer>().material;
