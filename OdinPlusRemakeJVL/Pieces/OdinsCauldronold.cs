@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Pieces
 {
-  internal class OdinsCauldronOld : AbstractOdinPlusPiece , ITalkable, Hoverable, Interactable, ISpawnable
+  internal class OdinsCauldronOld : AbstractOdinPlusMonoBehaviour, ITalkable, Hoverable, Interactable, ISpawnable
   {
     public Transform Head { get; set; }
     public GameObject Talker { get; set; }
-    public GameObject Cauldron => PieceInstance;
+    public GameObject Cauldron => GameObjectInstance;
 
     public void Awake()
     {
@@ -56,7 +56,7 @@ namespace OdinPlusRemakeJVL.Pieces
     public void Spawn(Transform parent)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      PieceInstance = Common.Utils.Spawn(CustomPrefabNames.Cauldron, parent.position, parent);
+      GameObjectInstance = Common.Utils.Spawn(CustomPrefabNames.Cauldron, parent.position, parent);
     }
 
     public void Say(string msg)

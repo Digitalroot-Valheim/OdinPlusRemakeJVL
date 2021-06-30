@@ -1,30 +1,23 @@
-﻿using OdinPlusRemakeJVL.Common;
-using System.Reflection;
+﻿using System.Reflection;
+using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  public abstract class AbstractNpc<T> : MonoBehaviour where T : AbstractNpc<T>, new()
+  public abstract class AbstractNpc : AbstractOdinPlusMonoBehaviour, ITalkable, Hoverable, Interactable
   {
-    private string _name;
+    public Transform Head { get; set; }
+    public GameObject Talker { get; set; }
+    public abstract string GetHoverName();
+    public abstract string GetHoverText();
+    public abstract bool Interact(Humanoid user, bool hold);
+    public abstract bool UseItem(Humanoid user, ItemDrop.ItemData item);
 
-    public string Name
+    public void Say(string msg)
     {
-      get => _name;
-      private protected set => _name = Common.Utils.Localize(value);
-    }
-
-    public GameObject NpcInstance { get; private protected set; }
-
-    public virtual void OnApplicationQuit()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    }
-
-    public virtual void OnDestroy()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (NpcInstance != null) Destroy(NpcInstance);
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name}, {Common.Utils.Localize(msg)})");
+      Chat.instance?.SetNpcText(Talker, Vector3.up * 3f, 60f, 8, Common.Utils.Localize(Name), Common.Utils.Localize(msg), false);
     }
   }
 }

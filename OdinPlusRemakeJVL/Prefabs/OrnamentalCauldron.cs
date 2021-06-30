@@ -19,8 +19,8 @@ namespace OdinPlusRemakeJVL.Prefabs
         prefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.OrnamentalCauldron, ItemNames.Cauldron);
         if (prefab != null)
         {
-          Object.DestroyImmediate(prefab.GetComponent<WearNTear>());
-          Object.DestroyImmediate(prefab.GetComponent<CraftingStation>());
+          // Object.DestroyImmediate(prefab.GetComponent<WearNTear>());
+          // Object.DestroyImmediate(prefab.GetComponent<CraftingStation>());
           prefab.transform.Find("HaveFire").gameObject.SetActive(true);
           prefab.GetComponent<Piece>().m_canBeRemoved = false;
         }

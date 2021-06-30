@@ -1,4 +1,5 @@
-﻿using OdinPlusRemakeJVL.Common;
+﻿using JetBrains.Annotations;
+using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Reflection;
@@ -6,22 +7,18 @@ using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Pieces
 {
-  internal class OdinsFirePit : AbstractOdinPlusPiece
+  internal class OdinsFirePit : AbstractOdinPlusMonoBehaviour
   {
-    public GameObject FirePit => PieceInstance;
+    [UsedImplicitly] public GameObject FirePit => GameObjectInstance;
 
-    public void Start()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    }
-
+    [UsedImplicitly]
     public void Awake()
     {
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         Name = "$op_fire_pit_name";
-        PieceInstance = Instantiate(PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalFirePit));
+        GameObjectInstance = Instantiate(PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalFirePit));
       }
       catch (Exception e)
       {
