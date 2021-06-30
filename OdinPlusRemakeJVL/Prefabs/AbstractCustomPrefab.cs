@@ -73,6 +73,6 @@ namespace OdinPlusRemakeJVL.Prefabs
     /// </summary>
     /// <param name="prefab"></param>
     /// <returns></returns>
-    protected abstract GameObject OnCreate(GameObject prefab);
+    private protected abstract GameObject OnCreate(GameObject prefab);
   }
 }

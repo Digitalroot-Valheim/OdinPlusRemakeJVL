@@ -1,0 +1,44 @@
+﻿@startuml
+
+object GameObject <<Unity>>
+
+interface ISpawnable {
+	+SetLocalPositionOffset() : void
+	+Spawn() : void
+}
+
+interface ICreateable {
+	+Create() : GameObject
+}
+
+class CustomGameObject {
+	#NewPrefabName : string
+}
+
+
+class CustomPrefab <<AbstractCustomPrefab>> {
+	#NewPrefabName : string
+	#SourcePrefabName : string
+	.. Constructor ..
+	+CustomPrefab() : CustomPrefab
+	--
+	#GameObject OnCreate(GameObject prefab)
+}
+
+class CustomMonoBehaviour <<AbstractCustomMonoBehaviour>> {
+	+Name : string
+	+GameObjectInstance : GameObject
+	+LocalPositionOffset : Vector3
+	
+	+OnApplicationQuit() : void
+	+OnDestroy() : void
+}
+
+GameObject <|-- CustomGameObject : is a
+CustomGameObject "1" *-- "0..*" CustomPrefab : has >
+ICreateable <|-- CustomPrefab : implements
+MonoBehaviour <|-- CustomMonoBehaviour : is a
+ISpawnable <|-- CustomMonoBehaviour : implements
+CustomGameObject "1" *-- "0..*" CustomMonoBehaviour : has >
+
+@enduml

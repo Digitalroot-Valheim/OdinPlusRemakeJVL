@@ -477,6 +477,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="_Uml\GameObjectDiagram.puml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AxeMeadL.png" />

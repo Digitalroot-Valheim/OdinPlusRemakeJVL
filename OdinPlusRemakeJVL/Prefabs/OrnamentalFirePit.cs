@@ -17,7 +17,7 @@ namespace OdinPlusRemakeJVL.Prefabs
     }
 
     /// <inheritdoc />
-    protected override GameObject OnCreate(GameObject prefab)
+    private protected override GameObject OnCreate(GameObject prefab)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab?.name})");
 
