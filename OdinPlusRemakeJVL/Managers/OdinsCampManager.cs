@@ -1,9 +1,14 @@
-﻿using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Npcs;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
+using OdinPlusRemakeJVL.Extensions;
+using OdinPlusRemakeJVL.Npcs;
+using OdinPlusRemakeJVL.Pieces;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace OdinPlusRemakeJVL.Managers
 {
@@ -14,6 +19,7 @@ namespace OdinPlusRemakeJVL.Managers
   {
     private GameObject _odinCampGameObject;
     private GameObject terrain;
+    private readonly List<AbstractOdinPlusMonoBehaviour> _odinPlusObjects = new List<AbstractOdinPlusMonoBehaviour>();
 
     protected override bool OnInitialize()
     {
@@ -31,12 +37,6 @@ namespace OdinPlusRemakeJVL.Managers
         Log.Error(e);
         return false;
       }
-    }
-
-    public override bool HasDependencyError()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      return false;
     }
 
     protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
@@ -65,14 +65,20 @@ namespace OdinPlusRemakeJVL.Managers
     public void OnSpawnedPlayer(Vector3 position)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({position})");
-      OdinPot pot = _odinCampGameObject.GetComponent<OdinPot>();
-      if (pot != null)
+      AddOdinsFirePit();
+      AddOdinsCauldron();
+
+      foreach (var spawnable in _odinPlusObjects.Select(odinPlusPiece => odinPlusPiece as ISpawnable))
       {
-        pot.Spawn(_odinCampGameObject.transform);
-        pot.FirePit.transform.SetParent(_odinCampGameObject.transform);
-        pot.Cauldron.transform.SetParent(_odinCampGameObject.transform);
-        pot.FirePit.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
-        pot.Cauldron.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
+        try
+        {
+          Log.Debug($"[{GetType().Name}] Spawning : {((AbstractOdinPlusMonoBehaviour) spawnable)?.Name}");
+          spawnable?.Spawn(_odinCampGameObject.transform);
+        }
+        catch (Exception e)
+        {
+          Log.Error(e);
+        }
       }
 
       var odin = _odinCampGameObject.GetComponent<OdinNpc>();
@@ -81,16 +87,15 @@ namespace OdinPlusRemakeJVL.Managers
         odin.Spawn(_odinCampGameObject.transform);
         odin.Odin.transform.localPosition = Vector3.forward * 3f;
         odin.Odin.transform.localPosition = Vector3.down * 0.1f;
-        odin.Odin.transform.Rotate(0f, 45f, 0f);  
+        odin.Odin.transform.Rotate(0f, 45f, 0f);
       }
     }
 
     public void OnZoneSystemLoaded()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _odinCampGameObject.transform.position = Common.Utils.GetStartTemplesPosition() + new Vector3(-12.6f, 0.05f, -11f);
+      SetSpawnPosition();
       _odinCampGameObject.SetActive(true);
-
       AddForceField();
     }
 
@@ -98,8 +103,9 @@ namespace OdinPlusRemakeJVL.Managers
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({zNetScene.name})");
       AddTerrain();
-      AddOdin();
-      AddPot();
+      // AddOdin();
+
+      // 
       // AddBird();
       // PrefabManager.Instance.AddPrefab(_odinCampGameObject);
     }
@@ -132,62 +138,111 @@ namespace OdinPlusRemakeJVL.Managers
 
     private void AddForceField()
     {
-      var forceFieldPreFab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find(ItemNames.ForceField);
-      var forceField = UnityEngine.Object.Instantiate(forceFieldPreFab, _odinCampGameObject.transform);
-      forceField.transform.localScale = Vector3.one * 10;
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var forceFieldPreFab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find(ItemNames.ForceField);
+        var forceField = Object.Instantiate(forceFieldPreFab, _odinCampGameObject.transform);
+        forceField.transform.localScale = Vector3.one * 10;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
     }
 
     private void AddOdin()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _odinCampGameObject.AddComponent<OdinNpc>();
-      var odin = _odinCampGameObject.GetComponent<OdinNpc>();
-      odin.transform.SetParent(_odinCampGameObject.transform);
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        _odinCampGameObject.AddComponent<OdinNpc>();
+        var odinNpc = _odinCampGameObject.GetComponent<OdinNpc>();
+        odinNpc.transform.SetParent(_odinCampGameObject.transform);
+        odinNpc.Odin.transform.localPosition = Vector3.forward * 3f;
+        odinNpc.Odin.transform.localPosition = Vector3.down * 0.1f;
+        odinNpc.Odin.transform.Rotate(0f, 45f, 0f);
+        // _odinPlusObjects.Add(odinNpc);
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
     }
 
-    private void AddPot()
+    private void AddOdinsFirePit()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _odinCampGameObject.AddComponent<OdinPot>();
-      var pot = _odinCampGameObject.GetComponent<OdinPot>();
-      pot.transform.SetParent(_odinCampGameObject.transform);
-      pot.Talker = _odinCampGameObject.GetComponent<OdinNpc>().gameObject;
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var odinsFirePit = _odinCampGameObject.GetOrAddComponent<OdinsFirePit>();
+        odinsFirePit.transform.SetParent(_odinCampGameObject.transform);
+        odinsFirePit.SetLocalPositionOffset(new Vector3(1.5f, -0.015f, -0.5f));
+        _odinPlusObjects.Add(odinsFirePit);
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+    }
 
-      // m_odinPot = caul.AddComponent<OdinTrader>();
-      // OdinPlus.traderNameList.Add(m_odinPot.m_name);
+    private void AddOdinsCauldron()
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var odinsCauldron = _odinCampGameObject.GetOrAddComponent<OdinsCauldron>();
+        odinsCauldron.transform.SetParent(_odinCampGameObject.transform);
+        odinsCauldron.SetLocalPositionOffset(new Vector3(1.5f, 0, -0.5f));
+        odinsCauldron.transform.rotation = new Quaternion(0, 0.6817f, 0, 0.7316f);
+        // m_odinPot = caul.AddComponent<OdinTradeShop>();
+        // OdinPlus.traderNameList.Add(m_odinPot.m_name);
+        _odinPlusObjects.Add(odinsCauldron);
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
     }
 
     private void AddTerrain()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (terrain == null)
+      try
       {
-        terrain = new GameObject("terrain");
-        //terrain.AddComponent<ZNetView>();
-        //terrain.AddComponent<Piece>();
-        var tm = terrain.AddComponent<TerrainModifier>();
-        terrain.gameObject.transform.SetParent(_odinCampGameObject.transform);
-        terrain.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-        tm.m_playerModifiction = false;
-        tm.m_levelOffset = 0.01f;
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        if (terrain == null)
+        {
+          terrain = new GameObject("terrain");
+          //terrain.AddComponent<ZNetView>();
+          //terrain.AddComponent<Piece>();
+          var tm = terrain.AddComponent<TerrainModifier>();
+          terrain.gameObject.transform.SetParent(_odinCampGameObject.transform);
+          terrain.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+          tm.m_playerModifiction = false;
+          tm.m_levelOffset = 0.01f;
 
-        tm.m_level = true;
-        tm.m_levelRadius = 4f;
-        tm.m_square = false;
+          tm.m_level = true;
+          tm.m_levelRadius = 4f;
+          tm.m_square = false;
 
-        tm.m_smooth = false;
+          tm.m_smooth = false;
 
-        tm.m_smoothRadius = 9.5f;
-        tm.m_smoothPower = 3f;
+          tm.m_smoothRadius = 9.5f;
+          tm.m_smoothPower = 3f;
 
 
-        tm.m_paintRadius = 3.5f;
-        tm.m_paintCleared = true;
-        tm.m_paintType = TerrainModifier.PaintType.Dirt;
+          tm.m_paintRadius = 3.5f;
+          tm.m_paintCleared = true;
+          tm.m_paintType = TerrainModifier.PaintType.Dirt;
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
       }
     }
 
-    public Vector3 OdinCampLocation()
+    public Vector3 GetOdinCampLocation()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       if (_odinCampGameObject != null)
@@ -196,13 +251,15 @@ namespace OdinPlusRemakeJVL.Managers
         {
           return _odinCampGameObject.transform.position;
         }
+
         Log.Error($"[{GetType().Name}] _odinCampGameObject.transform != null : {_odinCampGameObject.transform != null}");
       }
+
       Log.Error($"[{GetType().Name}] _odinCampGameObject != null : {_odinCampGameObject != null}");
       return Vector3.zero;
     }
 
-    public Vector3 OdinLocation()
+    public Vector3 GetOdinNpcLocation()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var odin = _odinCampGameObject.GetComponent<OdinNpc>();
@@ -215,8 +272,15 @@ namespace OdinPlusRemakeJVL.Managers
         Log.Debug($"[{GetType().Name}] odin.isActiveAndEnabled : {odin.isActiveAndEnabled}");
         return odin.transform.position;
       }
+
       Log.Debug($"[{GetType().Name}] Unable to find Odin's Location");
       return Vector3.zero;
+    }
+
+    private void SetSpawnPosition()
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      _odinCampGameObject.transform.localPosition = Common.Utils.GetStartTemplesPosition() + new Vector3(-12.6f, 0.05f, -11f);
     }
   }
 }

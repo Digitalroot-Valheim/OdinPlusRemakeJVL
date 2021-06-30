@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Managers;
+using OdinPlusRemakeJVL.Npcs;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OdinPlusRemakeJVL.Npcs
+namespace OdinPlusRemakeJVL.Pieces
 {
-  internal class OdinTrader : Trader, Hoverable, Interactable
+  internal class OdinTradeShop : Trader, Hoverable, Interactable
   {
     public GameObject m_talker;
 

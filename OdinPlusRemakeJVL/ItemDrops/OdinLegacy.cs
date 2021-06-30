@@ -4,7 +4,7 @@ using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Managers;
 using Log = OdinPlusRemakeJVL.Common.Log;
 
-namespace OdinPlusRemakeJVL.Items
+namespace OdinPlusRemakeJVL.ItemDrops
 {
   internal static class OdinLegacy
   {

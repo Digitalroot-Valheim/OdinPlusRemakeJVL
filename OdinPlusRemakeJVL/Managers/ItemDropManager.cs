@@ -1,12 +1,12 @@
 ﻿using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Items;
 using System;
 using System.Reflection;
+using OdinPlusRemakeJVL.ItemDrops;
 
 namespace OdinPlusRemakeJVL.Managers
 {
-  internal class ItemManager : AbstractManager<ItemManager>, IOnVanillaItemsAvailable
+  internal class ItemDropManager : AbstractManager<ItemDropManager>, IOnVanillaItemsAvailable
   {
     //private GameObject _meadTasty;
     //private GameObject _trophyGoblinShaman;

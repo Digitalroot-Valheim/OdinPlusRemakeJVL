@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  public abstract class AbstractNpc<T> : MonoBehaviour where T : AbstractNpc<T>, new()
+  public abstract class AbstractOdinPlusNpc : MonoBehaviour
   {
+    public GameObject NpcInstance { get; private protected set; }
+
     private string _name;
 
     public string Name
@@ -13,8 +15,6 @@ namespace OdinPlusRemakeJVL.Npcs
       get => _name;
       private protected set => _name = Common.Utils.Localize(value);
     }
-
-    public GameObject NpcInstance { get; private protected set; }
 
     public virtual void OnApplicationQuit()
     {

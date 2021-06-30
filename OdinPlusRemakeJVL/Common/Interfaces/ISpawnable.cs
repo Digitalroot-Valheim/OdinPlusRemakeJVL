@@ -4,6 +4,7 @@ namespace OdinPlusRemakeJVL.Common.Interfaces
 {
   internal interface ISpawnable
   {
-    void Spawn(GameObject prefab, Vector3 location, Transform parent);
+    Vector3 LocalPositionOffset { get; }
+    void Spawn(Transform parent);
   }
 }

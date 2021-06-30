@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using OdinPlusRemakeJVL.Npcs;
+using OdinPlusRemakeJVL.Pieces;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL
@@ -60,7 +61,7 @@ namespace OdinPlusRemakeJVL
 
           if (Main.traderNameList.Contains(trader.m_name))
           {
-            OdinTrader.TweakGui(__instance, true);
+            OdinTradeShop.TweakGui(__instance, true);
           }
         }
         catch (Exception e)
@@ -83,7 +84,7 @@ namespace OdinPlusRemakeJVL
 
           if (Main.traderNameList.Contains(__instance.m_trader.m_name))
           {
-            OdinTrader.TweakGui(__instance, false);
+            OdinTradeShop.TweakGui(__instance, false);
           }
         }
         catch (Exception e)

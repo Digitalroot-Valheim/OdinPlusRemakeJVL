@@ -1,17 +1,119 @@
-﻿using Jotunn.Managers;
-using OdinPlusRemakeJVL.Common;
+﻿using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
+using OdinPlusRemakeJVL.Managers;
+using System;
 using System.Reflection;
 using System.Text;
-using OdinPlusRemakeJVL.Common.Interfaces;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  public class OdinNpc : AbstractNpc<OdinNpc>, ISecondaryInteractable
+  public class OdinNpc : AbstractOdinPlusNpc, ISecondaryInteractable, ITalkable, Hoverable, Interactable, ISpawnable
   {
-    public GameObject Odin;
+    public Transform Head { get; set; }
+
+    public GameObject Talker { get; set; }
+
+    public GameObject Odin => NpcInstance;
 
     public void Awake()
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        Name = "$op_god";
+        CreateOdin();
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+    }
+
+    //public bool Summon()
+    //{
+    //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+    //  ReadSkill();
+    //  return true;
+    //}
+
+    public string GetHoverName()
+    {
+      // Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name})");
+      return Common.Utils.Localize(Name);
+    }
+
+    public string GetHoverText()
+    {
+      // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{Name}</b></color>");
+      // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
+      // string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
+      // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
+      // b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
+      // return Localization.instance.Localize(n + s + a + b);
+      return Common.Utils.Localize(stringBuilder.ToString());
+      // return $"<color=lightblue><b>Odin</b></color> is here";
+    }
+
+    public bool Interact(Humanoid user, bool hold)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      if (hold)
+      {
+        return false;
+      }
+      // if (!OdinData.RemoveCredits(Main.RaiseCost))
+      //{
+      //  Say("$op_god_nocrd");
+      //  return false;
+      //}
+
+      // user.GetSkills().RaiseSkill(stlist[cskillIndex], Main.RaiseFactor);
+      Say("$op_raise");
+      return true;
+    }
+
+    public void Say(string msg)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name}, {msg})");
+      Chat.instance?.SetNpcText(Talker, Vector3.up * 3f, 60f, 8, Common.Utils.Localize(Name), Common.Utils.Localize(msg), false);
+    }
+
+    public void SecondaryInteract(Humanoid user)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      // SwitchSkill();
+    }
+
+    public Vector3 LocalPositionOffset { get; }
+
+    public void Spawn(Transform parent)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      NpcInstance = Common.Utils.Spawn(CustomPrefabNames.Odin, parent.position, parent);
+      Head = NpcInstance.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
+      Talker = NpcInstance;
+    }
+
+    public bool UseItem(Humanoid user, ItemDrop.ItemData item) //trans
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      var name = item.m_dropPrefab.name;
+      int value = 1;
+      //if (!OdinData.ItemSellValue.ContainsKey(name))
+      //{
+      //  Say("$op_god_randomitem " + randomName());
+      //  return false;
+      //}
+      //value = OdinData.ItemSellValue[name];
+      //OdinData.AddCredits(value * item.m_stack * item.m_quality, m_head);
+      //user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
+      Say("$op_god_takeoffer");
+      return true;
+    }
+
+    private void CreateOdin()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 
@@ -46,77 +148,8 @@ namespace OdinPlusRemakeJVL.Npcs
       if (odinPrefab == null)
       {
         Log.Error($"[{GetType().Name}] Error with prefabs.");
-        Log.Error($"[{GetType().Name}] odinPrefab == null: {odinPrefab == null}");
+        Log.Error($"[{GetType().Name}] odinPrefab == null: true");
       }
-    }
-
-    //public bool Summon()
-    //{
-    //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    //  ReadSkill();
-    //  return true;
-    //}
-
-    public override string GetHoverText()
-    {
-      // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{Name}</b></color>");
-      // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
-      // string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
-      // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
-      // b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
-      // return Localization.instance.Localize(n + s + a + b);
-      return Common.Utils.Localize(stringBuilder.ToString());
-      // return $"<color=lightblue><b>Odin</b></color> is here";
-    }
-
-    public override bool Interact(Humanoid user, bool hold)
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (hold)
-      {
-        return false;
-      }
-      // if (!OdinData.RemoveCredits(Main.RaiseCost))
-      //{
-      //  Say("$op_god_nocrd");
-      //  return false;
-      //}
-
-      // user.GetSkills().RaiseSkill(stlist[cskillIndex], Main.RaiseFactor);
-      Say("$op_raise");
-      return true;
-    }
-
-    public override void SecondaryInteract(Humanoid user)
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      // SwitchSkill();
-    }
-
-    public override void Start()
-    {
-    }
-
-    public override void OnEnable()
-    {
-    }
-
-    public override bool UseItem(Humanoid user, ItemDrop.ItemData item) //trans
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var name = item.m_dropPrefab.name;
-      int value = 1;
-      //if (!OdinData.ItemSellValue.ContainsKey(name))
-      //{
-      //  Say("$op_god_randomitem " + randomName());
-      //  return false;
-      //}
-      //value = OdinData.ItemSellValue[name];
-      //OdinData.AddCredits(value * item.m_stack * item.m_quality, m_head);
-      //user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
-      Say("$op_god_takeoffer");
-      return true;
     }
 
     public void SetPosition()
@@ -151,15 +184,6 @@ namespace OdinPlusRemakeJVL.Npcs
       //  cskillIndex = 0;
       //}
       //cskill = slist[cskillIndex];
-    }
-
-    public void Spawn(Transform parent)
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      Odin = Common.Utils.Spawn(CustomPrefabNames.Odin, parent.position, parent);
-      Head = Odin.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-      Talker = Odin;
-      Name = "$op_god";
     }
   }
 }

@@ -103,7 +103,10 @@ namespace OdinPlusRemakeJVL.Managers
       return OnHealthCheck(healthCheckStatus);
     }
 
-    public abstract bool HasDependencyError();
+    public virtual bool HasDependencyError()
+    {
+      return false;
+    }
 
     protected abstract HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus);
   }

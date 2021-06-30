@@ -64,6 +64,8 @@ namespace OdinPlusRemakeJVL
         _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), Guid);
 
         RootObject = new GameObject(Name);
+        RootObject.transform.position = Vector3.zero;
+        RootObject.transform.rotation = Quaternion.identity;
         DontDestroyOnLoad(RootObject);
 
         Jotunn.Managers.ItemManager.OnVanillaItemsAvailable += OnVanillaItemsAvailable;
@@ -78,7 +80,8 @@ namespace OdinPlusRemakeJVL
           , SpriteManager.Instance
           , StatusEffectsManager.Instance
           , FxAssetManager.Instance
-          , ItemManager.Instance
+          , ItemDropManager.Instance
+          , PrefabManager.Instance
           , LocationManager.Instance
           , OdinsCampManager.Instance
           // @formatter:wrap_before_comma restore
