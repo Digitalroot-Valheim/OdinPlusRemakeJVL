@@ -1,9 +1,10 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 using System.Reflection;
+using JetBrains.Annotations;
+using OdinPlusRemakeJVL.Common;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Behaviours
 {
 
   public abstract class MonoBehaviourSingleton<TSingletonSubClass> : MonoBehaviour where TSingletonSubClass : MonoBehaviourSingleton<TSingletonSubClass>, new()

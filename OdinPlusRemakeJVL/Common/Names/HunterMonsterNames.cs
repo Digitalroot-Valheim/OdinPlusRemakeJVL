@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Names
 {
   public static class HunterMonsterNames
   {
@@ -9,6 +9,6 @@ namespace OdinPlusRemakeJVL.Common
     public static readonly string GoblinBrute = nameof(GoblinBrute);
     public static readonly string Troll = nameof(Troll);
 
-    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(HunterMonsterNames));
+    public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(HunterMonsterNames));
   }
 }

@@ -5,7 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using OdinPlusRemakeJVL.Pieces;
+using OdinPlusRemakeJVL.Common.Names;
+using OdinPlusRemakeJVL.GameObjects;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs

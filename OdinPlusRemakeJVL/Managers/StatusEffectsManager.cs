@@ -4,6 +4,7 @@ using OdinPlusRemakeJVL.StatusEffects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using OdinPlusRemakeJVL.Common.Names;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Managers

@@ -1,11 +1,12 @@
-﻿using OdinPlusRemakeJVL.Managers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using OdinPlusRemakeJVL.Common.Names;
+using OdinPlusRemakeJVL.Managers;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Utils
 {
   public static class Utils
   {

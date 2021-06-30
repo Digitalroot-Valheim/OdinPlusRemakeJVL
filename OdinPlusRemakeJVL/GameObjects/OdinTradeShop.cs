@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Names;
 using OdinPlusRemakeJVL.Managers;
 using OdinPlusRemakeJVL.Npcs;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OdinPlusRemakeJVL.Pieces
+namespace OdinPlusRemakeJVL.GameObjects
 {
   internal class OdinTradeShop : Trader, Hoverable, Interactable
   {
@@ -23,7 +23,7 @@ namespace OdinPlusRemakeJVL.Pieces
     {
       string n = string.Format("\n<color=lightblue><b>{0}</b></color>", m_name);
       string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
-      return Common.Utils.Localize(n + u);
+      return Common.Utils.Utils.Localize(n + u);
     }
 
     public new string GetHoverName()
@@ -60,7 +60,7 @@ namespace OdinPlusRemakeJVL.Pieces
       var icon = __instance.m_coinText.transform.parent.GetChild(0).GetComponent<Image>();
       sell.gameObject.SetActive(!set);
       icon.sprite = !set ? SpriteManager.Instance.GetSprite(ItemDropNames.Coins) : SpriteManager.Instance.GetSprite(PrefabNames.OdinCredit);
-      GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text = Common.Utils.Localize(set ? "OdinStore" : @"$store_topic");
+      GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text = Common.Utils.Utils.Localize(set ? "OdinStore" : @"$store_topic");
     }
 
     private new void Say(List<string> texts, string trigger)

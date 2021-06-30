@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Names
 {
   internal static class ConsoleCommandNames
   {
@@ -12,6 +12,6 @@ namespace OdinPlusRemakeJVL.Common
     internal static string WhereOdin = "whereodin";
     internal static string WhereAmI = "whereami";
     internal static string WhereIsStartTemple = "whereisstart";
-    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(ConsoleCommandNames));
+    public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(ConsoleCommandNames));
   }
 }

@@ -4,8 +4,8 @@ using OdinPlusRemakeJVL.Common;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using OdinPlusRemakeJVL.GameObjects;
 using OdinPlusRemakeJVL.Npcs;
-using OdinPlusRemakeJVL.Pieces;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL
@@ -180,7 +180,7 @@ namespace OdinPlusRemakeJVL
         try
         {
           Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
-          if (!Common.Utils.IsZNetSceneReady())
+          if (!Common.Utils.Utils.IsZNetSceneReady())
           {
             Log.Debug("ZNetScene.instance is null");
             return;
@@ -234,7 +234,7 @@ namespace OdinPlusRemakeJVL
         try
         {
           Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
-          if (!Common.Utils.IsZNetSceneReady())
+          if (!Common.Utils.Utils.IsZNetSceneReady())
           {
             Log.Debug("ZNet.instance is null");
             return;

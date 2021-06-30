@@ -1,0 +1,1 @@
+﻿BIN has to be included in the project or Fody will not work.

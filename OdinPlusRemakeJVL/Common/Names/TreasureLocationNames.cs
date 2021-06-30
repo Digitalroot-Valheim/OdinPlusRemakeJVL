@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Names
 {
   public static class TreasureLocationNames
   {
@@ -41,6 +41,6 @@ namespace OdinPlusRemakeJVL.Common
     public static readonly string WoodHouse9 = nameof(WoodHouse9);
     public static readonly string WoodHouse11 = nameof(WoodHouse11);
 
-    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(TreasureLocationNames));
+    public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(TreasureLocationNames));
   }
 }

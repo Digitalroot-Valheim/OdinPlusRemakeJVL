@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Jotunn.Entities;
 using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Names;
 using OdinPlusRemakeJVL.Managers;
 using Log = OdinPlusRemakeJVL.Common.Log;
 

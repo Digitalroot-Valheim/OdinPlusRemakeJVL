@@ -1,17 +1,18 @@
-﻿using OdinPlusRemakeJVL.Common.Interfaces;
+﻿using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
 using System.Reflection;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Behaviours
 {
-  public abstract class AbstractOdinPlusMonoBehaviour : MonoBehaviour, ISpawnable
+  public abstract class AbstractCustomMonoBehaviour : MonoBehaviour, ISpawnable
   {
     private string _name;
 
     public string Name
     {
       get => _name;
-      private protected set => _name = Utils.Localize(value);
+      private protected set => _name = Common.Utils.Utils.Localize(value);
     }
 
     public GameObject GameObjectInstance { get; private protected set; }

@@ -1,11 +1,12 @@
-﻿using System.Reflection;
+﻿using OdinPlusRemakeJVL.Behaviours;
 using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Common.Interfaces;
+using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
 {
-  public abstract class AbstractNpc : AbstractOdinPlusMonoBehaviour, ITalkable, Hoverable, Interactable
+  public abstract class AbstractNpc : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable
   {
     public Transform Head { get; set; }
     public GameObject Talker { get; set; }
@@ -16,8 +17,8 @@ namespace OdinPlusRemakeJVL.Npcs
 
     public void Say(string msg)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name}, {Common.Utils.Localize(msg)})");
-      Chat.instance?.SetNpcText(Talker, Vector3.up * 3f, 60f, 8, Common.Utils.Localize(Name), Common.Utils.Localize(msg), false);
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name}, {Common.Utils.Utils.Localize(msg)})");
+      Chat.instance?.SetNpcText(Talker, Vector3.up * 3f, 60f, 8, Common.Utils.Utils.Localize(Name), Common.Utils.Utils.Localize(msg), false);
     }
   }
 }

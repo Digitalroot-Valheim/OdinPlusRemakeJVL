@@ -1,4 +1,4 @@
-﻿namespace OdinPlusRemakeJVL.Common
+﻿namespace OdinPlusRemakeJVL.Common.Enums
 {
   public enum QuestType
   {

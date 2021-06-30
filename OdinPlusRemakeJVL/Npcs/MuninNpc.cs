@@ -4,6 +4,7 @@ using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Reflection;
 using System.Text;
+using OdinPlusRemakeJVL.Common.Names;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs

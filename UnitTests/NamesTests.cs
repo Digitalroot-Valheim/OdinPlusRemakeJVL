@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Names;
 
 namespace UnitTests
 {

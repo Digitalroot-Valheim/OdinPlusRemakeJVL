@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Names
 {
   public static class PrefabNames
   {
@@ -12,7 +12,7 @@ namespace OdinPlusRemakeJVL.Common
     public static string Munin = nameof(Munin);
     public static string GoblinShaman = nameof(GoblinShaman);
 
-    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(PrefabNames));
+    public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(PrefabNames));
 
   }
 }

@@ -1,5 +1,6 @@
 ﻿using OdinPlusRemakeJVL.Common;
 using System.Reflection;
+using OdinPlusRemakeJVL.Common.Names;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Prefabs

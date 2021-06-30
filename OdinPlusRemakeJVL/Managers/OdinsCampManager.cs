@@ -2,11 +2,13 @@
 using OdinPlusRemakeJVL.Common.Interfaces;
 using OdinPlusRemakeJVL.Extensions;
 using OdinPlusRemakeJVL.Npcs;
-using OdinPlusRemakeJVL.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using OdinPlusRemakeJVL.Behaviours;
+using OdinPlusRemakeJVL.Common.Names;
+using OdinPlusRemakeJVL.GameObjects;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -19,7 +21,7 @@ namespace OdinPlusRemakeJVL.Managers
   {
     private GameObject _odinCampGameObject;
     private GameObject terrain;
-    private readonly List<AbstractOdinPlusMonoBehaviour> _odinPlusObjects = new List<AbstractOdinPlusMonoBehaviour>();
+    private readonly List<AbstractCustomMonoBehaviour> _odinPlusObjects = new List<AbstractCustomMonoBehaviour>();
 
     protected override bool OnInitialize()
     {
@@ -78,7 +80,7 @@ namespace OdinPlusRemakeJVL.Managers
       {
         try
         {
-          Log.Debug($"[{GetType().Name}] Spawning : {((AbstractOdinPlusMonoBehaviour) spawnable)?.Name}");
+          Log.Debug($"[{GetType().Name}] Spawning : {((AbstractCustomMonoBehaviour) spawnable)?.Name}");
           spawnable?.Spawn(_odinCampGameObject.transform);
         }
         catch (Exception e)
@@ -299,7 +301,7 @@ namespace OdinPlusRemakeJVL.Managers
     private void SetSpawnPosition()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _odinCampGameObject.transform.localPosition = Common.Utils.GetStartTemplesPosition() + new Vector3(-12.6f, 0.05f, -11f);
+      _odinCampGameObject.transform.localPosition = Common.Utils.Utils.GetStartTemplesPosition() + new Vector3(-12.6f, 0.05f, -11f);
     }
   }
 }

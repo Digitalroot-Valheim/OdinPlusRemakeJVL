@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Names
 {
   public static class HuntLocationNames
   {
@@ -10,6 +10,6 @@ namespace OdinPlusRemakeJVL.Common
     public static readonly string RunestonePlains = "Runestone_Plains";
     public static readonly string Waymarker02 = nameof(Waymarker02);
 
-    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(HuntLocationNames));
+    public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(HuntLocationNames));
   }
 }

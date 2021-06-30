@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using OdinPlusRemakeJVL.Common.Names;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Managers
@@ -33,11 +34,11 @@ namespace OdinPlusRemakeJVL.Managers
     public override bool HasDependencyError()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var dependencyError = !Common.Utils.IsZNetSceneReady();
+      var dependencyError = !Common.Utils.Utils.IsZNetSceneReady();
                             
       if (dependencyError)
       {
-        Log.Fatal($"[{GetType().Name}] Common.Utils.IsZNetSceneReady(): {Common.Utils.IsZNetSceneReady()}");
+        Log.Fatal($"[{GetType().Name}] Common.Utils.IsZNetSceneReady(): {Common.Utils.Utils.IsZNetSceneReady()}");
       }
       return dependencyError;
     }
@@ -63,10 +64,10 @@ namespace OdinPlusRemakeJVL.Managers
           }
         }
 
-        if (!Common.Utils.IsZNetSceneReady())
+        if (!Common.Utils.Utils.IsZNetSceneReady())
         {
           healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: Common.Utils.IsZNetSceneReady(): {Common.Utils.IsZNetSceneReady()}";
+          healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: Common.Utils.IsZNetSceneReady(): {Common.Utils.Utils.IsZNetSceneReady()}";
         }
 
         return healthCheckStatus;

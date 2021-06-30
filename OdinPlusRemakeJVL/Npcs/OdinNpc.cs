@@ -4,6 +4,7 @@ using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Reflection;
 using System.Text;
+using OdinPlusRemakeJVL.Common.Names;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Npcs
@@ -46,7 +47,7 @@ namespace OdinPlusRemakeJVL.Npcs
       // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
       // b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
       // return Localization.instance.Localize(n + s + a + b);
-      return Common.Utils.Localize(stringBuilder.ToString());
+      return Common.Utils.Utils.Localize(stringBuilder.ToString());
       // return $"<color=lightblue><b>Odin</b></color> is here";
     }
 

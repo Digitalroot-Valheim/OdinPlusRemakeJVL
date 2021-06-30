@@ -1,14 +1,16 @@
-﻿using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Managers;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Text;
+using OdinPlusRemakeJVL.Behaviours;
+using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Interfaces;
+using OdinPlusRemakeJVL.Common.Names;
+using OdinPlusRemakeJVL.Managers;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.Pieces
+namespace OdinPlusRemakeJVL.GameObjects
 {
-  internal class OdinsCauldronOld : AbstractOdinPlusMonoBehaviour, ITalkable, Hoverable, Interactable, ISpawnable
+  internal class OdinsCauldronOld : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISpawnable
   {
     public Transform Head { get; set; }
     public GameObject Talker { get; set; }
@@ -49,14 +51,14 @@ namespace OdinPlusRemakeJVL.Pieces
       // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
       // b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
       // return Localization.instance.Localize(n + s + a + b);
-      return Common.Utils.Localize(stringBuilder.ToString());
+      return Common.Utils.Utils.Localize(stringBuilder.ToString());
       // return $"<color=lightblue><b>Odin</b></color> is here";
     }
 
     public void Spawn(Transform parent)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      GameObjectInstance = Common.Utils.Spawn(CustomPrefabNames.Cauldron, parent.position, parent);
+      GameObjectInstance = Common.Utils.Utils.Spawn(CustomPrefabNames.Cauldron, parent.position, parent);
     }
 
     public void Say(string msg)

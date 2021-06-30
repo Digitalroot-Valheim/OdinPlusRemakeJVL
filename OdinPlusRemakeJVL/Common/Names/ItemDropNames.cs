@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Names
 {
   public static class ItemDropNames
   {
@@ -39,7 +39,7 @@ namespace OdinPlusRemakeJVL.Common
     public static string WolfPelt = nameof(WolfPelt);
     public static string Wood = nameof(Wood);
 
-    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(ItemDropNames));
+    public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(ItemDropNames));
 
   }
 }

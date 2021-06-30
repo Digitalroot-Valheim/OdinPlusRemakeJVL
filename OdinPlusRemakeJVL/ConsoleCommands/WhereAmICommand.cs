@@ -2,6 +2,8 @@
 using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Reflection;
+using OdinPlusRemakeJVL.Common.Names;
+using OdinPlusRemakeJVL.Common.Utils;
 
 namespace OdinPlusRemakeJVL.ConsoleCommands
 {
@@ -14,7 +16,7 @@ namespace OdinPlusRemakeJVL.ConsoleCommands
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var position = Common.Utils.GetLocalPlayersPosition();
+        var position = Common.Utils.Utils.GetLocalPlayersPosition();
         var msg = $"{position.x},{position.y},{position.z}";
         GuiUtils.PrintToCenterOfScreen(msg);
         ConsoleCommandManager.Instance.WriteToConsole($"(x,y,z) {msg}");

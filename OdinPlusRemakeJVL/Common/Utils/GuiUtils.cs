@@ -1,4 +1,4 @@
-﻿namespace OdinPlusRemakeJVL.Common
+﻿namespace OdinPlusRemakeJVL.Common.Utils
 {
   internal static class GuiUtils
   {

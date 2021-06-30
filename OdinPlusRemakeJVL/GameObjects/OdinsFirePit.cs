@@ -1,13 +1,15 @@
-﻿using JetBrains.Annotations;
-using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Managers;
-using System;
+﻿using System;
 using System.Reflection;
+using JetBrains.Annotations;
+using OdinPlusRemakeJVL.Behaviours;
+using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Names;
+using OdinPlusRemakeJVL.Managers;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.Pieces
+namespace OdinPlusRemakeJVL.GameObjects
 {
-  internal class OdinsFirePit : AbstractOdinPlusMonoBehaviour
+  internal class OdinsFirePit : AbstractCustomMonoBehaviour
   {
     [UsedImplicitly] public GameObject FirePit => GameObjectInstance;
 

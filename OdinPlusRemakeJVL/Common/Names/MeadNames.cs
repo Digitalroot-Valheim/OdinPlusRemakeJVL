@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdinPlusRemakeJVL.Common
+namespace OdinPlusRemakeJVL.Common.Names
 {
   public static class MeadNames
   {
@@ -27,6 +27,6 @@ namespace OdinPlusRemakeJVL.Common
     public static string AxeMeadM = nameof(AxeMeadM);
     public static string AxeMeadL = nameof(AxeMeadL);
 
-    public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(MeadNames));
+    public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(MeadNames));
   }
 }
