@@ -13,8 +13,8 @@ namespace OdinPlusRemakeJVL.Managers
 
     //private readonly Dictionary<string, Sprite> _petItemList = new Dictionary<string, Sprite>
     //{
-    //  {ItemNames.ScrollTroll, OdinPlus.TrollHeadIcon},
-    //  {ItemNames.ScrollWolf, OdinPlus.WolfHeadIcon}
+    //  {ItemDropNames.ScrollTroll, OdinPlus.TrollHeadIcon},
+    //  {ItemDropNames.ScrollWolf, OdinPlus.WolfHeadIcon}
     //};
 
     // private readonly Dictionary<string, GameObject> _objectList = new Dictionary<string, GameObject>();
@@ -71,22 +71,22 @@ namespace OdinPlusRemakeJVL.Managers
         //}
         //else
         //{
-        //  if (!_objectList.ContainsKey(ItemNames.OdinLegacy))
+        //  if (!_objectList.ContainsKey(ItemDropNames.OdinLegacy))
         //  {
         //    healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-        //    healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(ItemNames.OdinLegacy): false";
+        //    healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(ItemDropNames.OdinLegacy): false";
         //  }
 
-        //  if (!_objectList.ContainsKey(ItemNames.ScrollWolf))
+        //  if (!_objectList.ContainsKey(ItemDropNames.ScrollWolf))
         //  {
         //    healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-        //    healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(ItemNames.ScrollWolf): false";
+        //    healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(ItemDropNames.ScrollWolf): false";
         //  }
 
-        //  if (!_objectList.ContainsKey(ItemNames.ScrollTroll))
+        //  if (!_objectList.ContainsKey(ItemDropNames.ScrollTroll))
         //  {
         //    healthCheckStatus.HealthStatus = HealthStatus.Unhealthy;
-        //    healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(ItemNames.ScrollTroll): false";
+        //    healthCheckStatus.Reason = $"[{healthCheckStatus.Name}]: _objectList.ContainsKey(ItemDropNames.ScrollTroll): false";
         //  }
         //}
 

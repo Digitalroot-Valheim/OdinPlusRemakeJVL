@@ -1,44 +1,40 @@
 ﻿using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Managers;
 using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Prefabs
 {
-  internal class OrnamentalFirePit : ICreateable
+  /// <summary>
+  /// A new prefab of the FirePit that is always burning and does not require wood. Some default behaviors have been removed.
+  /// </summary>
+  internal class OrnamentalFirePit : AbstractCustomPrefab
   {
-    public GameObject Create()
+    /// <inheritdoc />
+    internal OrnamentalFirePit()
+      : base(CustomPrefabNames.OrnamentalFirePit, PrefabNames.FirePit)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var prefab = PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalFirePit);
+    }
 
-      if (prefab == null)
+    /// <inheritdoc />
+    protected override GameObject OnCreate(GameObject prefab)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab?.name})");
+
+      if (prefab != null)
       {
-        Log.Trace($"[{GetType().Name}] Creating {CustomPrefabNames.OrnamentalFirePit}");
-        prefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.OrnamentalFirePit, ItemNames.FirePit);
-        if (prefab != null)
+        Object.DestroyImmediate(prefab.gameObject.transform.Find("PlayerBase").gameObject);
+        Object.DestroyImmediate(prefab.GetComponent<WearNTear>());
+        Object.DestroyImmediate(prefab.GetComponent<Fireplace>());
+        prefab.transform.Find("_enabled_high").gameObject.SetActive(true);
+        prefab.transform.Find("_enabled").gameObject.SetActive(true);
+        prefab.GetComponent<Piece>().m_canBeRemoved = false;
+
+        foreach (var item in prefab.GetComponentsInChildren<Aoe>())
         {
-
-          Object.DestroyImmediate(prefab.gameObject.transform.Find("PlayerBase").gameObject);
-          Object.DestroyImmediate(prefab.GetComponent<WearNTear>());
-          Object.DestroyImmediate(prefab.GetComponent<Fireplace>());
-          prefab.transform.Find("_enabled_high").gameObject.SetActive(true);
-          prefab.transform.Find("_enabled").gameObject.SetActive(true);
-          prefab.GetComponent<Piece>().m_canBeRemoved = false;
-
-          foreach (var item in prefab.GetComponentsInChildren<Aoe>())
-          {
-            Object.DestroyImmediate(item);
-          }
+          Object.DestroyImmediate(item);
         }
       }
 
-      if (prefab == null)
-      {
-        Log.Error($"[{GetType().Name}] Error with prefabs.");
-        Log.Error($"[{GetType().Name}] prefab == null: true");
-      }
       return prefab;
     }
   }

@@ -195,8 +195,8 @@ namespace OdinPlusRemakeJVL.Managers
       var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
       statusEffect.name = PetsStatusEffectNames.Troll;
       statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Troll);
-      statusEffect.m_name = $"$op_{ItemNames.ScrollTroll}_name";
-      statusEffect.m_tooltip = $"$op_{ItemNames.ScrollTroll}_tooltip";
+      statusEffect.m_name = $"$op_{ItemDropNames.ScrollTroll}_name";
+      statusEffect.m_tooltip = $"$op_{ItemDropNames.ScrollTroll}_tooltip";
       statusEffect.m_cooldownIcon = true;
       statusEffect.m_ttl = 600;
       statusEffect.PetName = PetNames.TrollPet;
@@ -208,8 +208,8 @@ namespace OdinPlusRemakeJVL.Managers
       var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
       statusEffect.name = PetsStatusEffectNames.Wolf;
       statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Wolf);
-      statusEffect.m_name = $"$op_{ItemNames.ScrollWolf}_name";
-      statusEffect.m_tooltip = $"$op_{ItemNames.ScrollWolf}_tooltip";
+      statusEffect.m_name = $"$op_{ItemDropNames.ScrollWolf}_name";
+      statusEffect.m_tooltip = $"$op_{ItemDropNames.ScrollWolf}_tooltip";
       statusEffect.m_cooldownIcon = true;
       statusEffect.m_ttl = 1800;
       statusEffect.PetName = PetNames.WolfPet;

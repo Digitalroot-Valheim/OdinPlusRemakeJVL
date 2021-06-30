@@ -77,7 +77,7 @@ namespace OdinPlusRemakeJVL.Pieces
       if (cauldronPrefab == null)
       {
         Log.Trace($"[{GetType().Name}] Creating {CustomPrefabNames.Cauldron}");
-        cauldronPrefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.Cauldron, ItemNames.Cauldron);
+        cauldronPrefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.Cauldron, PrefabNames.Cauldron);
         if (cauldronPrefab != null)
         {
           cauldronPrefab.transform.Find("HaveFire").gameObject.SetActive(true);

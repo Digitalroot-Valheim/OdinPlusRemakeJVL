@@ -1,34 +1,31 @@
 ﻿using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Managers;
 using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Prefabs
 {
-  internal class OrnamentalMunin : ICreateable
+  /// <summary>
+  /// A new prefab of Munin with it's default behaviors removed.
+  /// </summary>
+  internal class OrnamentalMunin : AbstractCustomPrefab
   {
-    public GameObject Create()
+    /// <inheritdoc />
+    internal OrnamentalMunin() 
+      : base(CustomPrefabNames.OrnamentalMunin, PrefabNames.Munin)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var prefab = PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalMunin);
-      if (prefab == null)
+    }
+
+    /// <inheritdoc />
+    protected override GameObject OnCreate(GameObject prefab)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab?.name})");
+      if (prefab != null)
       {
-        Log.Trace($"[{GetType().Name}] Creating {CustomPrefabNames.OrnamentalMunin}");
-        prefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.OrnamentalMunin, ItemNames.Munin);
-        if (prefab != null)
-        {
-          Object.DestroyImmediate(prefab.transform.Find("exclamation").gameObject);
-          Object.DestroyImmediate(prefab.transform.GetComponentInChildren<Light>());
-          Object.DestroyImmediate(prefab.GetComponent<Raven>());
-        }
+        Object.DestroyImmediate(prefab.transform.Find("exclamation").gameObject);
+        Object.DestroyImmediate(prefab.transform.GetComponentInChildren<Light>());
+        Object.DestroyImmediate(prefab.GetComponent<Raven>());
       }
 
-      if (prefab == null)
-      {
-        Log.Error($"[{GetType().Name}] Error with prefabs.");
-        Log.Error($"[{GetType().Name}] prefab == null: true");
-      }
       return prefab;
     }
   }

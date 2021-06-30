@@ -1,32 +1,29 @@
-﻿using System.Reflection;
-using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Managers;
+﻿using OdinPlusRemakeJVL.Common;
+using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Prefabs
 {
-  internal class OrnamentalGoblinShaman : ICreateable
+  /// <summary>
+  /// A new prefab of the GoblinShaman with it's default hostile behaviors removed.
+  /// </summary>
+  internal class OrnamentalGoblinShaman : AbstractCustomPrefab
   {
-    public GameObject Create()
+    /// <inheritdoc />
+    internal OrnamentalGoblinShaman()
+      : base(CustomPrefabNames.OrnamentalGoblinShaman, PrefabNames.GoblinShaman)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var prefab = PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalGoblinShaman);
-      if (prefab == null)
+    }
+
+    /// <inheritdoc />
+    protected override GameObject OnCreate(GameObject prefab)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab?.name})");
+      if (prefab != null)
       {
-        Log.Trace($"[{GetType().Name}] Creating {CustomPrefabNames.OrnamentalGoblinShaman}");
-        prefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.OrnamentalGoblinShaman, ItemNames.GoblinShaman);
-        if (prefab != null)
-        {
-          Object.DestroyImmediate(prefab.GetComponent<RandomAnimation>());
-        }
+        Object.DestroyImmediate(prefab.GetComponent<RandomAnimation>());
       }
 
-      if (prefab == null)
-      {
-        Log.Error($"[{GetType().Name}] Error with prefabs.");
-        Log.Error($"[{GetType().Name}] prefab == null: true");
-      }
       return prefab;
     }
   }

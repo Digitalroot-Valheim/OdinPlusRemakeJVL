@@ -129,7 +129,7 @@ namespace OdinPlusRemakeJVL.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var forceFieldPreFab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find(ItemNames.ForceField);
+        var forceFieldPreFab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find(PrefabNames.ForceField);
         var forceField = Object.Instantiate(forceFieldPreFab, _odinCampGameObject.transform);
         forceField.transform.localScale = Vector3.one * 10;
       }

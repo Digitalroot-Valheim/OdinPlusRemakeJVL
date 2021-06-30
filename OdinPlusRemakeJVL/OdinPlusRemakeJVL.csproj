@@ -409,6 +409,7 @@
     <Compile Include="Common\MonoBehaviourSingleton.cs" />
     <Compile Include="Common\NpcNames.cs" />
     <Compile Include="Common\PetNames.cs" />
+    <Compile Include="Common\PrefabNames.cs" />
     <Compile Include="Common\QuestType.cs" />
     <Compile Include="Common\Singleton.cs" />
     <Compile Include="Common\TreasureLocationNames.cs" />
@@ -434,7 +435,7 @@
     <Compile Include="Managers\PrefabManager.cs" />
     <Compile Include="Managers\SpriteManager.cs" />
     <Compile Include="ItemDrops\OdinLegacy.cs" />
-    <Compile Include="Common\ItemNames.cs" />
+    <Compile Include="Common\ItemDropNames.cs" />
     <Compile Include="Common\PetsStatusEffectNames.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Common\MeadNames.cs" />
@@ -450,6 +451,7 @@
     <Compile Include="Pieces\OdinsFirePit.cs" />
     <Compile Include="Pieces\OdinTradeShop.cs" />
     <Compile Include="Patch.cs" />
+    <Compile Include="Prefabs\AbstractCustomPrefab.cs" />
     <Compile Include="Prefabs\OrnamentalCauldron.cs" />
     <Compile Include="Prefabs\OrnamentalFirePit.cs" />
     <Compile Include="Prefabs\OrnamentalGoblinShaman.cs" />

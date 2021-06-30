@@ -59,7 +59,7 @@ namespace OdinPlusRemakeJVL.Pieces
       var sell = __instance.m_sellButton.transform.parent.gameObject;
       var icon = __instance.m_coinText.transform.parent.GetChild(0).GetComponent<Image>();
       sell.gameObject.SetActive(!set);
-      icon.sprite = !set ? SpriteManager.Instance.GetSprite(ItemNames.Coins) : SpriteManager.Instance.GetSprite(ItemNames.OdinCredit);
+      icon.sprite = !set ? SpriteManager.Instance.GetSprite(ItemDropNames.Coins) : SpriteManager.Instance.GetSprite(PrefabNames.OdinCredit);
       GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text = Common.Utils.Localize(set ? "OdinStore" : @"$store_topic");
     }
 

@@ -108,7 +108,7 @@ namespace OdinPlusRemakeJVL.Npcs
     //  if (odinPrefab == null)
     //  {
     //    Log.Trace($"[{GetType().Name}] Creating {CustomPrefabNames.Odin}");
-    //    odinPrefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.Odin, ItemNames.Odin);
+    //    odinPrefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.Odin, ItemDropNames.Odin);
 
     //    if (odinPrefab != null)
     //    {

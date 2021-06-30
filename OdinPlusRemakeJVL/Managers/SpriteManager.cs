@@ -55,16 +55,16 @@ namespace OdinPlusRemakeJVL.Managers
         AddSpriteFromResource(odinPlusPetsStatusEffect);
       }
 
-      AddSpriteFromResource(ItemNames.OdinLegacy);
+      AddSpriteFromResource(ItemDropNames.OdinLegacy);
     }
 
     public void OnPrefabsRegistered()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      AddSpriteFromPrefab(ItemNames.OdinCredit, ItemNames.HelmetOdin);
-      AddSpriteFromPrefab(ItemNames.ScrollTroll, ItemNames.TrophyFrostTroll);
-      AddSpriteFromPrefab(ItemNames.ScrollWolf, ItemNames.TrophyWolf);
-      AddSpriteFromPrefab(ItemNames.Coins);
+      AddSpriteFromPrefab(PrefabNames.OdinCredit, ItemDropNames.HelmetOdin);
+      AddSpriteFromPrefab(ItemDropNames.ScrollTroll, ItemDropNames.TrophyFrostTroll);
+      AddSpriteFromPrefab(ItemDropNames.ScrollWolf, ItemDropNames.TrophyWolf);
+      AddSpriteFromPrefab(ItemDropNames.Coins);
     }
 
     private void AddSpriteFromPrefab(string name, string prefabName)
