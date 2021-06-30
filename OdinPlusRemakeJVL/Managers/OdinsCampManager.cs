@@ -71,6 +71,7 @@ namespace OdinPlusRemakeJVL.Managers
       AddOdinsFirePit();
       AddOdinsCauldron();
       AddMunin();
+      AddShaman();
 
       Log.Debug($"[{GetType().Name}] Total Spawnables ({_odinPlusObjects.Count}) ");
       foreach (var spawnable in _odinPlusObjects.Select(odinPlusObject => odinPlusObject as ISpawnable))
@@ -123,6 +124,21 @@ namespace OdinPlusRemakeJVL.Managers
     //  return new Vector3(a, c, b);
     //}
 
+    private void AddForceField() // ToDo: Refactor into Prefab
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var forceFieldPreFab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find(ItemNames.ForceField);
+        var forceField = Object.Instantiate(forceFieldPreFab, _odinCampGameObject.transform);
+        forceField.transform.localScale = Vector3.one * 10;
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+    }
+
     private void AddMunin()
     {
       try
@@ -133,21 +149,6 @@ namespace OdinPlusRemakeJVL.Managers
         component.SetLocalPositionOffset(new Vector3(2.7f, 0, 1.6f));
         component.Munin.transform.Rotate(0, -30f, 0);
         _odinPlusObjects.Add(component);
-      }
-      catch (Exception e)
-      {
-        Log.Error(e);
-      }
-    }
-
-    private void AddForceField() // ToDo: Refactor into Prefab
-    {
-      try
-      {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var forceFieldPreFab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find(ItemNames.ForceField);
-        var forceField = Object.Instantiate(forceFieldPreFab, _odinCampGameObject.transform);
-        forceField.transform.localScale = Vector3.one * 10;
       }
       catch (Exception e)
       {
@@ -200,6 +201,23 @@ namespace OdinPlusRemakeJVL.Managers
         // component.Talker = _odinCampGameObject.GetOrAddComponent<OdinNpc>().Odin;
         // m_odinPot = caul.AddComponent<OdinTradeShop>();
         // OdinPlus.traderNameList.Add(m_odinPot.m_name);
+        _odinPlusObjects.Add(component);
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+    }
+
+    private void AddShaman()
+    {
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var component = _odinCampGameObject.GetOrAddComponent<ShamanNpc>();
+        component.transform.SetParent(_odinCampGameObject.transform);
+        component.SetLocalPositionOffset(new Vector3(-0.2609f, -0.008f, -1.9282f));
+        component.Shaman.transform.rotation = new Quaternion(0, 0.9461f, 0, 0.3237f);
         _odinPlusObjects.Add(component);
       }
       catch (Exception e)

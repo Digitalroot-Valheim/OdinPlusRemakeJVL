@@ -444,6 +444,7 @@
     <Compile Include="Common\AbstractOdinPlusMonoBehaviour.cs" />
     <Compile Include="Npcs\MuninNpc.cs" />
     <Compile Include="Npcs\OdinNpc.cs" />
+    <Compile Include="Npcs\ShamanNpc.cs" />
     <Compile Include="Pieces\OdinsCauldron.cs" />
     <Compile Include="Pieces\OdinsCauldronold.cs" />
     <Compile Include="Pieces\OdinsFirePit.cs" />
@@ -451,6 +452,7 @@
     <Compile Include="Patch.cs" />
     <Compile Include="Prefabs\OrnamentalCauldron.cs" />
     <Compile Include="Prefabs\OrnamentalFirePit.cs" />
+    <Compile Include="Prefabs\OrnamentalGoblinShaman.cs" />
     <Compile Include="Prefabs\OrnamentalMunin.cs" />
     <Compile Include="Prefabs\OrnamentalOdin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
