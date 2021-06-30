@@ -19,6 +19,8 @@ namespace OdinPlusRemakeJVL.Npcs
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         Name = "$op_god";
         GameObjectInstance = Instantiate(PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalOdin));
+        Head = Odin.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
+        Talker = Odin;
       }
       catch (Exception e)
       {
@@ -44,8 +46,8 @@ namespace OdinPlusRemakeJVL.Npcs
       // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
       // b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Main.KeyboardShortcutSecondInteractKey.Value.MainKey.ToString());
       // return Localization.instance.Localize(n + s + a + b);
-      // return Common.Utils.Localize(stringBuilder.ToString());
-      return $"<color=lightblue><b>Odin</b></color> is here";
+      return Common.Utils.Localize(stringBuilder.ToString());
+      // return $"<color=lightblue><b>Odin</b></color> is here";
     }
 
     public override bool Interact(Humanoid user, bool hold)

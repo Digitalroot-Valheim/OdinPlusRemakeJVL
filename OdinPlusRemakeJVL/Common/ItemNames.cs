@@ -43,6 +43,7 @@ namespace OdinPlusRemakeJVL.Common
     public static string FirePit = "fire_pit";
     public static string Odin = "odin";
     public static string OdinCredit = nameof(OdinCredit);
+    public static string Munin = nameof(Munin);
 
     public static readonly IEnumerable<string> AllNames = Utils.AllNames(typeof(MeadNames));
 

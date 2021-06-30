@@ -65,9 +65,12 @@ namespace OdinPlusRemakeJVL.Managers
     public void OnSpawnedPlayer(Vector3 position)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({position})");
+      if (_odinPlusObjects.Count > 0) _odinPlusObjects.Clear();
+      
       AddOdin();
       AddOdinsFirePit();
       AddOdinsCauldron();
+      AddMunin();
 
       Log.Debug($"[{GetType().Name}] Total Spawnables ({_odinPlusObjects.Count}) ");
       foreach (var spawnable in _odinPlusObjects.Select(odinPlusObject => odinPlusObject as ISpawnable))
@@ -96,7 +99,7 @@ namespace OdinPlusRemakeJVL.Managers
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({zNetScene.name})");
       AddTerrain();
-      // AddBird();
+      
     }
 
     //private Vector3 FindSpawnPoint()
@@ -120,9 +123,21 @@ namespace OdinPlusRemakeJVL.Managers
     //  return new Vector3(a, c, b);
     //}
 
-    private void AddBird()
+    private void AddMunin()
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      try
+      {
+        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var component = _odinCampGameObject.GetOrAddComponent<MuninNpc>();
+        component.transform.SetParent(_odinCampGameObject.transform);
+        component.SetLocalPositionOffset(new Vector3(2.7f, 0, 1.6f));
+        component.Munin.transform.Rotate(0, -30f, 0);
+        _odinPlusObjects.Add(component);
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
     }
 
     private void AddForceField() // ToDo: Refactor into Prefab
@@ -147,7 +162,6 @@ namespace OdinPlusRemakeJVL.Managers
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         var component = _odinCampGameObject.GetOrAddComponent<OdinNpc>();
         component.transform.SetParent(_odinCampGameObject.transform);
-        // component.SetLocalPositionOffset(Vector3.forward * 3f + Vector3.down * 0.1f);
         component.SetLocalPositionOffset(new Vector3(-1.84f, -0.045f, -0.52f));
         component.Odin.transform.rotation = new Quaternion(0, 0.6605f, 0, 0.7508f);
         _odinPlusObjects.Add(component);

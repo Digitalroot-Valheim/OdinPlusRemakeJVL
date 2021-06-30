@@ -46,8 +46,6 @@ namespace OdinPlus.Npcs
       instance = null;
     }
 
-    #region Feature
-
     private void CreatSideQuest()
     {
       if (timer > 0)
@@ -93,10 +91,6 @@ namespace OdinPlus.Npcs
 
       QuestManager.Instance.Level++;
     }
-
-    #endregion Feature
-
-    #region Val
 
     public override bool Interact(Humanoid user, bool hold)
     {
@@ -175,10 +169,6 @@ namespace OdinPlus.Npcs
       return true;
     }
 
-    #endregion Val
-
-    #region Tool
-
     public static void Reward(int key, int level)
     {
       var a = Instantiate(ZNetScene.instance.GetPrefab(OdinPlusItem.OdinLegacy), instance.transform.position + Vector3.up * 2f + Vector3.forward, Quaternion.identity);
@@ -192,10 +182,6 @@ namespace OdinPlus.Npcs
     {
       instance.timer = 0f;
     }
-
-    #endregion Tool
-
-    #region TextGUI
 
     private class TR_Giveup : TextReceiver
     {
@@ -221,7 +207,5 @@ namespace OdinPlus.Npcs
         DBG.InfoCT("$op_wrong_num");
       }
     }
-
-    #endregion TextGUI
   }
 }

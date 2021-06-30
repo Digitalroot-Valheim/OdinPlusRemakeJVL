@@ -21,6 +21,7 @@ namespace OdinPlusRemakeJVL.Managers
         _createables.Add(new OrnamentalFirePit());
         _createables.Add(new OrnamentalCauldron());
         _createables.Add(new OrnamentalOdin());
+        _createables.Add(new OrnamentalMunin());
         return true;
       }
       catch (Exception e)
