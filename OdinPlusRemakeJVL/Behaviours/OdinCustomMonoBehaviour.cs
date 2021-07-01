@@ -1,27 +1,23 @@
-﻿using OdinPlusRemakeJVL.Common;
+﻿using JetBrains.Annotations;
+using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Reflection;
 using System.Text;
-using OdinPlusRemakeJVL.Common.Names;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.Npcs
+namespace OdinPlusRemakeJVL.Behaviours
 {
-  public class OdinNpc : AbstractNpc, ISecondaryInteractable 
+  [UsedImplicitly]
+  public class OdinCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISecondaryInteractable
   {
-    public GameObject Odin => GameObjectInstance;
-
     public void Awake()
     {
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        Name = "$op_god";
-        GameObjectInstance = Instantiate(PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalOdin));
-        Head = Odin.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-        Talker = Odin;
+        Head = gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
+        Talker = gameObject;
       }
       catch (Exception e)
       {
@@ -29,19 +25,26 @@ namespace OdinPlusRemakeJVL.Npcs
       }
     }
 
-    //public bool Summon()
-    //{
-    //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    //  ReadSkill();
-    //  return true;
-    //}
+    #region Implementation of ITalkable
 
-    public override string GetHoverName() => Name;
+    /// <inheritdoc />
+    public Transform Head { get; set; }
 
-    public override string GetHoverText()
+    /// <inheritdoc />
+    public GameObject Talker { get; set; }
+
+    /// <inheritdoc />
+    public void Say(string topic, string msg) => Say(Talker, topic, msg);
+
+    #endregion
+
+    #region Implementation of Hoverable
+
+    /// <inheritdoc />
+    public string GetHoverText()
     {
       // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{Name}</b></color>");
+      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{gameObject.name}</b></color>");
       // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
       // string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
       // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
@@ -51,7 +54,15 @@ namespace OdinPlusRemakeJVL.Npcs
       // return $"<color=lightblue><b>Odin</b></color> is here";
     }
 
-    public override bool Interact(Humanoid user, bool hold)
+    /// <inheritdoc />
+    public string GetHoverName() => gameObject.name;
+
+    #endregion
+
+    #region Implementation of Interactable
+
+    /// <inheritdoc />
+    public bool Interact(Humanoid user, bool hold)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({user.name}, {hold})");
       if (hold)
@@ -65,25 +76,12 @@ namespace OdinPlusRemakeJVL.Npcs
       //}
 
       // user.GetSkills().RaiseSkill(stlist[cskillIndex], Main.RaiseFactor);
-      Say($"{user.name} $op_raise");
+      Say(Talker, gameObject.name, $"$op_raise");
       return true;
     }
 
-    public void SecondaryInteract(Humanoid user)
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      // SwitchSkill();
-    }
-
-    // public void Spawn(Transform parent)
-    // {
-    //   Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-    //   NpcInstance = Common.Utils.Spawn(CustomPrefabNames.Odin, parent.position, parent);
-    //   Head = NpcInstance.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-    //   Talker = NpcInstance;
-    // }
-
-    public override bool UseItem(Humanoid user, ItemDrop.ItemData item) //trans
+    /// <inheritdoc />
+    public bool UseItem(Humanoid user, ItemDrop.ItemData item)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       var name = item.m_dropPrefab.name;
@@ -96,48 +94,22 @@ namespace OdinPlusRemakeJVL.Npcs
       //value = OdinData.ItemSellValue[name];
       //OdinData.AddCredits(value * item.m_stack * item.m_quality, m_head);
       //user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
-      Say("$op_god_takeoffer");
+      Say(Talker, gameObject.name, "$op_god_takeoffer");
       return true;
     }
 
-    //private void CreateOdin()
-    //{
-    //  Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+    #endregion
 
-    //  var odinPrefab = PrefabManager.Instance.GetPrefab(CustomPrefabNames.Odin);
+    #region Implementation of ISecondaryInteractable
 
-    //  if (odinPrefab == null)
-    //  {
-    //    Log.Trace($"[{GetType().Name}] Creating {CustomPrefabNames.Odin}");
-    //    odinPrefab = PrefabManager.Instance.CreateClonedPrefab(CustomPrefabNames.Odin, ItemDropNames.Odin);
+    /// <inheritdoc />
+    public void SecondaryInteract(Humanoid user)
+    {
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      // SwitchSkill();
+    }
 
-    //    if (odinPrefab != null)
-    //    {
-    //      DestroyImmediate(odinPrefab.GetComponent<ZNetView>());
-    //      DestroyImmediate(odinPrefab.GetComponent<ZSyncTransform>());
-    //      DestroyImmediate(odinPrefab.GetComponent<Odin>());
-    //      DestroyImmediate(odinPrefab.GetComponent<Rigidbody>());
-
-    //      foreach (var item in odinPrefab.GetComponentsInChildren<Aoe>())
-    //      {
-    //        DestroyImmediate(item);
-    //      }
-
-    //      foreach (var item in odinPrefab.GetComponentsInChildren<EffectArea>())
-    //      {
-    //        DestroyImmediate(item);
-    //      }
-
-    //      PrefabManager.Instance.AddPrefab(odinPrefab);
-    //    }
-    //  }
-
-    //  if (odinPrefab == null)
-    //  {
-    //    Log.Error($"[{GetType().Name}] Error with prefabs.");
-    //    Log.Error($"[{GetType().Name}] odinPrefab == null: true");
-    //  }
-    //}
+    #endregion
 
     public void SetPosition()
     {

@@ -3,42 +3,43 @@
 object GameObject <<Unity>>
 
 interface ISpawnable {
-	+SetLocalPositionOffset() : void
-	+Spawn() : void
+	+LocalPositionOffset : Vector3 
+	+AddMonoBehaviour<AbstractCustomMonoBehaviour>() : void
+	+SetLocalPositionOffset(Vector3) : void
+	+Spawn(Transform) : void
+	+OnDestroy() : void 
 }
 
 interface ICreateable {
 	+Create() : GameObject
 }
 
-class CustomGameObject {
-	#NewPrefabName : string
+class CustomGameObject <<AbstractCustomGameObject>> {
+	+Name : string
+	#CustomPrefabName : string 
+	#GameObjectInstance : GameObject
 }
-
 
 class CustomPrefab <<AbstractCustomPrefab>> {
 	#NewPrefabName : string
 	#SourcePrefabName : string
 	.. Constructor ..
-	+CustomPrefab() : CustomPrefab
+	+CustomPrefab(string, string) : CustomPrefab
 	--
-	#GameObject OnCreate(GameObject prefab)
+	#OnCreate(GameObject) : GameObject 
 }
 
 class CustomMonoBehaviour <<AbstractCustomMonoBehaviour>> {
-	+Name : string
-	+GameObjectInstance : GameObject
-	+LocalPositionOffset : Vector3
-	
-	+OnApplicationQuit() : void
-	+OnDestroy() : void
+	#Say(GameObject, string, string) : void
+
 }
 
-GameObject <|-- CustomGameObject : is a
-CustomGameObject "1" *-- "0..*" CustomPrefab : has >
+CustomGameObject "1" *-- "1" GameObject : has a >
+CustomGameObject "1" *-- "1" CustomPrefab : has a >
 ICreateable <|-- CustomPrefab : implements
+CustomPrefab o-- GameObject : creates a >
 MonoBehaviour <|-- CustomMonoBehaviour : is a
-ISpawnable <|-- CustomMonoBehaviour : implements
-CustomGameObject "1" *-- "0..*" CustomMonoBehaviour : has >
+ISpawnable <|-- CustomGameObject : implements
+CustomGameObject "1" *-- "0..*" CustomMonoBehaviour : has a >
 
 @enduml

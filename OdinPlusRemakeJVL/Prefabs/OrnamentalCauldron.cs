@@ -1,12 +1,12 @@
 ﻿using OdinPlusRemakeJVL.Common;
-using System.Reflection;
 using OdinPlusRemakeJVL.Common.Names;
+using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Prefabs
 {
   /// <summary>
-  /// A new prefab of the Cauldron with it's default crafting station behaviors removed.
+  /// A new prefab of the Cauldron with it's default behaviors removed.
   /// </summary>
   internal class OrnamentalCauldron : AbstractCustomPrefab
   {
@@ -22,10 +22,8 @@ namespace OdinPlusRemakeJVL.Prefabs
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab?.name})");
       if (prefab != null)
       {
-        // Object.DestroyImmediate(prefab.GetComponent<WearNTear>());
-        // Object.DestroyImmediate(prefab.GetComponent<CraftingStation>());
-        prefab.transform.Find("HaveFire").gameObject.SetActive(true);
-        prefab.GetComponent<Piece>().m_canBeRemoved = false;
+        Object.DestroyImmediate(prefab.GetComponent<WearNTear>());
+        Object.DestroyImmediate(prefab.GetComponent<CraftingStation>());
       }
 
       return prefab;

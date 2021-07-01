@@ -1,9 +1,8 @@
 ﻿using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.Common.Names;
 using OdinPlusRemakeJVL.Managers;
-using OdinPlusRemakeJVL.Npcs;
 using System;
 using System.Reflection;
-using OdinPlusRemakeJVL.Common.Names;
 
 namespace OdinPlusRemakeJVL.ConsoleCommands
 {

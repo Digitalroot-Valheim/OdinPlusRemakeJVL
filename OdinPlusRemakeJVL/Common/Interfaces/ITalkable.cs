@@ -7,6 +7,6 @@ namespace OdinPlusRemakeJVL.Common.Interfaces
     Transform Head { get; set; }
     GameObject Talker { get; set; }
 
-    void Say(string msg);
+    void Say(string topic, string msg);
   }
 }

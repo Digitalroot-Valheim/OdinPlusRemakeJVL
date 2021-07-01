@@ -1,46 +1,46 @@
-﻿using OdinPlusRemakeJVL.Common;
+﻿using JetBrains.Annotations;
 using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Managers;
-using System;
-using System.Reflection;
 using System.Text;
-using OdinPlusRemakeJVL.Common.Names;
 using UnityEngine;
 
-namespace OdinPlusRemakeJVL.Npcs
+namespace OdinPlusRemakeJVL.Behaviours
 {
-  public class MuninNpc : AbstractNpc, ISecondaryInteractable
+  public class MuninCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISecondaryInteractable
   {
-    public GameObject Munin => GameObjectInstance;
+    private Animator _animator;
 
-    private Animator m_animator;
-
+    [UsedImplicitly]
     public void Awake()
     {
-      try
-      {
-        Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        Name = "Munin";
-        GameObjectInstance = Instantiate(PrefabManager.Instance.GetPrefab(CustomPrefabNames.OrnamentalMunin));
-        Talker = Munin;
-        m_animator = Munin.GetComponentInChildren<Animator>();
-      }
-      catch (Exception e)
-      {
-        Log.Error(e);
-      }
-    }
-    private void Start()
-    {
-      m_animator.SetTrigger("teleportin");
-      m_animator.SetTrigger("talk");
+      _animator = gameObject.GetComponentInChildren<Animator>();
     }
 
-    public override string GetHoverName() => Name;
-
-    public override string GetHoverText()
+    [UsedImplicitly]
+    public void Start()
     {
-      StringBuilder n = new StringBuilder($"<color=lightblue><b>{Name}</b></color>")
+      _animator.SetTrigger("teleportin");
+      _animator.SetTrigger("talk");
+    }
+
+    #region Implementation of ITalkable
+
+    /// <inheritdoc />
+    public Transform Head { get; set; }
+
+    /// <inheritdoc />
+    public GameObject Talker { get; set; }
+
+    /// <inheritdoc />
+    public void Say(string topic, string msg) => Say(Talker, topic, msg);
+
+    #endregion
+
+    #region Implementation of Hoverable
+
+    /// <inheritdoc />
+    public string GetHoverText()
+    {
+      StringBuilder n = new StringBuilder($"<color=lightblue><b>{gameObject.name}</b></color>")
           // .Append($"\n<color=lightblue><b>$op_munin_quest_lvl :{QuestManager.Instance.Level}</b></color>")
           // .Append($"\n$op_munin_questnum_b <color=lightblue><b>{QuestManager.Instance.Count()}</b></color> $op_munin_questnum_a")
           .Append("\n[<color=yellow><b>1-8</b></color>]$op_offer")
@@ -50,7 +50,15 @@ namespace OdinPlusRemakeJVL.Npcs
       return Localization.instance.Localize(n.ToString());
     }
 
-    public override bool Interact(Humanoid user, bool hold)
+    /// <inheritdoc />
+    public string GetHoverName() => gameObject.name;
+
+    #endregion
+
+    #region Implementation of Interactable
+
+    /// <inheritdoc />
+    public bool Interact(Humanoid user, bool hold)
     {
       if (hold)
       {
@@ -83,7 +91,8 @@ namespace OdinPlusRemakeJVL.Npcs
       return true;
     }
 
-    public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
+    /// <inheritdoc />
+    public bool UseItem(Humanoid user, ItemDrop.ItemData item)
     {
       //if (!SearchQuestProcessor.CanOffer(item.m_dropPrefab.name))
       //{
@@ -96,10 +105,15 @@ namespace OdinPlusRemakeJVL.Npcs
       //  return true;
       //}
 
-      Say("$op_munin_notenough");
+      Say(Talker, gameObject.name, "$op_munin_notenough");
       return true;
     }
 
+    #endregion
+
+    #region Implementation of ISecondaryInteractable
+
+    /// <inheritdoc />
     public void SecondaryInteract(Humanoid user)
     {
       // index += 1;
@@ -110,5 +124,7 @@ namespace OdinPlusRemakeJVL.Npcs
       //
       // currentChoice = choice[index];
     }
+
+    #endregion
   }
 }

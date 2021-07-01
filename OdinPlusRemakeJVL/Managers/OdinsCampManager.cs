@@ -1,14 +1,11 @@
 ﻿using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Common.Interfaces;
-using OdinPlusRemakeJVL.Extensions;
-using OdinPlusRemakeJVL.Npcs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using OdinPlusRemakeJVL.Behaviours;
 using OdinPlusRemakeJVL.Common.Names;
 using OdinPlusRemakeJVL.GameObjects;
+using OdinPlusRemakeJVL.GameObjects.Npcs;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -17,11 +14,12 @@ namespace OdinPlusRemakeJVL.Managers
   /// <summary>
   /// Manages Odin's Camp
   /// </summary>
-  internal class OdinsCampManager : AbstractManager<OdinsCampManager>, IOnZoneSystemLoaded, IOnZNetSceneReady, IOnSpawnedPlayer
+  internal class OdinsCampManager : AbstractManager<OdinsCampManager>, IOnZoneSystemLoaded, IOnZNetSceneReady, IOnSpawnedPlayer, IDestroyable
   {
     private GameObject _odinCampGameObject;
     private GameObject terrain;
-    private readonly List<AbstractCustomMonoBehaviour> _odinPlusObjects = new List<AbstractCustomMonoBehaviour>();
+    private readonly Dictionary<string, ISpawnable> _customGameObjects = new Dictionary<string, ISpawnable>();
+    private readonly List<AbstractCustomGameObject> _odinPlusObjects = new List<AbstractCustomGameObject>();
 
     protected override bool OnInitialize()
     {
@@ -68,20 +66,20 @@ namespace OdinPlusRemakeJVL.Managers
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({position})");
       if (_odinPlusObjects.Count > 0) _odinPlusObjects.Clear();
-      
+
       AddOdin();
       AddOdinsFirePit();
       AddOdinsCauldron();
       AddMunin();
       AddShaman();
 
-      Log.Debug($"[{GetType().Name}] Total Spawnables ({_odinPlusObjects.Count}) ");
-      foreach (var spawnable in _odinPlusObjects.Select(odinPlusObject => odinPlusObject as ISpawnable))
+      Log.Debug($"[{GetType().Name}] Total Spawnables ({_customGameObjects.Count}) ");
+      foreach (var spawnable in _customGameObjects)
       {
         try
         {
-          Log.Debug($"[{GetType().Name}] Spawning : {((AbstractCustomMonoBehaviour) spawnable)?.Name}");
-          spawnable?.Spawn(_odinCampGameObject.transform);
+          Log.Debug($"[{GetType().Name}] Spawning : {spawnable.Key}");
+          spawnable.Value.Spawn(_odinCampGameObject.transform);
         }
         catch (Exception e)
         {
@@ -102,7 +100,6 @@ namespace OdinPlusRemakeJVL.Managers
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({zNetScene.name})");
       AddTerrain();
-      
     }
 
     //private Vector3 FindSpawnPoint()
@@ -146,11 +143,10 @@ namespace OdinPlusRemakeJVL.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var component = _odinCampGameObject.GetOrAddComponent<MuninNpc>();
-        component.transform.SetParent(_odinCampGameObject.transform);
-        component.SetLocalPositionOffset(new Vector3(2.7f, 0, 1.6f));
-        component.Munin.transform.Rotate(0, -30f, 0);
-        _odinPlusObjects.Add(component);
+        var customGameObject = new MuninCustomGameObject();
+        customGameObject.SetLocalPositionOffset(new Vector3(2.56f, -0.001f, -1.98f));
+        customGameObject.SetLocalRotationOffset(new Quaternion(0, 0.345f, 0, -0.9386f));
+        _customGameObjects.Add(customGameObject.Name, customGameObject);
       }
       catch (Exception e)
       {
@@ -163,11 +159,10 @@ namespace OdinPlusRemakeJVL.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var component = _odinCampGameObject.GetOrAddComponent<OdinNpc>();
-        component.transform.SetParent(_odinCampGameObject.transform);
-        component.SetLocalPositionOffset(new Vector3(-1.84f, -0.045f, -0.52f));
-        component.Odin.transform.rotation = new Quaternion(0, 0.6605f, 0, 0.7508f);
-        _odinPlusObjects.Add(component);
+        var customGameObject = new OdinCustomGameObject();
+        customGameObject.SetLocalPositionOffset(new Vector3(0.6f, -0.045f, 2.1f));
+        customGameObject.SetLocalRotationOffset(new Quaternion(0, 0.6605f, 0, 0.7508f));
+        _customGameObjects.Add(customGameObject.Name, customGameObject);
       }
       catch (Exception e)
       {
@@ -180,10 +175,9 @@ namespace OdinPlusRemakeJVL.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var component = _odinCampGameObject.GetOrAddComponent<OdinsFirePit>();
-        component.transform.SetParent(_odinCampGameObject.transform);
-        component.SetLocalPositionOffset(new Vector3(1.5f, -0.015f, -0.5f));
-        _odinPlusObjects.Add(component);
+        var customGameObject = new OdinsFirePitCustomGameObject();
+        customGameObject.SetLocalPositionOffset(new Vector3(-0.42f, -0.015f, -1f));
+        _customGameObjects.Add(customGameObject.Name, customGameObject);
       }
       catch (Exception e)
       {
@@ -196,14 +190,13 @@ namespace OdinPlusRemakeJVL.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var component = _odinCampGameObject.GetOrAddComponent<OdinsCauldron>();
-        component.transform.SetParent(_odinCampGameObject.transform);
-        component.SetLocalPositionOffset(new Vector3(1.5f, 0, -0.5f));
-        component.transform.rotation = new Quaternion(0, 0.6817f, 0, 0.7316f);
+        var customGameObject = new OdinsCauldronCustomGameObject();
+        customGameObject.SetLocalPositionOffset(new Vector3(-0.42f, -0.015f, -1f));
+        customGameObject.SetLocalRotationOffset(new Quaternion(0, 0.6817f, 0, 0.7316f));
         // component.Talker = _odinCampGameObject.GetOrAddComponent<OdinNpc>().Odin;
         // m_odinPot = caul.AddComponent<OdinTradeShop>();
         // OdinPlus.traderNameList.Add(m_odinPot.m_name);
-        _odinPlusObjects.Add(component);
+        _customGameObjects.Add(customGameObject.Name, customGameObject);
       }
       catch (Exception e)
       {
@@ -216,11 +209,10 @@ namespace OdinPlusRemakeJVL.Managers
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var component = _odinCampGameObject.GetOrAddComponent<ShamanNpc>();
-        component.transform.SetParent(_odinCampGameObject.transform);
-        component.SetLocalPositionOffset(new Vector3(-0.2609f, -0.008f, -1.9282f));
-        component.Shaman.transform.rotation = new Quaternion(0, 0.9461f, 0, 0.3237f);
-        _odinPlusObjects.Add(component);
+        var customGameObject = new ShamanCustomGameObject();
+        customGameObject.SetLocalPositionOffset(new Vector3(-1.7409f, -0.008f, 0.2318f));
+        customGameObject.SetLocalRotationOffset(new Quaternion(0, 0.8026f, 0, 0.5965f));
+        _customGameObjects.Add(customGameObject.Name, customGameObject);
       }
       catch (Exception e)
       {
@@ -280,28 +272,32 @@ namespace OdinPlusRemakeJVL.Managers
       return Vector3.zero;
     }
 
-    public Vector3 GetOdinNpcLocation()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      var odin = _odinCampGameObject.GetComponent<OdinNpc>();
-
-      Log.Error($"[{GetType().Name}] odin != null : {odin != null}");
-
-      if (odin != null)
-      {
-        Log.Debug($"[{GetType().Name}] odin.enabled : {odin.enabled}");
-        Log.Debug($"[{GetType().Name}] odin.isActiveAndEnabled : {odin.isActiveAndEnabled}");
-        return odin.transform.position;
-      }
-
-      Log.Debug($"[{GetType().Name}] Unable to find Odin's Location");
-      return Vector3.zero;
-    }
-
     private void SetSpawnPosition()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       _odinCampGameObject.transform.localPosition = Common.Utils.Utils.GetStartTemplesPosition() + new Vector3(-12.6f, 0.05f, -11f);
     }
+
+    #region Implementation of IDestroyable
+
+    /// <inheritdoc />
+    public void OnDestroy()
+    {
+      Log.Debug($"[{GetType().Name}] Total Spawnables ({_customGameObjects.Count}) ");
+      foreach (var spawnable in _customGameObjects)
+      {
+        try
+        {
+          Log.Debug($"[{GetType().Name}] Destroying : {spawnable.Key}");
+          spawnable.Value.OnDestroy();
+        }
+        catch (Exception e)
+        {
+          Log.Error(e);
+        }
+      }
+    }
+
+    #endregion
   }
 }

@@ -1,11 +1,10 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using OdinPlusRemakeJVL.Common;
+using OdinPlusRemakeJVL.GameObjects;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using OdinPlusRemakeJVL.GameObjects;
-using OdinPlusRemakeJVL.Npcs;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL

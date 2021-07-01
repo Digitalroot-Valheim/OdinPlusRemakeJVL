@@ -15,12 +15,12 @@ namespace OdinPlusRemakeJVL.Prefabs
     /// <summary>
     /// Name of the new prefab
     /// </summary>
-    protected readonly string NewPrefabName;
+    private readonly string _newPrefabName;
 
     /// <summary>
     /// Name of the source prefab
     /// </summary>
-    protected readonly string SourcePrefabName;
+    private readonly string _sourcePrefabName;
 
     /// <summary>
     /// ctor
@@ -30,8 +30,8 @@ namespace OdinPlusRemakeJVL.Prefabs
     private protected AbstractCustomPrefab(string name, string basename)
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      NewPrefabName = name;
-      SourcePrefabName = basename;
+      _newPrefabName = name;
+      _sourcePrefabName = basename;
     }
 
     /// <summary>
@@ -42,21 +42,21 @@ namespace OdinPlusRemakeJVL.Prefabs
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 
-      if (string.IsNullOrEmpty(NewPrefabName))
+      if (string.IsNullOrEmpty(_newPrefabName))
       {
-        throw new ArgumentException($"[{GetType().Name}] NewPrefabName is null");
+        throw new ArgumentException($"[{GetType().Name}] {nameof(_newPrefabName)} is null or empty");
       }
 
-      if (string.IsNullOrEmpty(SourcePrefabName))
+      if (string.IsNullOrEmpty(_sourcePrefabName))
       {
-        throw new ArgumentException($"[{GetType().Name}] SourcePrefabName is null");
+        throw new ArgumentException($"[{GetType().Name}] {nameof(_sourcePrefabName)} is null or empty");
       }
 
-      var prefab = PrefabManager.Instance.GetPrefab(NewPrefabName);
+      var prefab = PrefabManager.Instance.GetPrefab(_newPrefabName);
       if (prefab == null)
       {
-        Log.Trace($"[{GetType().Name}] Creating {NewPrefabName}");
-        prefab = PrefabManager.Instance.CreateClonedPrefab(NewPrefabName, SourcePrefabName);
+        Log.Trace($"[{GetType().Name}] Creating {_newPrefabName}");
+        prefab = PrefabManager.Instance.CreateClonedPrefab(_newPrefabName, _sourcePrefabName);
       }
 
       if (prefab == null)

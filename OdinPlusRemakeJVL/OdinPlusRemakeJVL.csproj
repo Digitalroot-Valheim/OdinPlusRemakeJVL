@@ -384,6 +384,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Behaviours\MuninCustomMonoBehaviour.cs" />
+    <Compile Include="Behaviours\OdinCustomMonoBehaviour.cs" />
+    <Compile Include="Behaviours\OdinsCauldronCustomMonoBehaviour.cs" />
+    <Compile Include="Behaviours\ShamanCustomMonoBehaviour.cs" />
+    <Compile Include="Behaviours\UnRemoveableCustomMonoBehaviour.cs" />
     <Compile Include="Common\Names\CustomPrefabNames.cs" />
     <Compile Include="Common\Names\DungeonLocationNames.cs" />
     <Compile Include="Common\EventArgs\OnSpawnedPlayerEventArgs.cs" />
@@ -425,6 +430,9 @@
     <Compile Include="ConsoleCommands\WhereIsStartTemple.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
     <Compile Include="GameObjects\AbstractCustomGameObject.cs" />
+    <Compile Include="GameObjects\Npcs\MuninCustomGameObject.cs" />
+    <Compile Include="GameObjects\Npcs\OdinCustomGameObject.cs" />
+    <Compile Include="GameObjects\Npcs\ShamanCustomGameObject.cs" />
     <Compile Include="Managers\AbstractManager.cs" />
     <Compile Include="Managers\ConsoleCommandManager.cs" />
     <Compile Include="Managers\FxAssetManager.cs" />
@@ -440,16 +448,11 @@
     <Compile Include="Common\Names\PetsStatusEffectNames.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Common\Names\MeadNames.cs" />
-    <Compile Include="Npcs\AbstractNpc.cs" />
     <Compile Include="Common\Interfaces\ISecondaryInteractable.cs" />
     <Compile Include="Common\Interfaces\ITalkable.cs" />
     <Compile Include="Behaviours\AbstractCustomMonoBehaviour.cs" />
-    <Compile Include="Npcs\MuninNpc.cs" />
-    <Compile Include="Npcs\OdinNpc.cs" />
-    <Compile Include="Npcs\ShamanNpc.cs" />
-    <Compile Include="GameObjects\OdinsCauldron.cs" />
-    <Compile Include="GameObjects\OdinsCauldronold.cs" />
-    <Compile Include="GameObjects\OdinsFirePit.cs" />
+    <Compile Include="GameObjects\OdinsCauldronCustomGameObject.cs" />
+    <Compile Include="GameObjects\OdinsFirePitCustomGameObject.cs" />
     <Compile Include="GameObjects\OdinTradeShop.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Prefabs\AbstractCustomPrefab.cs" />

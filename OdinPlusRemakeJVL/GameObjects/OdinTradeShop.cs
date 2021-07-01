@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using OdinPlusRemakeJVL.Common.Names;
+﻿using OdinPlusRemakeJVL.Common.Names;
 using OdinPlusRemakeJVL.Managers;
-using OdinPlusRemakeJVL.Npcs;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,7 +49,7 @@ namespace OdinPlusRemakeJVL.GameObjects
 
     protected void Say(string text)
     {
-      Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, m_talker.GetComponent<OdinNpc>().Name, text, false);
+      //Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, m_talker.GetComponent<OdinNpc>().Name, text, false);
     }
 
     public static void TweakGui(StoreGui __instance, bool set)

@@ -1,49 +1,15 @@
 ﻿using OdinPlusRemakeJVL.Common;
-using OdinPlusRemakeJVL.Common.Interfaces;
 using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Behaviours
 {
-  public abstract class AbstractCustomMonoBehaviour : MonoBehaviour, ISpawnable
+  public abstract class AbstractCustomMonoBehaviour : MonoBehaviour
   {
-    private string _name;
-
-    public string Name
+    protected void Say(GameObject talker, string topic, string msg)
     {
-      get => _name;
-      private protected set => _name = Common.Utils.Utils.Localize(value);
-    }
-
-    public GameObject GameObjectInstance { get; private protected set; }
-    public Vector3 LocalPositionOffset { get; private protected set; }
-
-    public void Spawn(Transform parent)
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({parent.name})");
-      GameObjectInstance.transform.SetParent(transform);
-      if (LocalPositionOffset != Vector3.zero) 
-      {
-        GameObjectInstance.transform.localPosition = LocalPositionOffset;
-      }
-    }
-
-    public void OnApplicationQuit()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      OnDestroy();
-    }
-
-    public virtual void OnDestroy()
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (GameObjectInstance != null) Destroy(GameObjectInstance);
-    }
-
-    public void SetLocalPositionOffset(Vector3 vector3)
-    {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({vector3})");
-      LocalPositionOffset = vector3;
+      Log.Trace($"{GetType().Namespace}.{GetType().BaseType?.Name}.{MethodBase.GetCurrentMethod().Name}({GetType().Name}, {topic}: {Common.Utils.Utils.Localize(msg)})");
+      Chat.instance?.SetNpcText(talker, Vector3.up * 3f, 60f, 8, Common.Utils.Utils.Localize(topic), Common.Utils.Utils.Localize(msg), false);
     }
   }
 }
