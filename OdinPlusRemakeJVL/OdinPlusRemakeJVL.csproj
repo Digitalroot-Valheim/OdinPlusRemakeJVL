@@ -469,6 +469,7 @@
     <Compile Include="StatusEffects\SummonPetStatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\digitalroot" />
     <None Include="bin\README.txt" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="Assets\Translations\Chinese\translations.json">
