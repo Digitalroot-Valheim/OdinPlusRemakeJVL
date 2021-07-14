@@ -1,6 +1,9 @@
 ﻿using NUnit.Framework;
 using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Common.Names;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace UnitTests
 {
@@ -29,6 +32,33 @@ namespace UnitTests
       Assert.That(PetsStatusEffectNames.AllNames, Is.Unique);
       Assert.That(PetsStatusEffectNames.AllNames, Contains.Item(PetsStatusEffectNames.Troll));
       Assert.That(PetsStatusEffectNames.AllNames, Contains.Item(PetsStatusEffectNames.Wolf));
+    }
+
+    [Test]
+    public void LoaderTest()
+    {
+      var path = Path.Combine(AssemblyDirectory.FullName, "MonoBehaviourRepository.dll");
+      Assembly simpleasm = Assembly.LoadFile(path);
+      Assert.That(simpleasm, Is.Not.Null);
+
+      Type testBehaviour = simpleasm.GetType("UnRemoveableCustomMonoBehaviour");
+      Assert.That(testBehaviour, Is.Not.Null);
+
+      foreach (var type in simpleasm.GetTypes())
+      {
+        System.Console.WriteLine(type.FullName);
+      }
+    }
+
+    private static DirectoryInfo AssemblyDirectory
+    {
+      get
+      {
+        string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+        UriBuilder uri = new UriBuilder(codeBase);
+        var fi = new FileInfo(Uri.UnescapeDataString(uri.Path));
+        return fi.Directory;
+      }
     }
   }
 }

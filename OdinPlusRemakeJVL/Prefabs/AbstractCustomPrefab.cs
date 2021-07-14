@@ -29,7 +29,7 @@ namespace OdinPlusRemakeJVL.Prefabs
     /// <param name="basename">Name of the source prefab</param>
     private protected AbstractCustomPrefab(string name, string basename)
     {
-      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({name}, {basename})");
       _newPrefabName = name;
       _sourcePrefabName = basename;
     }
@@ -74,5 +74,6 @@ namespace OdinPlusRemakeJVL.Prefabs
     /// <param name="prefab"></param>
     /// <returns></returns>
     private protected abstract GameObject OnCreate(GameObject prefab);
+
   }
 }

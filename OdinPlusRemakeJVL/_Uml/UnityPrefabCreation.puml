@@ -1,0 +1,14 @@
+﻿@startuml
+
+class LoaderClass {
+ +Awake()
+}
+note left of BaseUnityPlugin : This is what BepInEx looks for in the \nassembly (.dll) and is used as the entry point. \nAll you need to do is subclass it. \ne.g. public class LoaderClass : BaseUnityPlugin
+note left of LoaderClass : This is the where you invoke \nHarmony and tell it to look \nfor your code that applies patches. \ne.g. Harmony.CreateAndPatchAll
+
+BaseUnityPlugin <|-- LoaderClass : is a
+MonoBehaviour <|-- BaseUnityPlugin : is a
+
+[Prefab]
+
+@enduml

@@ -94,12 +94,13 @@ namespace OdinPlusRemakeJVL.GameObjects
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({parent.name})");
-        
+
         if (string.IsNullOrEmpty(CustomPrefabName))
         {
           throw new ArgumentNullException($"{GetType().Name} {nameof(CustomPrefabName)} is null or empty");
         }
 
+        Log.Trace($"{GetType().Name} Getting prefab for {CustomPrefabName}");
         GameObjectInstance = Object.Instantiate(PrefabManager.Instance.GetPrefab(CustomPrefabName));
         GameObjectInstance.name = _name;
         GameObjectInstance.transform.SetParent(parent.transform);

@@ -4,15 +4,15 @@ namespace OdinPlusRemakeJVL.Common.Names
 {
   public static class PrefabNames
   {
-    public static string ForceField = nameof(ForceField);
-    public static string Cauldron = "piece_cauldron";
-    public static string FirePit = "fire_pit";
-    public static string Odin = "odin";
-    public static string OdinCredit = nameof(OdinCredit);
-    public static string Munin = nameof(Munin);
-    public static string GoblinShaman = nameof(GoblinShaman);
+    public static readonly string Cauldron = "piece_cauldron";
+    public static readonly string FirePit = "fire_pit";
+    public static readonly string ForceField = nameof(ForceField);
+    public static readonly string GoblinShaman = nameof(GoblinShaman);
+    public static readonly string Keeper = "keeper_prefab";
+    public static readonly string Munin = nameof(Munin);
+    public static readonly string Odin = "odin";
+    public static readonly string OdinCredit = nameof(OdinCredit);
 
     public static readonly IEnumerable<string> AllNames = Utils.Utils.AllNames(typeof(PrefabNames));
-
   }
 }

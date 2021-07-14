@@ -193,10 +193,10 @@ namespace OdinPlusRemakeJVL
         }
       }
 
-      [HarmonyPostfix]
+      [HarmonyPrefix]
       [HarmonyPatch("Shutdown")]
       [UsedImplicitly]
-      public static void PostfixShutdown()
+      public static void PrefixShutdown(ZNetScene __instance)
       {
         try
         {
@@ -205,7 +205,7 @@ namespace OdinPlusRemakeJVL
           // {
           //   OdinData.SaveOdinData(ZNet.instance.GetWorldName());
           // }
-          //
+          Main.Instance.OnZNetSceneShutdown(__instance);
           // OdinPlus.UnRegister();
           // OdinPlus.Clear();
         }

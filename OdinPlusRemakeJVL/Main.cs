@@ -7,10 +7,12 @@ using OdinPlusRemakeJVL.Common;
 using OdinPlusRemakeJVL.Common.EventArgs;
 using OdinPlusRemakeJVL.Common.Interfaces;
 using OdinPlusRemakeJVL.ConsoleCommands;
+using OdinPlusRemakeJVL.Extensions;
 using OdinPlusRemakeJVL.Managers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -63,13 +65,16 @@ namespace OdinPlusRemakeJVL
 
         _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), Guid);
 
+        LoadMonoBehaviourRepository();
+        
+
         RootObject = new GameObject(Name);
         RootObject.transform.position = Vector3.zero;
         RootObject.transform.rotation = Quaternion.identity;
         DontDestroyOnLoad(RootObject);
 
         Jotunn.Managers.ItemManager.OnVanillaItemsAvailable += OnVanillaItemsAvailable;
-        Jotunn.Managers.PrefabManager.OnPrefabsRegistered += OnPrefabsRegistered; ;
+        Jotunn.Managers.PrefabManager.OnPrefabsRegistered += OnPrefabsRegistered;
 
         _initializeables = new List<IInitializeable>()
         {
@@ -111,10 +116,18 @@ namespace OdinPlusRemakeJVL
       }
     }
 
+    private void LoadMonoBehaviourRepository()
+    {
+      Assembly simpleasm = Assembly.LoadFile(Path.Combine(Common.Utils.Utils.AssemblyDirectory.FullName, "MonoBehaviourRepository.dll"));
+      foreach (var type in simpleasm.GetTypes())
+      {
+        Log.Error(type.FullName);
+      }
+    }
+
     [UsedImplicitly]
     private void OnDestroy()
     {
-      _harmony?.UnpatchSelf();
       Log.Debug($"[{GetType().Name}] Calling Managers with IDestroyable");
       foreach (var destroyable in _initializeables.Select(manager => manager as IDestroyable))
       {
@@ -128,9 +141,10 @@ namespace OdinPlusRemakeJVL
         }
       }
 
+      _harmony?.UnpatchSelf();
+
       Log.OnDestroy();
     }
-
 
     #region Refactor
 
@@ -170,7 +184,7 @@ namespace OdinPlusRemakeJVL
 
     #region Events
 
-    #region ZNetSceneReady
+    #region ZNetScene
 
     public event EventHandler ZNetSceneReady;
 
@@ -209,6 +223,59 @@ namespace OdinPlusRemakeJVL
             {
               HandleDelegateError(@delegate.Method, e);
             }
+          }
+        }
+
+        //_NetSceneRoot.keeper_prefab(Clone)
+        while (zNetScene?.m_netSceneRoot?.FindGameObject("keeper_prefab(Clone)") != null)
+        {
+          var keeper = zNetScene?.m_netSceneRoot?.FindGameObject("keeper_prefab(Clone)");
+          if (keeper != null)
+          {
+            Log.Error($"Found {keeper?.name}");
+            DestroyImmediate(keeper);
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        Log.Error(e);
+      }
+      finally
+      {
+        StopStopwatch();
+        ReportLoadTime(MethodBase.GetCurrentMethod().Name);
+      }
+    }
+
+    public void OnZNetSceneShutdown(ZNetScene zNetScene)
+    {
+      StartStopwatch();
+      Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+
+      try
+      {
+        Log.Debug($"[{GetType().Name}] Calling Managers with IDestroyable");
+        foreach (var destroyable in _initializeables.Select(manager => manager as IDestroyable))
+        {
+          try
+          {
+            destroyable?.OnDestroy();
+          }
+          catch (Exception e)
+          {
+            Log.Error(e);
+          }
+        }
+
+        //_NetSceneRoot.keeper_prefab(Clone)
+        while (zNetScene?.m_netSceneRoot?.FindGameObject("keeper_prefab(Clone)") != null)
+        {
+          var keeper = zNetScene?.m_netSceneRoot?.FindGameObject("keeper_prefab(Clone)");
+          if (keeper != null)
+          {
+            Log.Error($"Found {keeper?.name}");
+            DestroyImmediate(keeper);
           }
         }
       }
@@ -376,6 +443,17 @@ namespace OdinPlusRemakeJVL
             {
               HandleDelegateError(@delegate.Method, e);
             }
+          }
+        }
+
+        //_NetSceneRoot.keeper_prefab(Clone)
+        while (ZNetScene.instance?.m_netSceneRoot?.FindGameObject("keeper_prefab(Clone)") != null)
+        {
+          var keeper = ZNetScene.instance?.m_netSceneRoot?.FindGameObject("keeper_prefab(Clone)");
+          if (keeper != null)
+          {
+            Log.Error($"Found {keeper?.name}");
+            DestroyImmediate(keeper);
           }
         }
       }

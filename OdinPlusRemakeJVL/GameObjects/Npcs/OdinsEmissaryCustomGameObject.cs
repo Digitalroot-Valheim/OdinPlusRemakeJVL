@@ -7,16 +7,16 @@ using UnityEngine;
 
 namespace OdinPlusRemakeJVL.GameObjects.Npcs
 {
-  internal class OdinCustomGameObject : AbstractCustomGameObject
+  internal class OdinsEmissaryCustomGameObject : AbstractCustomGameObject
   {
-    [UsedImplicitly] public GameObject Odin => GameObjectInstance;
+    [UsedImplicitly] public GameObject OdinsEmissary => GameObjectInstance;
     
-    public OdinCustomGameObject()
+    public OdinsEmissaryCustomGameObject()
     {
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      Name = "$op_god";
-      CustomPrefabName = CustomPrefabNames.OrnamentalOdin;
-      // AddMonoBehaviour<OdinCustomMonoBehaviour>();
+      Name = "$op_odin_emissary";
+      CustomPrefabName = CustomPrefabNames.OrnamentalKeeper;
+      AddMonoBehaviour<OdinsEmissaryCustomMonoBehaviour>();
     }
   }
 }

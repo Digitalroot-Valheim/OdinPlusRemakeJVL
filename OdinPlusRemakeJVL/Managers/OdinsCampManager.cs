@@ -67,7 +67,7 @@ namespace OdinPlusRemakeJVL.Managers
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({position})");
       if (_odinPlusObjects.Count > 0) _odinPlusObjects.Clear();
 
-      AddOdin();
+      AddOdinsEmissary();
       AddOdinsFirePit();
       AddOdinsCauldron();
       AddMunin();
@@ -154,12 +154,12 @@ namespace OdinPlusRemakeJVL.Managers
       }
     }
 
-    private void AddOdin()
+    private void AddOdinsEmissary()
     {
       try
       {
         Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-        var customGameObject = new OdinCustomGameObject();
+        var customGameObject = new OdinsEmissaryCustomGameObject();
         customGameObject.SetLocalPositionOffset(new Vector3(0.6f, -0.045f, 2.1f));
         customGameObject.SetLocalRotationOffset(new Quaternion(0, 0.6605f, 0, 0.7508f));
         _customGameObjects.Add(customGameObject.Name, customGameObject);
@@ -193,7 +193,13 @@ namespace OdinPlusRemakeJVL.Managers
         var customGameObject = new OdinsCauldronCustomGameObject();
         customGameObject.SetLocalPositionOffset(new Vector3(-0.42f, -0.015f, -1f));
         customGameObject.SetLocalRotationOffset(new Quaternion(0, 0.6817f, 0, 0.7316f));
-        // component.Talker = _odinCampGameObject.GetOrAddComponent<OdinNpc>().Odin;
+
+        foreach (var gameObject in _customGameObjects)
+        {
+          Log.Error($"{gameObject.Key}:{gameObject.Value}");
+        }
+
+        // customGameObject.Cauldron.GetComponent<OdinsCauldronCustomMonoBehaviour>().Talker = ((OdinsEmissaryCustomGameObject)_customGameObjects[Common.Utils.Utils.Localize("$op_god")]).OdinsEmissary;
         // m_odinPot = caul.AddComponent<OdinTradeShop>();
         // OdinPlus.traderNameList.Add(m_odinPot.m_name);
         _customGameObjects.Add(customGameObject.Name, customGameObject);

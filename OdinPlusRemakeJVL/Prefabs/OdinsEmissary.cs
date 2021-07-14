@@ -2,17 +2,15 @@
 using OdinPlusRemakeJVL.Common.Names;
 using System.Reflection;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace OdinPlusRemakeJVL.Prefabs
 {
-  /// <summary>
-  /// A new prefab of Odin with it's default behaviors removed.
-  /// </summary>
-  internal class OrnamentalOdin : AbstractCustomPrefab
+  internal class OrnamentalKeeper : AbstractCustomPrefab
   {
     /// <inheritdoc />
-    internal OrnamentalOdin() 
-      : base(CustomPrefabNames.OrnamentalOdin, PrefabNames.Odin)
+    internal OrnamentalKeeper()
+      : base(CustomPrefabNames.OrnamentalKeeper, PrefabNames.Keeper)
     {
     }
 
@@ -26,18 +24,7 @@ namespace OdinPlusRemakeJVL.Prefabs
       {
         Object.DestroyImmediate(prefab.GetComponent<ZNetView>());
         Object.DestroyImmediate(prefab.GetComponent<ZSyncTransform>());
-        Object.DestroyImmediate(prefab.GetComponent<Odin>());
         Object.DestroyImmediate(prefab.GetComponent<Rigidbody>());
-
-        foreach (var item in prefab.GetComponentsInChildren<Aoe>())
-        {
-          Object.DestroyImmediate(item);
-        }
-
-        foreach (var item in prefab.GetComponentsInChildren<EffectArea>())
-        {
-          Object.DestroyImmediate(item);
-        }
       }
 
       return prefab;

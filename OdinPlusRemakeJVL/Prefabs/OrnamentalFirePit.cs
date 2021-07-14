@@ -1,6 +1,6 @@
 ﻿using OdinPlusRemakeJVL.Common;
-using System.Reflection;
 using OdinPlusRemakeJVL.Common.Names;
+using System.Reflection;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Prefabs
@@ -28,7 +28,6 @@ namespace OdinPlusRemakeJVL.Prefabs
         Object.DestroyImmediate(prefab.GetComponent<Fireplace>());
         prefab.transform.Find("_enabled_high").gameObject.SetActive(true);
         prefab.transform.Find("_enabled").gameObject.SetActive(true);
-        prefab.GetComponent<Piece>().m_canBeRemoved = false;
 
         foreach (var item in prefab.GetComponentsInChildren<Aoe>())
         {

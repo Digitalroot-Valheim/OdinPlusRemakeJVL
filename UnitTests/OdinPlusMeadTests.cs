@@ -21,7 +21,7 @@ namespace UnitTests
 
       foreach (var meadInfo in meadList)
       {
-        Console.WriteLine(JsonSerializationProvider.ToJson(meadInfo));
+        System.Console.WriteLine(JsonSerializationProvider.ToJson(meadInfo));
         Assert.That(meadInfo.FullName, Does.StartWith(meadInfo.Name));
         Assert.That(meadInfo.FullName, Does.EndWith(meadInfo.Size));
         Assert.That(meadInfo.Size, Is.EqualTo("S").Or.EqualTo("M").Or.EqualTo("L"));

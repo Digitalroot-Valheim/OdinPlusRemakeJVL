@@ -16,7 +16,7 @@ namespace OdinPlusRemakeJVL.GameObjects
       Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Name = "$op_fire_pit_name";
       CustomPrefabName = CustomPrefabNames.OrnamentalFirePit;
-      AddMonoBehaviour<UnRemoveableCustomMonoBehaviour>();
+      //AddMonoBehaviour<UnRemoveableCustomMonoBehaviour>();
     }
   }
 }

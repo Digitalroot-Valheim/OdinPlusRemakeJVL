@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using OdinPlusRemakeJVL.Common.Names;
 using OdinPlusRemakeJVL.Managers;
+using System.IO;
 using UnityEngine;
 
 namespace OdinPlusRemakeJVL.Common.Utils
@@ -28,8 +29,7 @@ namespace OdinPlusRemakeJVL.Common.Utils
       // Hack, just making sure the built-in items and prefabs have loaded
       return ObjectDB.instance != null && ObjectDB.instance.m_items.Count != 0 && ObjectDB.instance.GetItemPrefab("Amber") != null;
     }
-
-
+    
     public static bool IsZNetSceneReady()
     {
       Log.Trace($"OdinPlusRemakeJVL.Common.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -88,6 +88,16 @@ namespace OdinPlusRemakeJVL.Common.Utils
     public static string Localize(string value)
     {
       return Localization.instance.Localize(value);
+    }
+
+    public static DirectoryInfo AssemblyDirectory
+    {
+      get
+      {
+        string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+        UriBuilder uri = new UriBuilder(codeBase);
+        return new DirectoryInfo(Uri.UnescapeDataString(uri.Path));
+      }
     }
   }
 }

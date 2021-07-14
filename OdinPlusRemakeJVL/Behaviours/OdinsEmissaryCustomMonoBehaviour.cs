@@ -9,7 +9,7 @@ using UnityEngine;
 namespace OdinPlusRemakeJVL.Behaviours
 {
   [UsedImplicitly]
-  public class OdinCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISecondaryInteractable
+  public class OdinsEmissaryCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISecondaryInteractable
   {
     public void Awake()
     {
