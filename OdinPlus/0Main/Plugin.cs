@@ -13,7 +13,8 @@ using System.Globalization;
 using UnityEngine.UI;
 namespace OdinPlus
 {
-	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.2.5")]
+	[BepInPlugin("buzz.valheim.OdinPlus.nyanha", "OdinPlus", "0.2.5")]
+	[BepInIncompatibility("buzz.valheim.OdinPlus")]
 	public class Plugin : BaseUnityPlugin
 	{
 		#region Config Var

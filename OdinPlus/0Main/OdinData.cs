@@ -1,10 +1,10 @@
-﻿using System;
+﻿using fastJSON;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
-using Newtonsoft.Json;
 
 namespace OdinPlus
 {
@@ -35,28 +35,28 @@ namespace OdinPlus
 
 		#region GameCfgData
 		public static Dictionary<string, int> MeadsValue = new Dictionary<string, int>(){
-{"ExpMeadS",5},
-{"ExpMeadM",10},
-{"ExpMeadL",20},
-{"WeightMeadS",20},
-{"WeightMeadM",30},
-{"WeightMeadL",40},
-{"InvisibleMeadS",30},
-{"InvisibleMeadM",60},
-{"InvisibleMeadL",90},
-{"PickaxeMeadS",20},
-{"PickaxeMeadM",30},
-{"PickaxeMeadL",60},
-{"BowsMeadS",20},
-{"BowsMeadM",30},
-{"BowsMeadL",60},
-{"SwordsMeadS",20},
-{"SwordsMeadM",30},
-{"SwordsMeadL",60},
-{"SpeedMeadsL",20},
-{"AxeMeadS",20},
-{"AxeMeadM",30},
-{"AxeMeadL",60}
+      {"ExpMeadS",300},
+      {"ExpMeadM",500},
+      {"ExpMeadL",1000},
+      {"WeightMeadS",300},
+      {"WeightMeadM",500},
+      {"WeightMeadL",1000},
+      {"InvisibleMeadS",300},
+      {"InvisibleMeadM",500},
+      {"InvisibleMeadL",1000},
+      {"PickaxeMeadS",300},
+      {"PickaxeMeadM",500},
+      {"PickaxeMeadL",1000},
+      {"BowsMeadS",800},
+      {"BowsMeadM",1000},
+      {"BowsMeadL",1200},
+      {"SwordsMeadS",800},
+      {"SwordsMeadM",1000},
+      {"SwordsMeadL",1200},
+      {"SpeedMeadsL",1500},
+      {"AxeMeadS",200},
+      {"AxeMeadM",300},
+      {"AxeMeadL",600}
 		};
 		#endregion GameCfgData
 
@@ -163,7 +163,7 @@ namespace OdinPlus
 				//add Backup
 			}
 			FileStream fileStream = new FileStream(@file, FileMode.Create, FileAccess.Write);
-			string dat = JsonConvert.SerializeObject(Data);
+			string dat = JSON.ToJSON(Data);
 			BinaryWriter binaryWriter= new BinaryWriter(fileStream);
 			binaryWriter.Write(dat);
 			binaryWriter.Flush();
@@ -198,7 +198,7 @@ namespace OdinPlus
 			//Data = (DataTable)formatter.Deserialize(fileStream);
 			BinaryReader binaryReader = new BinaryReader(fileStream);
 			var str = binaryReader.ReadString();
-			Data=JsonConvert.DeserializeObject<DataTable>(str);
+			Data= JSON.ToObject<DataTable>(str);
 			fileStream.Close();
 			#endregion Serial
 
