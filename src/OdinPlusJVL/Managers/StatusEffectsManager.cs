@@ -83,6 +83,12 @@ namespace OdinPlusJVL.Managers
         }
       }
 
+      Log.Trace(Main.Instance, $"[{GetType().Name}] Adding {GetExpMeadS().name}");
+      Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetExpMeadS(), fixReference: false));
+      Log.Trace(Main.Instance, $"[{GetType().Name}] Adding {GetExpMeadM().name}");
+      Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetExpMeadM(), fixReference: false));
+      Log.Trace(Main.Instance, $"[{GetType().Name}] Adding {GetExpMeadL().name}");
+      Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetExpMeadL(), fixReference: false));
       Log.Trace(Main.Instance, $"[{GetType().Name}] Adding {GetSpeedStatusEffect().name}");
       Jotunn.Managers.ItemManager.Instance.AddStatusEffect(new CustomStatusEffect(GetSpeedStatusEffect(), fixReference: false));
       Log.Trace(Main.Instance, $"[{GetType().Name}] Adding {GetSummonTrollPetStatusEffect().name}");
@@ -106,9 +112,6 @@ namespace OdinPlusJVL.Managers
 
     private IEnumerable<KeyValuePair<string, StatusEffectData>> GetMeadStatusEffectData()
     {
-      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.ExpMeadS, new StatusEffectData {m_ttl = 300, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 50});
-      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.ExpMeadM, new StatusEffectData {m_ttl = 450, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 75});
-      yield return new KeyValuePair<string, StatusEffectData>(MeadNames.ExpMeadL, new StatusEffectData {m_ttl = 600, m_raiseSkill = Skills.SkillType.All, m_raiseSkillModifier = 125});
       yield return new KeyValuePair<string, StatusEffectData>(MeadNames.WeightMeadS, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 100});
       yield return new KeyValuePair<string, StatusEffectData>(MeadNames.WeightMeadM, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 150});
       yield return new KeyValuePair<string, StatusEffectData>(MeadNames.WeightMeadL, new StatusEffectData {m_ttl = 300, m_addMaxCarryWeight = 300});
@@ -179,6 +182,10 @@ namespace OdinPlusJVL.Managers
         yield return effect;
       }
     }
+
+    private SE_ExpMeadS GetExpMeadS() => ScriptableObject.CreateInstance<SE_ExpMeadS>();
+    private SE_ExpMeadM GetExpMeadM() => ScriptableObject.CreateInstance<SE_ExpMeadM>();
+    private SE_ExpMeadL GetExpMeadL() => ScriptableObject.CreateInstance<SE_ExpMeadL>();
 
     private SE_RunSpeed GetSpeedStatusEffect() => ScriptableObject.CreateInstance<SE_RunSpeed>();
 

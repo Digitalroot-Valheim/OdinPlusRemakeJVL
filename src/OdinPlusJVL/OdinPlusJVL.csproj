@@ -487,6 +487,11 @@
     <Compile Include="Prefabs\OrnamentalMunin.cs" />
     <Compile Include="Prefabs\OrnamentalOdin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusEffects\SE_AbstractExpMead.cs" />
+    <Compile Include="StatusEffects\SE_AbstractMead.cs" />
+    <Compile Include="StatusEffects\SE_ExpMeadL.cs" />
+    <Compile Include="StatusEffects\SE_ExpMeadM.cs" />
+    <Compile Include="StatusEffects\SE_ExpMeadS.cs" />
     <Compile Include="StatusEffects\SE_RunSpeed.cs" />
     <Compile Include="StatusEffects\SE_SummonWolfPet.cs" />
     <Compile Include="StatusEffects\StatusEffectData.cs" />
