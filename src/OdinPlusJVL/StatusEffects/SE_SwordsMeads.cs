@@ -4,42 +4,42 @@ namespace OdinPlusJVL.StatusEffects
 {
   // ReSharper disable once InconsistentNaming
   // ReSharper disable once ClassNeverInstantiated.Global
-  internal abstract class SE_AbstractExpMead : SE_AbstractMead
+  internal abstract class SE_AbstractSwordsMead : SE_AbstractMead
   {
-    protected SE_AbstractExpMead(string name, float ttl, float raiseSkillModifier)
+    protected SE_AbstractSwordsMead(string name, float ttl)
       : base(name, ttl)
     {
-      m_raiseSkillModifier = raiseSkillModifier;
-      m_raiseSkill = Skills.SkillType.All;
+      m_modifyAttackSkill = Skills.SkillType.Swords;
+      m_damageModifier = 2f;
     }
   }
 
   // ReSharper disable once InconsistentNaming
   // ReSharper disable once ClassNeverInstantiated.Global
-  internal class SE_ExpMeadS : SE_AbstractExpMead
+  internal class SE_SwordsMeadS : SE_AbstractSwordsMead
   {
-    public SE_ExpMeadS()
-      : base(MeadNames.ExpMeadS, 300, 50)
+    public SE_SwordsMeadS()
+      : base(MeadNames.SwordsMeadS, 60)
     {
     }
   }
 
   // ReSharper disable once InconsistentNaming
   // ReSharper disable once ClassNeverInstantiated.Global
-  internal class SE_ExpMeadM : SE_AbstractExpMead
+  internal class SE_SwordsMeadM : SE_AbstractSwordsMead
   {
-    public SE_ExpMeadM()
-      : base(MeadNames.ExpMeadM, 450, 75)
+    public SE_SwordsMeadM()
+      : base(MeadNames.SwordsMeadM, 150)
     {
     }
   }
 
   // ReSharper disable once InconsistentNaming
   // ReSharper disable once ClassNeverInstantiated.Global
-  internal class SE_ExpMeadL : SE_AbstractExpMead
+  internal class SE_SwordsMeadL : SE_AbstractSwordsMead
   {
-    public SE_ExpMeadL()
-      : base(MeadNames.ExpMeadL, 600, 125)
+    public SE_SwordsMeadL()
+      : base(MeadNames.SwordsMeadL, 300)
     {
     }
   }

@@ -1,19 +1,14 @@
 ﻿using OdinPlusJVL.Common.Names;
-using OdinPlusJVL.Managers;
 
 namespace OdinPlusJVL.StatusEffects
 {
   // ReSharper disable once InconsistentNaming
   // ReSharper disable once ClassNeverInstantiated.Global
-  internal class SE_RunSpeed : StatusEffect
+  internal class SE_RunSpeed : SE_AbstractMead
   {
     public SE_RunSpeed()
+      : base(MeadNames.SpeedMeadsL, 300)
     {
-      name = $"{MeadNames.SpeedMeadsL}StatusEffect";
-      m_name = $"op_{MeadNames.SpeedMeadsL}_name";
-      m_tooltip = $"$op_{MeadNames.SpeedMeadsL}_tooltip";
-      m_icon = SpriteManager.Instance.GetSprite(MeadNames.SpeedMeadsL);
-      m_ttl = 300;
     }
 
     #region Overrides of StatusEffect
