@@ -2,15 +2,14 @@
 using OdinPlusJVL.Common.Names;
 using System.Reflection;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace OdinPlusJVL.Prefabs
 {
-  internal class OrnamentalKeeper : AbstractCustomPrefab
+  internal class OrnamentalFatTroll : AbstractCustomPrefab
   {
     /// <inheritdoc />
-    internal OrnamentalKeeper()
-      : base(CustomPrefabNames.OrnamentalKeeper, PrefabNames.Keeper)
+    internal OrnamentalFatTroll()
+      : base(PrefabNames.OrnamentalFatTroll, PrefabNames.FatTroll)
     {
     }
 

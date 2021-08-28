@@ -12,7 +12,7 @@ namespace OdinPlusJVL.Prefabs
   {
     /// <inheritdoc />
     internal OrnamentalFirePit()
-      : base(CustomPrefabNames.OrnamentalFirePit, PrefabNames.FirePit)
+      : base(PrefabNames.OrnamentalFirePit, Digitalroot.Valheim.Common.Names.PrefabNames.FirePit)
     {
     }
 

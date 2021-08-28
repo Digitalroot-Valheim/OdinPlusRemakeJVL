@@ -39,7 +39,7 @@
   "op_ScrollWolf_desc": "\" Use this to summon a magic wolf with a backpack... but watch out, he may disappear. I can't make any promises. \"",
   "op_ScrollWolf_name": "Wolf Magic Head",
   "op_ScrollWolf_tooltip": "Duration:<color=orange><b>30</b></color>mins \n Use your <color=orange><b>SecondaryKey</b></color> to open his backpack",
-  "op_shaman": "Búri",
+  "op_shaman_name": "Búri",
   "op_shaman_no": "Hmm that's something new, can't take that right now",
   "op_shaman_notenough": "Need at least 3...",
   "op_shaman_offer": "Offer your Trophies (3 Wolf or 3 Troll)",

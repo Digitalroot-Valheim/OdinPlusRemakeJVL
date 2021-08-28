@@ -40,7 +40,7 @@ namespace OdinPlusJVL.Behaviours
     /// <inheritdoc />
     public string GetHoverText()
     {
-      StringBuilder n = new StringBuilder($"<color=lightblue><b>{gameObject.name}</b></color>")
+      StringBuilder n = new StringBuilder($"<color=lightblue><b>$op_munin_name</b></color>")
           // .Append($"\n<color=lightblue><b>$op_munin_quest_lvl :{QuestManager.Instance.Level}</b></color>")
           // .Append($"\n$op_munin_questnum_b <color=lightblue><b>{QuestManager.Instance.Count()}</b></color> $op_munin_questnum_a")
           .Append("\n[<color=yellow><b>1-8</b></color>]$op_offer")

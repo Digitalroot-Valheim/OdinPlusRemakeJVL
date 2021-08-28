@@ -18,7 +18,7 @@ namespace OdinPlusJVL.GameObjects
     /// <summary>
     /// Collection of Custom MonoBehaviours to add to a CustomGameObject
     /// </summary>
-    private readonly List<Type> _customMonoBehaviours = new List<Type>();
+    private readonly List<Type> _customMonoBehaviours = new();
 
     /// <summary>
     /// Backing field for Name

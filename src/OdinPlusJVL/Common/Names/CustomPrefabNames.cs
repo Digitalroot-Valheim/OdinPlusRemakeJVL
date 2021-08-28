@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OdinPlusJVL.Common.Names
 {
+  [Obsolete]
   public static class CustomPrefabNames
   {
     public static readonly string OdinsCamp = nameof(OdinsCamp);

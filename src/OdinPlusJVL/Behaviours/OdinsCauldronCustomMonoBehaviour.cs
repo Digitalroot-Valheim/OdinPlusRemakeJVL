@@ -33,7 +33,7 @@ namespace OdinPlusJVL.Behaviours
     /// <inheritdoc />
     public string GetHoverText()
     {
-      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{gameObject.name}</b></color>");
+      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>$op_pot_name</b></color>");
       // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
       // string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
       // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
@@ -54,6 +54,7 @@ namespace OdinPlusJVL.Behaviours
     public bool Interact(Humanoid user, bool hold)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Say("$op_odin_emissary", "That's my pot");
       return false;
     }
 

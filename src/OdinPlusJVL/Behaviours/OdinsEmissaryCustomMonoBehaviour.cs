@@ -44,7 +44,7 @@ namespace OdinPlusJVL.Behaviours
     public string GetHoverText()
     {
       // Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>{gameObject.name}</b></color>");
+      StringBuilder stringBuilder = new StringBuilder($"<color=lightblue><b>$op_odin_emissary</b></color>");
       // string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
       // string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
       // string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
@@ -76,7 +76,7 @@ namespace OdinPlusJVL.Behaviours
       //}
 
       // user.GetSkills().RaiseSkill(stlist[cskillIndex], Main.RaiseFactor);
-      Say(Talker, gameObject.name, $"$op_raise");
+      Say(Talker, "$op_odin_emissary", $"$op_raise");
       return true;
     }
 
@@ -94,7 +94,7 @@ namespace OdinPlusJVL.Behaviours
       //value = OdinData.ItemSellValue[name];
       //OdinData.AddCredits(value * item.m_stack * item.m_quality, m_head);
       //user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
-      Say(Talker, gameObject.name, "$op_god_takeoffer");
+      Say(Talker, "$op_odin_emissary", "$op_god_takeoffer");
       return true;
     }
 

@@ -2,19 +2,19 @@
 using OdinPlusJVL.Common.Names;
 using System.Reflection;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace OdinPlusJVL.Prefabs
 {
-  /// <summary>
-  /// A new prefab of the Cauldron with it's default behaviors removed.
-  /// </summary>
-  internal class OrnamentalCauldron : AbstractCustomPrefab
+  internal class OrnamentalEmissary : AbstractCustomPrefab
   {
     /// <inheritdoc />
-    internal OrnamentalCauldron()
-      : base(PrefabNames.OrnamentalCauldron, Digitalroot.Valheim.Common.Names.PrefabNames.Cauldron)
+    internal OrnamentalEmissary()
+      : base(PrefabNames.OrnamentalEmissary, PrefabNames.Keeper)
     {
     }
+
+    #region Overrides of AbstractCustomPrefab
 
     /// <inheritdoc />
     private protected override GameObject OnCreate(GameObject prefab)
@@ -22,11 +22,14 @@ namespace OdinPlusJVL.Prefabs
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({prefab?.name})");
       if (prefab != null)
       {
-        Object.DestroyImmediate(prefab.GetComponent<WearNTear>());
-        Object.DestroyImmediate(prefab.GetComponent<CraftingStation>());
+        Object.DestroyImmediate(prefab.GetComponent<ZNetView>());
+        Object.DestroyImmediate(prefab.GetComponent<ZSyncTransform>());
+        Object.DestroyImmediate(prefab.GetComponent<Rigidbody>());
       }
 
       return prefab;
     }
+
+    #endregion
   }
 }

@@ -5,6 +5,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Jotunn.Utils;
 using OdinPlusJVL.Managers;
+using OdinPlusJVL.OdinsCamp;
 using System;
 using System.Collections.Generic;
 using System.Linq;

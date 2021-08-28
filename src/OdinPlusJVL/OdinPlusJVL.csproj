@@ -118,6 +118,9 @@
     <Reference Include="Digitalroot.Valheim.Common.Log, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Digitalroot.Valheim.Common.Log.1.1.6\lib\net462\Digitalroot.Valheim.Common.Log.dll</HintPath>
     </Reference>
+    <Reference Include="Digitalroot.Valheim.Common.Names, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Digitalroot.Valheim.Common.Names.1.1.1\lib\net462\Digitalroot.Valheim.Common.Names.dll</HintPath>
+    </Reference>
     <Reference Include="Digitalroot.Valheim.Common.Utils, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Digitalroot.Valheim.Common.Utils.1.0.6\lib\net462\Digitalroot.Valheim.Common.Utils.dll</HintPath>
     </Reference>
@@ -422,7 +425,6 @@
     <Compile Include="Behaviours\ShamanCustomMonoBehaviour.cs" />
     <Compile Include="Behaviours\UnRemoveableCustomMonoBehaviour.cs" />
     <Compile Include="Common\Interfaces\ICreateable.cs" />
-    <Compile Include="Common\Names\CustomPrefabNames.cs" />
     <Compile Include="Common\Names\DungeonLocationNames.cs" />
     <Compile Include="Common\EventArgs\OnSpawnedPlayerEventArgs.cs" />
     <Compile Include="Common\EventArgs\OnZNetReadyEventArgs.cs" />
@@ -450,11 +452,6 @@
     <Compile Include="ConsoleCommands\WhereIsOdinCommand.cs" />
     <Compile Include="ConsoleCommands\WhereIsStartTemple.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
-    <Compile Include="GameObjects\AbstractCustomGameObject.cs" />
-    <Compile Include="GameObjects\Npcs\MuninCustomGameObject.cs" />
-    <Compile Include="GameObjects\Npcs\OdinCustomGameObject.cs" />
-    <Compile Include="GameObjects\Npcs\OdinsEmissaryCustomGameObject.cs" />
-    <Compile Include="GameObjects\Npcs\ShamanCustomGameObject.cs" />
     <Compile Include="Main.Configs.cs" />
     <Compile Include="Main.Patches.cs" />
     <Compile Include="Main.Refactor.cs" />
@@ -464,7 +461,7 @@
     <Compile Include="Managers\HealthManager.cs" />
     <Compile Include="Managers\ItemDropManager.cs" />
     <Compile Include="Managers\LocationManager.cs" />
-    <Compile Include="Managers\OdinsCampManager.cs" />
+    <Compile Include="OdinsCamp\OdinsCampManager.cs" />
     <Compile Include="Managers\PrefabManager.cs" />
     <Compile Include="Managers\SpriteManager.cs" />
     <Compile Include="ItemDrops\OdinLegacy.cs" />
@@ -475,13 +472,12 @@
     <Compile Include="Common\Interfaces\ISecondaryInteractable.cs" />
     <Compile Include="Common\Interfaces\ITalkable.cs" />
     <Compile Include="Behaviours\AbstractCustomMonoBehaviour.cs" />
-    <Compile Include="GameObjects\OdinsCauldronCustomGameObject.cs" />
-    <Compile Include="GameObjects\OdinsFirePitCustomGameObject.cs" />
     <Compile Include="GameObjects\OdinTradeShop.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Prefabs\AbstractCustomPrefab.cs" />
-    <Compile Include="Prefabs\OdinsEmissary.cs" />
+    <Compile Include="Prefabs\OrnamentalEmissary.cs" />
     <Compile Include="Prefabs\OrnamentalCauldron.cs" />
+    <Compile Include="Prefabs\OrnamentalFatTroll.cs" />
     <Compile Include="Prefabs\OrnamentalFirePit.cs" />
     <Compile Include="Prefabs\OrnamentalGoblinShaman.cs" />
     <Compile Include="Prefabs\OrnamentalMunin.cs" />

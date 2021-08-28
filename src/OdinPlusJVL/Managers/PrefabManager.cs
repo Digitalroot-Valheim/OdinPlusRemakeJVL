@@ -12,7 +12,7 @@ namespace OdinPlusJVL.Managers
 {
   internal class PrefabManager : AbstractManager<PrefabManager>, IOnPrefabsRegistered
   {
-    private readonly List<AbstractCustomPrefab> _createables = new List<AbstractCustomPrefab>();
+    private readonly List<AbstractCustomPrefab> _createables = new();
 
     protected override bool OnInitialize()
     {
@@ -25,6 +25,7 @@ namespace OdinPlusJVL.Managers
         var assets = assetBundle.LoadAllAssets<GameObject>();
         foreach (GameObject gameObject in assets)
         {
+          Log.Trace(Main.Instance, $"[{GetType().Name}] Adding Asset Prefab : {gameObject.name}");
           AddPrefab(gameObject);
         }
         assetBundle.Unload(false);
@@ -51,8 +52,8 @@ namespace OdinPlusJVL.Managers
         _createables.Add(new OrnamentalCauldron());
         _createables.Add(new OrnamentalOdin());
         _createables.Add(new OrnamentalMunin());
-        _createables.Add(new OrnamentalGoblinShaman());
-        _createables.Add(new OrnamentalKeeper());
+        _createables.Add(new OrnamentalFatTroll());
+        _createables.Add(new OrnamentalEmissary());
         return true;
       }
       catch (Exception e)

@@ -19,30 +19,7 @@ namespace OdinPlusJVL.Behaviours
     [UsedImplicitly]
     public void Start()
     {
-      ZNetView znv = gameObject.GetComponent<ZNetView>();
-      ZDO zdo = gameObject.GetComponent<ZNetView>().GetZDO();
-      DestroyImmediate(gameObject.GetComponent<ZNetView>());
-      DestroyImmediate(gameObject.GetComponent<ZSyncAnimation>());
-      DestroyImmediate(gameObject.GetComponent<ZSyncTransform>());
-      DestroyImmediate(gameObject.GetComponent<MonsterAI>());
-      DestroyImmediate(gameObject.GetComponent<VisEquipment>());
-      DestroyImmediate(gameObject.GetComponent<CharacterDrop>());
-      DestroyImmediate(gameObject.GetComponent<Humanoid>());
-      DestroyImmediate(gameObject.GetComponent<FootStep>());
-      DestroyImmediate(gameObject.GetComponent<Rigidbody>());
-      foreach (var comp in gameObject.GetComponents<Component>())
-      {
-        if (!(comp is Transform) && !(comp is ShamanCustomMonoBehaviour) && !(comp is CapsuleCollider)
-          //&& !(comp is OdinsFirePitCustomGameObject) && !(comp is OdinsCauldronCustomGameObject) && !(comp is OdinNpc) && !(comp is MuninNpc)
-        )
-        {
-          Log.Trace(Main.Instance, $"[{GetType().Name}] DestroyImmediate({comp.name} - {comp.GetType().Name})");
-          DestroyImmediate(comp);
-        }
-      }
-      var a = Traverse.Create(ZNetScene.instance).Field<Dictionary<ZDO, ZNetView>>("m_instances").Value;
-      a.Remove(zdo);
-      ZDOMan.instance.DestroyZDO(zdo);
+
     }
 
     #region Implementation of ITalkable
@@ -63,7 +40,7 @@ namespace OdinPlusJVL.Behaviours
     /// <inheritdoc />
     public string GetHoverText()
     {
-      StringBuilder n = new StringBuilder($"<color=lightblue><b>{gameObject.name}</b></color>")
+      StringBuilder n = new StringBuilder($"<color=lightblue><b>$op_shaman_name</b></color>")
           // .Append($"\n<color=green><b>Credits:{OdinData.Credits}</b></color>")
           // .Append($"\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy")
           .Append("\n[<color=yellow><b>1-8</b></color>]$op_shaman_offer")
@@ -111,7 +88,7 @@ namespace OdinPlusJVL.Behaviours
       //  Say("$op_shaman_notenough");
       //  return true;
       //}
-      Say(Talker, gameObject.name,  "$op_shaman_no");
+      Say(Talker, "$op_shaman_name",  "$op_shaman_no");
       return true;
     }
 

@@ -1,6 +1,7 @@
 ﻿using Digitalroot.Valheim.Common;
 using OdinPlusJVL.Common.Names;
 using OdinPlusJVL.Managers;
+using OdinPlusJVL.OdinsCamp;
 using System;
 using System.Reflection;
 

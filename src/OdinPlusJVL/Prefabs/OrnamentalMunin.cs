@@ -12,7 +12,7 @@ namespace OdinPlusJVL.Prefabs
   {
     /// <inheritdoc />
     internal OrnamentalMunin() 
-      : base(CustomPrefabNames.OrnamentalMunin, PrefabNames.Munin)
+      : base(PrefabNames.OrnamentalMunin, Digitalroot.Valheim.Common.Names.PrefabNames.Munin)
     {
     }
 

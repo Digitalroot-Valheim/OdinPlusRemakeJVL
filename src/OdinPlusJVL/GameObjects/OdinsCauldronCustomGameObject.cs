@@ -16,10 +16,7 @@ namespace OdinPlusJVL.GameObjects
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       Name = "$op_pot_name";
       CustomPrefabName = CustomPrefabNames.OrnamentalCauldron;
-      var go = new GameObject();
-      // go.AddMonoBehaviourFromRepository()
-      // AddMonoBehaviour<UnRemoveableCustomMonoBehaviour>();
-      // AddMonoBehaviour<UnRemoveableCustomMonoBehaviour>();
+      AddMonoBehaviour<UnRemoveableCustomMonoBehaviour>();
       AddMonoBehaviour<OdinsCauldronCustomMonoBehaviour>();
     }
   }
