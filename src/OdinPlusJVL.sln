@@ -1,0 +1,78 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.6.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3680FBA-3FA3-4A59-B501-92F20E5210E6}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\LICENSE = ..\LICENSE
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdinPlus", "OdinPlus\OdinPlus.csproj", "{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSpawn", "SimpleSpawn\SimpleSpawn.csproj", "{1779415A-C71D-4DE4-80E5-764A2BE8B957}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{BC68C56D-A486-4D62-AC9B-7FF2B43AA498}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\release-drafter.yml = ..\.github\release-drafter.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8754EB6D-67AD-45DA-B9ED-150567198990}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\ci.yml = ..\.github\workflows\ci.yml
+		..\.github\workflows\drafter.yml = ..\.github\workflows\drafter.yml
+		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
+		..\.github\workflows\test-report.yml = ..\.github\workflows\test-report.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdinPlusJVL", "OdinPlusJVL\OdinPlusJVL.csproj", "{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EE8A2685-94AE-4F3E-89A5-BFED331AECFA}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\LoadOrder.txt = ..\docs\LoadOrder.txt
+		..\docs\Loclist.txt = ..\docs\Loclist.txt
+		..\docs\NexusBBCode.txt = ..\docs\NexusBBCode.txt
+		..\docs\README.md = ..\docs\README.md
+		..\docs\todo.md = ..\docs\todo.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		OdinPlusJVL-Debug|Any CPU = OdinPlusJVL-Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.OdinPlusJVL-Debug|Any CPU.ActiveCfg = OdinPlusJVL-Debug|Any CPU
+		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.OdinPlusJVL-Debug|Any CPU.Build.0 = OdinPlusJVL-Debug|Any CPU
+		{E87B4F90-8D17-44E4-9E42-7F17FED9C69A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}.OdinPlusJVL-Debug|Any CPU.ActiveCfg = OdinPlusJVL-Debug|Any CPU
+		{0F1B0C46-9F3A-437A-A6AB-BEEBB345A5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1779415A-C71D-4DE4-80E5-764A2BE8B957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1779415A-C71D-4DE4-80E5-764A2BE8B957}.OdinPlusJVL-Debug|Any CPU.ActiveCfg = OdinPlusJVL-Debug|Any CPU
+		{1779415A-C71D-4DE4-80E5-764A2BE8B957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.OdinPlusJVL-Debug|Any CPU.ActiveCfg = OdinPlusJVL-Debug|Any CPU
+		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.OdinPlusJVL-Debug|Any CPU.Build.0 = OdinPlusJVL-Debug|Any CPU
+		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E0E03E4-7387-4D1B-B12F-01218DBB09EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BC68C56D-A486-4D62-AC9B-7FF2B43AA498} = {B3680FBA-3FA3-4A59-B501-92F20E5210E6}
+		{8754EB6D-67AD-45DA-B9ED-150567198990} = {BC68C56D-A486-4D62-AC9B-7FF2B43AA498}
+		{EE8A2685-94AE-4F3E-89A5-BFED331AECFA} = {B3680FBA-3FA3-4A59-B501-92F20E5210E6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BAFB003-F524-4F81-87C6-6F17DB5EE7A1}
+	EndGlobalSection
+EndGlobal
