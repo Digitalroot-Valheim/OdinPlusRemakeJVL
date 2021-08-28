@@ -1,12 +1,9 @@
 ﻿using Digitalroot.Valheim.Common;
 using HarmonyLib;
 using JetBrains.Annotations;
-using OdinPlusJVL.Common;
 using OdinPlusJVL.GameObjects;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace OdinPlusJVL
@@ -28,7 +25,7 @@ namespace OdinPlusJVL
         {
           Log.Trace(Main.Instance, $"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}({spawnPoint})");
 
-          if (Player.m_localPlayer == null)
+          if (!Digitalroot.Valheim.Common.Utils.IsPlayerReady())
           {
             Log.Debug(Main.Instance, "Player is null");
             return;
@@ -56,6 +53,7 @@ namespace OdinPlusJVL
       // ReSharper disable once InconsistentNaming
       public static void PostfixShow(ref StoreGui __instance, ref Trader trader)
       {
+        return;
         try
         {
           Log.Trace(Main.Instance, $"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -79,6 +77,7 @@ namespace OdinPlusJVL
       // ReSharper disable once InconsistentNaming
       public static void PostfixHide(ref StoreGui __instance)
       {
+        return;
         try
         {
           Log.Trace(Main.Instance, $"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -199,6 +198,7 @@ namespace OdinPlusJVL
       [HarmonyPrefix]
       [HarmonyPatch(nameof(ZNetScene.Shutdown))]
       [UsedImplicitly]
+      // ReSharper disable once InconsistentNaming
       public static void PrefixShutdown(ref ZNetScene __instance)
       {
         try
@@ -236,7 +236,7 @@ namespace OdinPlusJVL
         try
         {
           Log.Trace(Main.Instance, $"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()");
-          if (!Digitalroot.Valheim.Common.Utils.IsZNetSceneReady())
+          if (!Digitalroot.Valheim.Common.Utils.IsZNetReady())
           {
             Log.Debug(Main.Instance, "ZNet.instance is null");
             return;

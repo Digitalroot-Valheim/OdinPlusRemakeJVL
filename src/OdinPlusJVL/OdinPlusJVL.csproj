@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\JotunnLib.2.2.3\build\JotunnLib.props" Condition="Exists('..\packages\JotunnLib.2.2.3\build\JotunnLib.props')" />
-  <Import Project="..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props" Condition="Exists('..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props')" />
+  <Import Project="..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props" Condition="Exists('..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props')" />
+  <Import Project="..\packages\JotunnLib.2.2.6\build\JotunnLib.props" Condition="Exists('..\packages\JotunnLib.2.2.6\build\JotunnLib.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -46,6 +46,14 @@
     <DebugType>embedded</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OdinPlusJVL-Debug|AnyCPU'">
+    <OutputPath>bin\OdinPlusJVL-Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>9</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
@@ -93,16 +101,8 @@
       <HintPath>..\packages\Pfhoenix.Valheim.ModProjectReferences.1.0.6\lib\net46\bepinex.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Digitalroot.CMB.RepositoryLoader, Version=1.0.0.0, Culture=en-US, processorArchitecture=MSIL">
-      <HintPath>..\packages\Digitalroot.CustomMonoBehaviours.1.0.1\lib\net462\Digitalroot.CMB.RepositoryLoader.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Digitalroot.Valheim.Common.AssemblyInfo, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Digitalroot.Valheim.Common.AssemblyInfo.1.0.1\lib\net462\Digitalroot.Valheim.Common.AssemblyInfo.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Digitalroot.Valheim.Common.Core, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Digitalroot.Valheim.Common.Core.1.0.5\lib\net462\Digitalroot.Valheim.Common.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Digitalroot.Valheim.Common.Extensions, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -118,22 +118,19 @@
     <Reference Include="Digitalroot.Valheim.Common.Log, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Digitalroot.Valheim.Common.Log.1.1.6\lib\net462\Digitalroot.Valheim.Common.Log.dll</HintPath>
     </Reference>
-    <Reference Include="Digitalroot.Valheim.Common.Names, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Digitalroot.Valheim.Common.Names.1.1.0\lib\net462\Digitalroot.Valheim.Common.Names.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Digitalroot.Valheim.Common.Utils, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Digitalroot.Valheim.Common.Utils.1.0.6\lib\net462\Digitalroot.Valheim.Common.Utils.dll</HintPath>
     </Reference>
     <Reference Include="fastJSON, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
       <HintPath>..\packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
-    </Reference>
-    <Reference Include="ILMerge, Version=1.16.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
-      <HintPath>..\packages\ILMerge.Fody.1.16.0\lib\net45\ILMerge.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Jotunn, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JotunnLib.2.2.3\lib\net462\Jotunn.dll</HintPath>
+    <Reference Include="ILMerge, Version=1.17.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
+      <HintPath>..\packages\ILMerge.Fody.1.17.0\lib\net45\ILMerge.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Jotunn, Version=2.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JotunnLib.2.2.6\lib\net462\Jotunn.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
@@ -152,16 +149,16 @@
       <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MonoMod, Version=21.8.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoMod.21.8.5.1\lib\net40\MonoMod.exe</HintPath>
+    <Reference Include="MonoMod, Version=21.8.19.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoMod.21.8.19.1\lib\net40\MonoMod.exe</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MonoMod.RuntimeDetour, Version=21.8.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoMod.RuntimeDetour.21.8.5.1\lib\net40\MonoMod.RuntimeDetour.dll</HintPath>
+    <Reference Include="MonoMod.RuntimeDetour, Version=21.8.19.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoMod.RuntimeDetour.21.8.19.1\lib\net40\MonoMod.RuntimeDetour.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MonoMod.Utils, Version=21.8.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoMod.Utils.21.8.5.1\lib\net40\MonoMod.Utils.dll</HintPath>
+    <Reference Include="MonoMod.Utils, Version=21.8.19.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoMod.Utils.21.8.19.1\lib\net40\MonoMod.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -458,6 +455,9 @@
     <Compile Include="GameObjects\Npcs\OdinCustomGameObject.cs" />
     <Compile Include="GameObjects\Npcs\OdinsEmissaryCustomGameObject.cs" />
     <Compile Include="GameObjects\Npcs\ShamanCustomGameObject.cs" />
+    <Compile Include="Main.Configs.cs" />
+    <Compile Include="Main.Patches.cs" />
+    <Compile Include="Main.Refactor.cs" />
     <Compile Include="Managers\AbstractManager.cs" />
     <Compile Include="Managers\ConsoleCommandManager.cs" />
     <Compile Include="Managers\FxAssetManager.cs" />
@@ -487,10 +487,11 @@
     <Compile Include="Prefabs\OrnamentalMunin.cs" />
     <Compile Include="Prefabs\OrnamentalOdin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatusEffects\SpeedStatusEffect.cs" />
+    <Compile Include="StatusEffects\SE_RunSpeed.cs" />
+    <Compile Include="StatusEffects\SE_SummonWolfPet.cs" />
     <Compile Include="StatusEffects\StatusEffectData.cs" />
     <Compile Include="Managers\StatusEffectsManager.cs" />
-    <Compile Include="StatusEffects\SummonPetStatusEffect.cs" />
+    <Compile Include="StatusEffects\SE_SummonTrollPet.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\digitalroot" />
@@ -510,79 +511,79 @@
     <None Include="_Uml\UnityPrefabCreation.puml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AxeMeadL.png" />
+    <EmbeddedResource Include="Assets\AxeMeadL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AxeMeadM.png" />
+    <EmbeddedResource Include="Assets\AxeMeadM.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AxeMeadS.png" />
+    <EmbeddedResource Include="Assets\AxeMeadS.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\BowsMeadL.png" />
+    <EmbeddedResource Include="Assets\BowsMeadL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\BowsMeadM.png" />
+    <EmbeddedResource Include="Assets\BowsMeadM.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\BowsMeadS.png" />
+    <EmbeddedResource Include="Assets\BowsMeadS.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ExpMeadL.png" />
+    <EmbeddedResource Include="Assets\ExpMeadL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ExpMeadM.png" />
+    <EmbeddedResource Include="Assets\ExpMeadM.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ExpMeadS.png" />
+    <EmbeddedResource Include="Assets\ExpMeadS.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\InvisibleMeadL.png" />
+    <EmbeddedResource Include="Assets\InvisibleMeadL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\InvisibleMeadM.png" />
+    <EmbeddedResource Include="Assets\InvisibleMeadM.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\InvisibleMeadS.png" />
+    <EmbeddedResource Include="Assets\InvisibleMeadS.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\OdinLegacy.png" />
+    <EmbeddedResource Include="Assets\OdinLegacy.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PickaxeMeadL.png" />
+    <EmbeddedResource Include="Assets\PickaxeMeadL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PickaxeMeadM.png" />
+    <EmbeddedResource Include="Assets\PickaxeMeadM.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PickaxeMeadS.png" />
+    <EmbeddedResource Include="Assets\PickaxeMeadS.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SE_Troll.png" />
+    <EmbeddedResource Include="Assets\SE_Troll.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SE_Wolf.png" />
+    <EmbeddedResource Include="Assets\SE_Wolf.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SpeedMeadsL.png" />
+    <EmbeddedResource Include="Assets\SpeedMeadsL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SwordsMeadL.png" />
+    <EmbeddedResource Include="Assets\SwordsMeadL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SwordsMeadM.png" />
+    <EmbeddedResource Include="Assets\SwordsMeadM.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SwordsMeadS.png" />
+    <EmbeddedResource Include="Assets\SwordsMeadS.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\WeightMeadL.png" />
+    <EmbeddedResource Include="Assets\WeightMeadL.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\WeightMeadM.png" />
+    <EmbeddedResource Include="Assets\WeightMeadM.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\WeightMeadS.png" />
+    <EmbeddedResource Include="Assets\WeightMeadS.png" />
   </ItemGroup>
   <ItemGroup>
     <OdinPlusSourceFiles Include="$(TargetDir)**\*.*" />
@@ -595,25 +596,9 @@
     <Analyzer Include="..\packages\ErrorProne.NET.CoreAnalyzers.0.1.2\analyzers\dotnet\cs\ErrorProne.Net.CoreAnalyzers.dll" />
     <Analyzer Include="..\packages\ErrorProne.NET.CoreAnalyzers.0.1.2\analyzers\dotnet\cs\RuntimeContracts.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.6.5.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.2\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\JotunnLib.2.2.3\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JotunnLib.2.2.3\build\JotunnLib.props'))" />
-  </Target>
-  <Target Name="ScriptEnginePostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'ScriptEngine'">
-    <Message Text="DebugPostBuild Called" Importance="high" />
-    <Message Text="Copying assemblies to C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\scripts\" Importance="high" />
-    <Copy SourceFiles="@(OdinPlusSourceFiles)" DestinationFiles="@(OdinPlusSourceFiles->'C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\scripts\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
-  </Target>
-  <Target Name="DebugPostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+  <Target Name="DebugPostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'OdinPlusJVL-Debug'">
     <Message Text="DebugPostBuild Called" Importance="high" />
     <Message Text="Copying assemblies to C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" Importance="high" />
     <Copy SourceFiles="@(OdinPlusSourceFiles)" DestinationFiles="@(OdinPlusSourceFiles->'C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
@@ -639,6 +624,14 @@
     <Delete Files="$(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" />
     <Message Text="Creating Zip file $(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" Importance="high" />
     <ZipDirectory SourceDirectory="$(TargetDir)..\$(ProjectName)" DestinationFile="$(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\JotunnLib.2.2.6\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JotunnLib.2.2.6\build\JotunnLib.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.6.5.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.2\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props'))" />
   </Target>
   <Import Project="..\packages\Fody.6.5.2\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.2\build\Fody.targets')" />
 </Project>

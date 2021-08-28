@@ -180,42 +180,10 @@ namespace OdinPlusJVL.Managers
       }
     }
 
-    private SpeedStatusEffect GetSpeedStatusEffect()
-    {
-      var speedStatusEffect = ScriptableObject.CreateInstance<SpeedStatusEffect>();
-      speedStatusEffect.name = $"{MeadNames.SpeedMeadsL}StatusEffect";
-      speedStatusEffect.m_name = $"op_{MeadNames.SpeedMeadsL}_name";
-      speedStatusEffect.m_tooltip = $"$op_{MeadNames.SpeedMeadsL}_tooltip";
-      speedStatusEffect.m_icon = SpriteManager.Instance.GetSprite(MeadNames.SpeedMeadsL);
-      speedStatusEffect.m_ttl = 300;
-      speedStatusEffect.SpeedModifier = 1.5f;
-      return speedStatusEffect;
-    }
+    private SE_RunSpeed GetSpeedStatusEffect() => ScriptableObject.CreateInstance<SE_RunSpeed>();
 
-    private SummonPetStatusEffect GetSummonTrollPetStatusEffect()
-    {
-      var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
-      statusEffect.name = PetsStatusEffectNames.Troll;
-      statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Troll);
-      statusEffect.m_name = $"$op_{ItemDropNames.ScrollTroll}_name";
-      statusEffect.m_tooltip = $"$op_{ItemDropNames.ScrollTroll}_tooltip";
-      statusEffect.m_cooldownIcon = true;
-      statusEffect.m_ttl = 600;
-      statusEffect.PetName = PetNames.TrollPet;
-      return statusEffect;
-    }
+    private SE_SummonTrollPet GetSummonTrollPetStatusEffect() => ScriptableObject.CreateInstance<SE_SummonTrollPet>();
 
-    private SummonPetStatusEffect GetSummonWolfPetStatusEffect()
-    {
-      var statusEffect = ScriptableObject.CreateInstance<SummonPetStatusEffect>();
-      statusEffect.name = PetsStatusEffectNames.Wolf;
-      statusEffect.m_icon = SpriteManager.Instance.GetSprite(PetsStatusEffectNames.Wolf);
-      statusEffect.m_name = $"$op_{ItemDropNames.ScrollWolf}_name";
-      statusEffect.m_tooltip = $"$op_{ItemDropNames.ScrollWolf}_tooltip";
-      statusEffect.m_cooldownIcon = true;
-      statusEffect.m_ttl = 1800;
-      statusEffect.PetName = PetNames.WolfPet;
-      return statusEffect;
-    }
+    private SE_SummonWolfPet GetSummonWolfPetStatusEffect() => ScriptableObject.CreateInstance<SE_SummonWolfPet>();
   }
 }

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props" Condition="Exists('..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,6 +38,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ScriptEngine|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ScriptEngine\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>embedded</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OdinPlusJVL-Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\OdinPlusJVL-Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -94,9 +104,6 @@
     </Reference>
     <Reference Include="fastJSON, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
       <HintPath>..\packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
-    </Reference>
-    <Reference Include="ILMerge, Version=1.16.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
-      <HintPath>..\packages\ILMerge.Fody.1.16.0\lib\net45\ILMerge.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -470,13 +477,6 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.Fody.1.16.0\build\ILMerge.Fody.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.6.5.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.1\build\Fody.targets'))" />
-  </Target>
   <Target Name="DebugPostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Message Text="DebugPostBuild Called" Importance="high" />
     <Message Text="Copying assemblies to C:\Program Files (x86)\Steam\steamapps\common\Valheim\BepInEx\plugins\$(ProjectName)\" Importance="high" />
@@ -504,5 +504,4 @@
     <Message Text="Creating Zip file $(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" Importance="high" />
     <ZipDirectory SourceDirectory="$(TargetDir)..\$(ProjectName)" DestinationFile="$(TargetDir)..\$(ProjectName).v$([System.Version]::Parse(%(OdinPlusAssemblyIdentities.Version)).ToString(3)).zip" />
   </Target>
-  <Import Project="..\packages\Fody.6.5.1\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.1\build\Fody.targets')" />
 </Project>

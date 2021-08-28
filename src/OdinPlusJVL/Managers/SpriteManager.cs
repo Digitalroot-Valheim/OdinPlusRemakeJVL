@@ -1,5 +1,6 @@
 ﻿using Digitalroot.Valheim.Common;
 using Digitalroot.Valheim.Common.Interfaces;
+using Jotunn.Utils;
 using OdinPlusJVL.Common.Names;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace OdinPlusJVL.Managers
     public void OnVanillaItemsAvailable()
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+
       foreach (var meadName in MeadNames.AllNames)
       {
         AddSpriteFromResource(meadName);
@@ -115,14 +117,6 @@ namespace OdinPlusJVL.Managers
       }
     }
 
-    private static byte[] GetResource(Assembly asm, string resourceName)
-    {
-      var manifestResourceStream = asm.GetManifestResourceStream(resourceName);
-      var array = new byte[manifestResourceStream.Length];
-      manifestResourceStream.Read(array, 0, (int) manifestResourceStream.Length);
-      return array;
-    }
-
     public Sprite GetSprite(string name)
     {
       return _spriteDictionary.ContainsKey(name) ? _spriteDictionary[name] : null;
@@ -135,27 +129,7 @@ namespace OdinPlusJVL.Managers
 
     private static Sprite LoadResourceIcon(string name)
     {
-      return LoadSpriteFromTexture(LoadTextureRaw(GetResource(Assembly.GetCallingAssembly(), "OdinPlusRemakeJVL.Resources." + name + ".png")));
-    }
-
-    private static Sprite LoadSpriteFromTexture(Texture2D spriteTexture, float pixelsPerUnit = 100f)
-    {
-      return spriteTexture ? Sprite.Create(spriteTexture, new Rect(0f, 0f, spriteTexture.width, spriteTexture.height), new Vector2(0f, 0f), pixelsPerUnit) : null;
-    }
-
-    private static Texture2D LoadTextureRaw(byte[] file)
-    {
-      if (file.Any())
-      {
-        Texture2D texture2D = new Texture2D(2, 2);
-        bool flag2 = texture2D.LoadImage(file);
-        if (flag2)
-        {
-          return texture2D;
-        }
-      }
-
-      return null;
+      return AssetUtils.LoadSprite($"{Main.Name}.Assets.{name}.png");
     }
   }
 }
