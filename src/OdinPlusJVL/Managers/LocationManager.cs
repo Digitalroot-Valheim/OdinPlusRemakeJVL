@@ -33,11 +33,6 @@ namespace OdinPlusJVL.Managers
       GetStartPosition();
     }
 
-    public override bool HasDependencyError()
-    {
-      return false;
-    }
-
     protected override HealthCheckStatus OnHealthCheck(HealthCheckStatus healthCheckStatus)
     {
       return healthCheckStatus;

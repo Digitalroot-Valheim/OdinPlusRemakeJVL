@@ -46,14 +46,14 @@ namespace OdinPlusJVL
         _managersList = new List<IInitializeable>
         {
           HealthManager.Instance
-          // , ConsoleCommandManager.Instance
+          , ConsoleCommandManager.Instance
           , SpriteManager.Instance
           , StatusEffectsManager.Instance
-          // , FxAssetManager.Instance
-          // , ItemDropManager.Instance
-          // , PrefabManager.Instance
-          // , LocationManager.Instance
-          // , OdinsCampManager.Instance
+          , FxAssetManager.Instance
+          , ItemDropManager.Instance
+          , PrefabManager.Instance
+          , LocationManager.Instance
+          , OdinsCampManager.Instance
         };
 
         foreach (var manager in _managersList)

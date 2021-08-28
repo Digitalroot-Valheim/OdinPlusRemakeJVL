@@ -12,7 +12,7 @@ namespace OdinPlusJVL.Managers
 {
   internal class SpriteManager : AbstractManager<SpriteManager>, IOnVanillaItemsAvailable, IOnPrefabsRegistered
   {
-    private readonly Dictionary<string, Sprite> _spriteDictionary = new Dictionary<string, Sprite>();
+    private readonly Dictionary<string, Sprite> _spriteDictionary = new();
 
     public override bool HasDependencyError()
     {
