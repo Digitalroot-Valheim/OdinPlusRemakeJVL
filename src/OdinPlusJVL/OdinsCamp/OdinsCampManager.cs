@@ -105,17 +105,12 @@ namespace OdinPlusJVL.OdinsCamp
         _odinsCampTerrain.gameObject.transform.localPosition = new Vector3(0, 0, 0);
         tm.m_playerModifiction = false;
         tm.m_levelOffset = 0.01f;
-
         tm.m_level = true;
         tm.m_levelRadius = 4f;
         tm.m_square = false;
-
         tm.m_smooth = false;
-
         tm.m_smoothRadius = 9.5f;
         tm.m_smoothPower = 3f;
-
-
         tm.m_paintRadius = 3.5f;
         tm.m_paintCleared = true;
         tm.m_paintType = TerrainModifier.PaintType.Dirt;
@@ -138,18 +133,6 @@ namespace OdinPlusJVL.OdinsCamp
         _odinsCauldron.transform.localPosition = new Vector3(-0.42f, -0.015f, -1f);
         _odinsCauldron.transform.localRotation = new Quaternion(0, 0.6817f, 0, 0.7316f);
 
-        //foreach (var gameObject in _customGameObjects)
-        //{
-        //  Log.Trace(Main.Instance, $"{gameObject.Key}:{gameObject.Value}");
-        //}
-
-        //var talkerGo = _customGameObjects[Digitalroot.Valheim.Common.Utils.Localize("$op_odin_emissary")] as OdinsEmissaryCustomGameObject;
-        //Log.Trace(Main.Instance, $"[{GetType().Name}] talkerGo == null : {talkerGo == null}");
-
-        //var cmb = customGameObject.Cauldron.GetComponent<OdinsCauldronCustomMonoBehaviour>();
-        //Log.Trace(Main.Instance, $"[{GetType().Name}] talkerGo == null : {talkerGo == null}");
-        //Log.Trace(Main.Instance, $"[{GetType().Name}] talkerGo.OdinsEmissary == null : {talkerGo?.OdinsEmissary == null}");
-        // cmb.Talker = talkerGo?.OdinsEmissary;
         // m_odinPot = caul.AddComponent<OdinTradeShop>();
         // OdinPlus.traderNameList.Add(m_odinPot.m_name);
         // _customGameObjects.Add(customGameObject.Name, customGameObject);
@@ -167,8 +150,8 @@ namespace OdinPlusJVL.OdinsCamp
       var emissaryCmb = _odinsEmissary.GetComponent<OdinsEmissaryCustomMonoBehaviour>();
       Log.Trace(Main.Instance, $"[{GetType().Name}] cauldronCmb == null : {cauldronCmb == null}");
       Log.Trace(Main.Instance, $"[{GetType().Name}] emissaryCmb == null : {emissaryCmb == null}");
-      cauldronCmb.Talker = emissaryCmb.Talker;
-      cauldronCmb.Head = emissaryCmb.Head;
+      if (cauldronCmb is null || emissaryCmb is null) return;
+      cauldronCmb.TalkingBehaviour = emissaryCmb.TalkingBehaviour;
     }
 
     private void AddOdinsEmissary()

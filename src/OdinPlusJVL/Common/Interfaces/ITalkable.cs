@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using OdinPlusJVL.Behaviours;
 
 namespace OdinPlusJVL.Common.Interfaces
 {
   public interface ITalkable
   {
-    Transform Head { get; set; }
-    GameObject Talker { get; set; }
+    [NotNull] [UsedImplicitly] TalkableMonoBehaviour TalkingBehaviour { get; set; }
 
-    void Say(string topic, string msg);
+    void Say(string msg, [CanBeNull] string topic = null, [CanBeNull] string animationTriggerName = null, bool showName = true, bool longTimeout = false, bool large = false);
   }
 }

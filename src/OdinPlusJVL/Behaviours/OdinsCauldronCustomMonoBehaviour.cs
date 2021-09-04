@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using OdinPlusJVL.Common.Interfaces;
 using System.Reflection;
 using System.Text;
-using UnityEngine;
 
 namespace OdinPlusJVL.Behaviours
 {
@@ -18,13 +17,16 @@ namespace OdinPlusJVL.Behaviours
     #region Implementation of ITalkable
 
     /// <inheritdoc />
-    public Transform Head { get; set; }
+    public TalkableMonoBehaviour TalkingBehaviour { get; set; }
 
     /// <inheritdoc />
-    public GameObject Talker { get; set; }
-
-    /// <inheritdoc />
-    public void Say(string topic, string msg) => Say(Talker, topic, msg);
+    public void Say(string msg
+      , string topic = null
+      , string animationTriggerName = null
+      , bool showName = true
+      , bool longTimeout = false
+      , bool large = false)
+      => TalkingBehaviour.Say(msg, topic, animationTriggerName, showName, longTimeout, large);
 
     #endregion
 
@@ -54,7 +56,7 @@ namespace OdinPlusJVL.Behaviours
     public bool Interact(Humanoid user, bool hold)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      Say("$op_odin_emissary", "That's my pot");
+      Say("That's my pot! \nStay away from it.");
       return false;
     }
 

@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Jotunn.Utils;
 using OdinPlusJVL.Managers;
 using OdinPlusJVL.OdinsCamp;
+using OdinPlusJVL.Quests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,7 @@ namespace OdinPlusJVL
           , PrefabManager.Instance
           , LocationManager.Instance
           , OdinsCampManager.Instance
+          , QuestManager.Instance
         };
 
         foreach (var manager in _managersList)

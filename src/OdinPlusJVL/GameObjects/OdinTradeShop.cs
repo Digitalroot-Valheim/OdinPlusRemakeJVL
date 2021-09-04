@@ -20,9 +20,9 @@ namespace OdinPlusJVL.GameObjects
 
     public new string GetHoverText()
     {
-      string n = string.Format("\n<color=lightblue><b>{0}</b></color>", m_name);
-      string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
-      return Digitalroot.Valheim.Common.Utils.Localize(n + u);
+      var n = $"\n<color=lightblue><b>{m_name}</b></color>" +
+               "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
+      return Digitalroot.Valheim.Common.Utils.Localize(n);
     }
 
     public new string GetHoverName()
@@ -49,7 +49,7 @@ namespace OdinPlusJVL.GameObjects
 
     protected void Say(string text)
     {
-      //Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, m_talker.GetComponent<OdinNpc>().Name, text, false);
+      // Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, m_talker.GetComponent<OdinNpc>().Name, text, false);
     }
 
     public static void TweakGui(StoreGui __instance, bool set)

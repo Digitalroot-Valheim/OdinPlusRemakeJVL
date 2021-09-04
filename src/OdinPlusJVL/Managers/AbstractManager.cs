@@ -1,7 +1,6 @@
 ﻿using Digitalroot.Valheim.Common;
 using Digitalroot.Valheim.Common.Interfaces;
 using OdinPlusJVL.Common;
-using OdinPlusJVL.Common.Interfaces;
 using System;
 using System.Reflection;
 

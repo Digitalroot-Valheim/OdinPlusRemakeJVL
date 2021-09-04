@@ -1,37 +1,39 @@
 ﻿using Digitalroot.Valheim.Common;
-using HarmonyLib;
 using JetBrains.Annotations;
 using OdinPlusJVL.Common.Interfaces;
+using OdinPlusJVL.Common.Names;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OdinPlusJVL.Behaviours
 {
   public class ShamanCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable
   {
+    private Animator _animator;
+
     [UsedImplicitly]
     public void Awake()
     {
-      Talker = gameObject;
-    }
-
-    [UsedImplicitly]
-    public void Start()
-    {
-
+      _animator = gameObject.GetComponentInChildren<Animator>();
+      TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_shaman_name", _animator, 2.5f, 20f, 10f, 10f);
     }
 
     #region Implementation of ITalkable
 
     /// <inheritdoc />
-    public Transform Head { get; set; }
+    public TalkableMonoBehaviour TalkingBehaviour { get; set; }
 
     /// <inheritdoc />
-    public GameObject Talker { get; set; }
-
-    /// <inheritdoc />
-    public void Say(string topic, string msg) => Say(Talker, topic, msg);
+    public void Say(string msg
+      , string topic = null
+      , string animationTriggerName = null
+      , bool showName = true
+      , bool longTimeout = false
+      , bool large = false)
+      => TalkingBehaviour.Say(msg, topic, animationTriggerName, showName, longTimeout, large);
 
     #endregion
 
@@ -63,6 +65,7 @@ namespace OdinPlusJVL.Behaviours
       {
         return false;
       }
+
       return true;
     }
 
@@ -88,10 +91,57 @@ namespace OdinPlusJVL.Behaviours
       //  Say("$op_shaman_notenough");
       //  return true;
       //}
-      Say(Talker, "$op_shaman_name",  "$op_shaman_no");
+      // _animator.SetBool(AnimationBooleans.Talk1, true);
+      Say("$op_shaman_no");
+      DoRandomTalkAnimation();
+      // _animator.SetBool(AnimationBooleans.Talk1, false);
       return true;
     }
 
     #endregion
+
+    private void DoRandomTalkAnimation()
+    {
+      var animationBooleans = AnimationBooleans.AllNames.ToArray();
+      var count = animationBooleans.Length;
+      var rnd = Random.Range(0, --count);
+      Log.Trace(Main.Instance, $"count: {animationBooleans.Length}, rnd: {rnd}");
+      var a = animationBooleans[rnd];
+
+      _animator.SetBool(a, true);
+      System.Timers.Timer timer = new(250);
+      timer.Elapsed += (sender, args) =>
+      {
+        timer.Stop();
+        _animator.SetBool(a, false);
+        timer.Dispose();
+      };
+      timer.Start();
+    }
+
+    private static class AnimationBooleans
+    {
+      public static string Talk1 = nameof(Talk1).ToLower();
+      public static string Talk2 = nameof(Talk2).ToLower();
+      public static string Talk3 = nameof(Talk3).ToLower();
+      public static string NodYes = "talk5";
+      internal static readonly IEnumerable<string> AllNames = Digitalroot.Valheim.Common.Utils.AllNames(typeof(AnimationBooleans));
+
+      // internal static string Talk4 = nameof(Talk4).ToLower(); // Does nothing
+      // internal static string Idle = "idlebool"; // Do not use
+      // internal static string Yell = nameof(Yell).ToLower(); // Same as AnimationTriggers.Emote6
+    }
+
+    // ReSharper disable once IdentifierTypo
+    private static class AnimationTriggers
+    {
+      internal static string Dance = "Emote1";
+      internal static string Cheer = "Emote2";
+      internal static string Flex = "Emote3";
+      internal static string Point = "Emote4";
+      internal static string Yell = "Emote6";
+      internal static readonly IEnumerable<string> AllNames = Digitalroot.Valheim.Common.Utils.AllNames(typeof(AnimationTriggers));
+      // internal static string Emote5 = nameof(Emote5); // Same as Dance
+    }
   }
 }

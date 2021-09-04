@@ -24,6 +24,7 @@ namespace OdinPlusJVL
     // ReSharper disable once MemberCanBePrivate.Global
     public static ConfigEntry<int> NexusId;
     internal static ConfigEntry<Vector3> ConfigEntryOdinPosition;
+    public static ConfigEntry<KeyboardShortcut> KeyboardShortcutSecondInteractKey;
 
     // ReSharper disable once MemberCanBePrivate.Global
     internal static ConfigEntry<bool> ConfigEntryForceOdinPosition;
@@ -35,6 +36,7 @@ namespace OdinPlusJVL
       NexusId = Config.Bind("Config", "NexusID", 000, new ConfigDescription("Nexus mod ID for updates", null, new ConfigurationManagerAttributes { Browsable = false }));
       ConfigEntryOdinPosition = Config.Bind("Config", "Odins Position", Vector3.zero, new ConfigDescription("Odin's Position", null, new ConfigurationManagerAttributes { Browsable = false, IsAdminOnly = true }));
       ConfigEntryForceOdinPosition = Config.Bind("Config", "Force Odins Position", false, new ConfigDescription("Force Odin's Position", null, new ConfigurationManagerAttributes { Browsable = false, IsAdminOnly = true }));
+      KeyboardShortcutSecondInteractKey = Config.Bind("Config", "Second Interact key", new KeyboardShortcut(KeyCode.T), new ConfigDescription("Second Interact key", null, new ConfigurationManagerAttributes { Browsable = true, IsAdminOnly = false, DefaultValue = new KeyboardShortcut(KeyCode.T)}));
     }
 
     #endregion

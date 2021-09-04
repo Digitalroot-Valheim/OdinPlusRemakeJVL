@@ -1,6 +1,8 @@
 ﻿using Digitalroot.Valheim.Common;
+using Digitalroot.Valheim.Common.Interfaces;
 using HarmonyLib;
 using JetBrains.Annotations;
+using OdinPlusJVL.Common.Interfaces;
 using OdinPlusJVL.GameObjects;
 using System;
 using System.Reflection;
@@ -35,6 +37,46 @@ namespace OdinPlusJVL
         catch (Exception e)
         {
           Log.Error(Main.Instance, e);
+        }
+      }
+    }
+
+    #endregion
+
+    #region Player
+
+    [HarmonyPatch(typeof(Player))]
+    public static class PatchPlayerFixedUpdate
+    {
+      [HarmonyPostfix]
+      [HarmonyPatch(nameof(Player.FixedUpdate))]
+      [HarmonyPriority(Priority.Normal)]
+      [UsedImplicitly]
+      // ReSharper disable once InconsistentNaming
+      public static void Postfix(Player __instance)
+      {
+        try
+        {
+          if (!Digitalroot.Valheim.Common.Utils.IsPlayerReady()) return;
+
+          // Log.Trace($"{Main.Namespace}.{MethodBase.GetCurrentMethod().DeclaringType?.Name}.{MethodBase.GetCurrentMethod().Name}()"); // Spammy
+
+          if (!Main.KeyboardShortcutSecondInteractKey.Value.IsDown() || __instance.GetHoverObject() == null) return;
+
+          if (__instance.GetHoverObject().GetComponent<ISecondaryInteractable>() != null)
+          {
+            __instance.GetHoverObject().GetComponent<ISecondaryInteractable>().SecondaryInteract(__instance);
+            return;
+          }
+
+          if (__instance.GetHoverObject().GetComponentInParent<ISecondaryInteractable>() != null)
+          {
+            __instance.GetHoverObject().GetComponentInParent<ISecondaryInteractable>().SecondaryInteract(__instance);
+          }
+        }
+        catch (Exception e)
+        {
+          Log.Fatal(Main.Instance, e);
         }
       }
     }

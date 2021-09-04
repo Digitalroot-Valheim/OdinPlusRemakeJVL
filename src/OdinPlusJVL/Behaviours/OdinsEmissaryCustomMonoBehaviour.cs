@@ -1,23 +1,29 @@
 ﻿using Digitalroot.Valheim.Common;
+using Digitalroot.Valheim.Common.Interfaces;
 using JetBrains.Annotations;
-using OdinPlusJVL.Common.Interfaces;
 using System;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
+using ITalkable = OdinPlusJVL.Common.Interfaces.ITalkable;
 
 namespace OdinPlusJVL.Behaviours
 {
   [UsedImplicitly]
   public class OdinsEmissaryCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISecondaryInteractable
   {
+    private Animator _animator;
+    private Transform Head { get; set; }
+
+    [UsedImplicitly]
     public void Awake()
     {
       try
       {
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         Head = gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-        Talker = gameObject;
+        _animator = gameObject.GetComponentInChildren<Animator>();
+        TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_odin_emissary", _animator, 2.5f, 20f, 10f, 10f);
       }
       catch (Exception e)
       {
@@ -28,13 +34,17 @@ namespace OdinPlusJVL.Behaviours
     #region Implementation of ITalkable
 
     /// <inheritdoc />
-    public Transform Head { get; set; }
+    // ReSharper disable once NotNullMemberIsNotInitialized
+    public TalkableMonoBehaviour TalkingBehaviour { get; set; }
 
     /// <inheritdoc />
-    public GameObject Talker { get; set; }
-
-    /// <inheritdoc />
-    public void Say(string topic, string msg) => Say(Talker, topic, msg);
+    public void Say(string msg
+      , string topic = null
+      , string animationTriggerName = null
+      , bool showName = true
+      , bool longTimeout = false
+      , bool large = false)
+      => TalkingBehaviour.Say(msg, topic, animationTriggerName, showName, longTimeout, large);
 
     #endregion
 
@@ -76,7 +86,7 @@ namespace OdinPlusJVL.Behaviours
       //}
 
       // user.GetSkills().RaiseSkill(stlist[cskillIndex], Main.RaiseFactor);
-      Say(Talker, "$op_odin_emissary", $"$op_raise");
+      Say($"$op_raise");
       return true;
     }
 
@@ -94,7 +104,7 @@ namespace OdinPlusJVL.Behaviours
       //value = OdinData.ItemSellValue[name];
       //OdinData.AddCredits(value * item.m_stack * item.m_quality, m_head);
       //user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
-      Say(Talker, "$op_odin_emissary", "$op_god_takeoffer");
+      Say("$op_god_takeoffer");
       return true;
     }
 
@@ -110,13 +120,6 @@ namespace OdinPlusJVL.Behaviours
     }
 
     #endregion
-
-    public void SetPosition()
-    {
-      //Log.Trace($"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      //Odin.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
-      //Odin.transform.localPosition = Odin.transform.localPosition + Vector3.down;
-    }
 
     private void ReadSkill()
     {

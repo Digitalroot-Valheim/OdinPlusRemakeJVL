@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props" Condition="Exists('..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props')" />
-  <Import Project="..\packages\JotunnLib.2.2.6\build\JotunnLib.props" Condition="Exists('..\packages\JotunnLib.2.2.6\build\JotunnLib.props')" />
+  <Import Project="..\packages\JotunnLib.2.2.7\build\JotunnLib.props" Condition="Exists('..\packages\JotunnLib.2.2.7\build\JotunnLib.props')" />
+  <Import Project="..\packages\ILMerge.Fody.1.18.0\build\ILMerge.Fody.props" Condition="Exists('..\packages\ILMerge.Fody.1.18.0\build\ILMerge.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,12 +11,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OdinPlusJVL</RootNamespace>
     <AssemblyName>OdinPlusJVL</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <LangVersion>9</LangVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -128,13 +129,14 @@
       <HintPath>..\packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ILMerge, Version=1.17.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
-      <HintPath>..\packages\ILMerge.Fody.1.17.0\lib\net45\ILMerge.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="FSMSharp.Valheim, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSMSharp.Valheim.1.0.1\lib\net462\FSMSharp.Valheim.dll</HintPath>
     </Reference>
-    <Reference Include="Jotunn, Version=2.2.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JotunnLib.2.2.6\lib\net462\Jotunn.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ILMerge, Version=1.18.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
+      <HintPath>..\packages\ILMerge.Fody.1.18.0\lib\net45\ILMerge.dll</HintPath>
+    </Reference>
+    <Reference Include="Jotunn, Version=2.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JotunnLib.2.2.7\lib\net462\Jotunn.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.dll</HintPath>
@@ -425,6 +427,7 @@
     <Compile Include="Behaviours\ShamanCustomMonoBehaviour.cs" />
     <Compile Include="Behaviours\UnRemoveableCustomMonoBehaviour.cs" />
     <Compile Include="Common\Interfaces\ICreateable.cs" />
+    <Compile Include="Behaviours\TalkableMonoBehaviour.cs" />
     <Compile Include="Common\Names\DungeonLocationNames.cs" />
     <Compile Include="Common\EventArgs\OnSpawnedPlayerEventArgs.cs" />
     <Compile Include="Common\EventArgs\OnZNetReadyEventArgs.cs" />
@@ -461,6 +464,7 @@
     <Compile Include="Managers\HealthManager.cs" />
     <Compile Include="Managers\ItemDropManager.cs" />
     <Compile Include="Managers\LocationManager.cs" />
+    <Compile Include="Quests\QuestManager.cs" />
     <Compile Include="OdinsCamp\OdinsCampManager.cs" />
     <Compile Include="Managers\PrefabManager.cs" />
     <Compile Include="Managers\SpriteManager.cs" />
@@ -469,7 +473,6 @@
     <Compile Include="Common\Names\PetsStatusEffectNames.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Common\Names\MeadNames.cs" />
-    <Compile Include="Common\Interfaces\ISecondaryInteractable.cs" />
     <Compile Include="Common\Interfaces\ITalkable.cs" />
     <Compile Include="Behaviours\AbstractCustomMonoBehaviour.cs" />
     <Compile Include="GameObjects\OdinTradeShop.cs" />
@@ -634,9 +637,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\JotunnLib.2.2.6\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JotunnLib.2.2.6\build\JotunnLib.props'))" />
     <Error Condition="!Exists('..\packages\Fody.6.5.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.2\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.Fody.1.17.0\build\ILMerge.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\ILMerge.Fody.1.18.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.Fody.1.18.0\build\ILMerge.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\JotunnLib.2.2.7\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JotunnLib.2.2.7\build\JotunnLib.props'))" />
   </Target>
   <Import Project="..\packages\Fody.6.5.2\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.2\build\Fody.targets')" />
 </Project>
