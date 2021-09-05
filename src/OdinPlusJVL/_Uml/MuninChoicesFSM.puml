@@ -1,0 +1,10 @@
+﻿@startuml
+!theme spacelab
+hide empty description
+[*] --> AcceptSideQuest
+AcceptSideQuest --> GiveUpQuest
+GiveUpQuest -> ChangeQuestLevel
+ChangeQuestLevel -up-> ShowQuestList
+ShowQuestList -left-> AcceptSideQuest
+
+@enduml

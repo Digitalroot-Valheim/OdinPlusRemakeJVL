@@ -8,16 +8,17 @@ namespace OdinPlusJVL.FiniteStateMachines
   [UsedImplicitly]
   internal class MuninChoicesFSM : MonoBehaviour
   {
-    enum Choices
+    internal enum Choices
     {
       // "op_munin_c1": "Accept Side Quest",
       // "op_munin_c2": "Give up Quest",
       // "op_munin_c3": "Change Quest Level",
       // "op_munin_c4": "Show me my Quest List",
-      AcceptSideQuest,
-      GiveUpQuest,
-      ChangeQuestLevel,
-      ShowQuestList
+      AcceptSideQuest
+      , GiveUpQuest
+      , ChangeQuestLevel
+      , ShowQuestList
+      , Leave
     }
 
     // Create the FSM
@@ -51,5 +52,6 @@ namespace OdinPlusJVL.FiniteStateMachines
     }
 
     public void Next() => _fsm.Next();
+    public Choices CurrentState => _fsm.CurrentState;
   }
 }

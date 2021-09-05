@@ -457,6 +457,7 @@
     <Compile Include="ConsoleCommands\WhereIsOdinCommand.cs" />
     <Compile Include="ConsoleCommands\WhereIsStartTemple.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
+    <Compile Include="FiniteStateMachines\MuninAnimatorFSM.cs" />
     <Compile Include="FiniteStateMachines\MuninChoicesFSM.cs" />
     <Compile Include="Main.Configs.cs" />
     <Compile Include="Main.Patches.cs" />
@@ -519,6 +520,8 @@
     </None>
     <None Include="packages.config" />
     <None Include="_Uml\GameObjectDiagram.puml" />
+    <None Include="_Uml\MuninChoicesFSM.puml" />
+    <None Include="_Uml\MuninAnimatorFSM.puml" />
     <None Include="_Uml\UnityPrefabCreation.puml" />
   </ItemGroup>
   <ItemGroup>

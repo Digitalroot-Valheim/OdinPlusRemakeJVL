@@ -7,6 +7,6 @@ namespace OdinPlusJVL.Common.Interfaces
   {
     [NotNull] [UsedImplicitly] TalkableMonoBehaviour TalkingBehaviour { get; set; }
 
-    void Say(string msg, [CanBeNull] string topic = null, [CanBeNull] string animationTriggerName = null, bool showName = true, bool longTimeout = false, bool large = false);
+    void Say(string msg, [CanBeNull] string topic = null, bool showName = true, bool longTimeout = false, bool large = false);
   }
 }

@@ -3,6 +3,7 @@ using Digitalroot.Valheim.Common.Interfaces;
 using JetBrains.Annotations;
 using OdinPlusJVL.FiniteStateMachines;
 using OdinPlusJVL.Quests;
+using System;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -14,61 +15,42 @@ namespace OdinPlusJVL.Behaviours
   public class MuninCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISecondaryInteractable
   {
     private Animator _animator;
-    private readonly System.Timers.Timer _spawnTimer = new(10000);
-    private readonly string[] _choiceList = { "$op_munin_c1", "$op_munin_c2", "$op_munin_c3", "$op_munin_c4" };
-    private int _index;
+    private MuninAnimatorFSM _muninAnimatorFSM;
+    private readonly string[] _choiceList = { "$op_munin_c1", "$op_munin_c2", "$op_munin_c3", "$op_munin_c4", "$op_munin_c5" };
     private string _currentChoice = "$op_munin_c1";
-    private bool _hasLanded;
 
     [UsedImplicitly]
     public void Awake()
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _spawnTimer.AutoReset = false;
-      _spawnTimer.Enabled = false;
-      _spawnTimer.Elapsed += SpawnTimerOnElapsed;
       _animator = gameObject.GetComponentInChildren<Animator>();
-      TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_munin_name", _animator, 1.5f, 20f, 10f, 10f);
-    }
-
-    private void SpawnTimerOnElapsed(object sender, System.Timers.ElapsedEventArgs e)
-    {
-      Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (!_hasLanded)
-      {
-        _spawnTimer.Stop();
-        _animator.SetTrigger(MuninsAnimations.FlyIn);
-        _hasLanded = true;
-        _spawnTimer.Interval = 5000;
-        _spawnTimer.Start();
-        return;
-      }
-      Say("$op_munin_greet");
-      _spawnTimer.Stop();
-      _spawnTimer.Elapsed -= SpawnTimerOnElapsed;
-      _spawnTimer.Dispose();
+      _muninAnimatorFSM = gameObject.GetComponentInChildren<MuninAnimatorFSM>();
+      TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_munin_name", 1.5f, 20f, 10f, 10f);
     }
 
     [UsedImplicitly]
     public void Start()
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _spawnTimer.Start();
+      _muninAnimatorFSM.Spawn();
     }
 
     #region Implementation of ITalkable
 
     /// <inheritdoc />
+    // ReSharper disable once NotNullMemberIsNotInitialized
     public TalkableMonoBehaviour TalkingBehaviour { get; set; }
 
     /// <inheritdoc />
     public void Say(string msg
       , string topic = null
-      , string animationTriggerName = null
       , bool showName = true
       , bool longTimeout = false
       , bool large = false)
-      => TalkingBehaviour.Say(msg, topic, animationTriggerName, showName, longTimeout, large);
+    {
+      _muninAnimatorFSM.Talk();
+      TalkingBehaviour.Say(msg, topic, showName, longTimeout, large);
+    }
 
     #endregion
 
@@ -101,30 +83,60 @@ namespace OdinPlusJVL.Behaviours
       {
         return false;
       }
+
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 
-      // switch (index)
-      // {
-      //   case 0:
-      //     CreatSideQuest();
-      //     break;
-      //   case 1:
-      //     GiveUpQuest();
-      //     break;
-      //   case 2:
-      //     ChangeLevel();
-      //     break;
-      //   case 3:
-      //     if (QuestManager.Instance.HasQuest())
-      //     {
-      //       QuestManager.Instance.PrintQuestList();
-      //       Say("$op_munin_wait_hug");
-      //       break;
-      //     }
-      //
-      //     Say("$op_munin_noquest");
-      //     break;
-      // }
+      var fsm = gameObject.GetComponent<MuninChoicesFSM>();
+
+      switch (fsm.CurrentState)
+      {
+        // case 0:
+        //   // CreatSideQuest();
+        //   break;
+        // case 1:
+        //   // GiveUpQuest();
+        //   break;
+        // case 2:
+        //   // ChangeLevel();
+        //   break;
+        // case 3:
+        //   if (QuestManager.Instance.HasQuest())
+        //   {
+        //     QuestManager.Instance.PrintQuestList();
+        //     Say("$op_munin_wait_hug");
+        //     break;
+        //   }
+        //
+        //   Say("$op_munin_noquest");
+        //   break;
+        case MuninChoicesFSM.Choices.AcceptSideQuest:
+          // CreatSideQuest();
+          break;
+        case MuninChoicesFSM.Choices.GiveUpQuest:
+          // GiveUpQuest();
+          break;
+        case MuninChoicesFSM.Choices.ChangeQuestLevel:
+          // ChangeLevel();
+          break;
+        case MuninChoicesFSM.Choices.ShowQuestList:
+          //   if (QuestManager.Instance.HasQuest())
+          //   {
+          //     QuestManager.Instance.PrintQuestList();
+          //     Say("$op_munin_wait_hug");
+          //     break;
+          //   }
+          //
+          Say("$op_munin_noquest");
+          break;
+
+        case MuninChoicesFSM.Choices.Leave:
+          _muninAnimatorFSM.Leave();
+          _muninAnimatorFSM.Leave();
+          break;
+
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
 
       return true;
     }
@@ -178,18 +190,5 @@ namespace OdinPlusJVL.Behaviours
     }
 
     #endregion
-
-    // ReSharper disable once IdentifierTypo
-    private static class MuninsAnimations
-    {
-      internal static string AngLevel = nameof(AngLevel).ToLower(); // No idea?
-      internal static string FlyIn = nameof(FlyIn).ToLower();
-      internal static string FlyOut = "flyaway";
-      internal static string Idle = nameof(Idle).ToLower();
-      internal static string Talk = nameof(Talk).ToLower();
-      internal static string TeleportIn = nameof(TeleportIn).ToLower();
-      internal static string TeleportOut = "poff";
-      internal static string TeleportOut2 = "Poff";
-    }
   }
 }

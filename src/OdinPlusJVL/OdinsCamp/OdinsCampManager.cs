@@ -211,6 +211,7 @@ namespace OdinPlusJVL.OdinsCamp
         _odinsMunin = PrefabManager.Instance.CreateClonedPrefab(PrefabNames.OdinsCampMunin, PrefabNames.OrnamentalMunin);
         _odinsMunin.AddMonoBehaviour<MuninCustomMonoBehaviour>();
         _odinsMunin.AddMonoBehaviour<MuninChoicesFSM>();
+        _odinsMunin.AddMonoBehaviour<MuninAnimatorFSM>();
         _odinsMunin.transform.SetParent(_odinCamp.transform);
         _odinsMunin.transform.localPosition = new Vector3(2.56f, -0.001f, -1.98f);
         _odinsMunin.transform.localRotation = new Quaternion(0, 0.345f, 0, -0.9386f);

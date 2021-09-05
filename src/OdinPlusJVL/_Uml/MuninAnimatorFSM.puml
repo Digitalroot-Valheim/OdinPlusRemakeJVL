@@ -1,0 +1,21 @@
+﻿@startuml
+!theme spacelab
+hide empty description
+[*] --> Spawn
+Spawn -> FlyIn
+FlyIn -> Landed
+Landed -> Idle
+
+Idle -[dashed]-> Leaving
+Idle -[dashed]-> Talk
+Idle -[dashed]-> TeleportOut
+Talk --> Idle
+
+[*] -> TeleportIn
+TeleportIn --> Idle
+
+Leaving --> FlyOut
+FlyOut -> Away
+TeleportOut --> Away
+Away --> [*]
+@enduml
