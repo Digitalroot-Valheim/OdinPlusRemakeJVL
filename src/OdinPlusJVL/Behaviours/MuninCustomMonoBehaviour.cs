@@ -1,6 +1,7 @@
 ﻿using Digitalroot.Valheim.Common;
 using Digitalroot.Valheim.Common.Interfaces;
 using JetBrains.Annotations;
+using OdinPlusJVL.FiniteStateMachines;
 using OdinPlusJVL.Quests;
 using System.Reflection;
 using System.Text;
@@ -150,19 +151,30 @@ namespace OdinPlusJVL.Behaviours
 
     #region Implementation of ISecondaryInteractable
 
+    public void SetChoiceIndex(int index)
+    {
+      Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({index})");
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
+      _currentChoice = _choiceList[index];
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
+    }
+
     /// <inheritdoc />
     public void SecondaryInteract(Humanoid user)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 
-      _index += 1;
-      if (_index + 1 > _choiceList.Length)
-      {
-        _index = 0;
-      }
-      Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
-      _currentChoice = _choiceList[_index];
-      Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
+      var fsm = gameObject.GetComponent<MuninChoicesFSM>();
+      fsm.Next();
+
+      // _index += 1;
+      // if (_index + 1 > _choiceList.Length)
+      // {
+      //   _index = 0;
+      // }
+      // Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
+      // _currentChoice = _choiceList[_index];
+      // Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
     }
 
     #endregion

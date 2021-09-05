@@ -127,16 +127,18 @@
     </Reference>
     <Reference Include="fastJSON, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
       <HintPath>..\packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FSMSharp.Valheim, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FSMSharp.Valheim.1.0.1\lib\net462\FSMSharp.Valheim.dll</HintPath>
     </Reference>
     <Reference Include="ILMerge, Version=1.18.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
       <HintPath>..\packages\ILMerge.Fody.1.18.0\lib\net45\ILMerge.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Jotunn, Version=2.2.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\JotunnLib.2.2.7\lib\net462\Jotunn.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.dll</HintPath>
@@ -455,6 +457,7 @@
     <Compile Include="ConsoleCommands\WhereIsOdinCommand.cs" />
     <Compile Include="ConsoleCommands\WhereIsStartTemple.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
+    <Compile Include="FiniteStateMachines\MuninChoicesFSM.cs" />
     <Compile Include="Main.Configs.cs" />
     <Compile Include="Main.Patches.cs" />
     <Compile Include="Main.Refactor.cs" />

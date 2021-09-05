@@ -3,6 +3,7 @@ using Digitalroot.Valheim.Common.Interfaces;
 using OdinPlusJVL.Behaviours;
 using OdinPlusJVL.Common.Names;
 using OdinPlusJVL.Extensions;
+using OdinPlusJVL.FiniteStateMachines;
 using OdinPlusJVL.Managers;
 using System;
 using System.Reflection;
@@ -209,6 +210,7 @@ namespace OdinPlusJVL.OdinsCamp
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         _odinsMunin = PrefabManager.Instance.CreateClonedPrefab(PrefabNames.OdinsCampMunin, PrefabNames.OrnamentalMunin);
         _odinsMunin.AddMonoBehaviour<MuninCustomMonoBehaviour>();
+        _odinsMunin.AddMonoBehaviour<MuninChoicesFSM>();
         _odinsMunin.transform.SetParent(_odinCamp.transform);
         _odinsMunin.transform.localPosition = new Vector3(2.56f, -0.001f, -1.98f);
         _odinsMunin.transform.localRotation = new Quaternion(0, 0.345f, 0, -0.9386f);
