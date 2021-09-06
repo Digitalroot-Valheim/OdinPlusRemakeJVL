@@ -112,9 +112,11 @@ namespace OdinPlusJVL.Behaviours
     #region Implementation of ISecondaryInteractable
 
     /// <inheritdoc />
-    public void SecondaryInteract(Humanoid user)
+    public void SecondaryInteract(Humanoid user, bool hold)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      if (hold) return;
+
       // SwitchSkill();
     }
 

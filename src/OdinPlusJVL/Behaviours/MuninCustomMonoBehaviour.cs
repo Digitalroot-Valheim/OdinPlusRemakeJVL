@@ -14,7 +14,7 @@ namespace OdinPlusJVL.Behaviours
   [UsedImplicitly]
   public class MuninCustomMonoBehaviour : AbstractCustomMonoBehaviour, ITalkable, Hoverable, Interactable, ISecondaryInteractable
   {
-    private Animator _animator;
+    // private Animator _animator;
     private MuninAnimatorFSM _muninAnimatorFSM;
     private MuninChoicesFSM _muninChoicesFSM;
 
@@ -22,7 +22,7 @@ namespace OdinPlusJVL.Behaviours
     public void Awake()
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      _animator = gameObject.GetComponentInChildren<Animator>();
+      // _animator = gameObject.GetComponentInChildren<Animator>();
       _muninAnimatorFSM = gameObject.GetComponentInChildren<MuninAnimatorFSM>();
       _muninChoicesFSM = gameObject.GetComponent<MuninChoicesFSM>();
       TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_munin_name", 1.5f, 20f, 10f, 10f);
@@ -161,25 +161,13 @@ namespace OdinPlusJVL.Behaviours
 
     #region Implementation of ISecondaryInteractable
 
-    private float _lastInteraction = -1f;
     /// <inheritdoc />
-    public void SecondaryInteract(Humanoid user)
+    public void SecondaryInteract(Humanoid user, bool hold)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
-      if (_lastInteraction < 0)
-      {
-        _lastInteraction = Time.time;
-        _muninChoicesFSM.Next();
-        return;
-      }
 
-      if (Time.time - _lastInteraction < 0.25f) 
-      {
-        Log.Trace(Main.Instance, "Not long enough");
-        return;
-      }
+      if (hold) return;
 
-      _lastInteraction = Time.time;
       _muninChoicesFSM.Next();
     }
 

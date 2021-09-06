@@ -48,6 +48,9 @@ namespace OdinPlusJVL
     [HarmonyPatch(typeof(Player))]
     public static class PatchPlayerFixedUpdate
     {
+      private static float _lastInteraction = -1f;
+
+
       [HarmonyPostfix]
       [HarmonyPatch(nameof(Player.FixedUpdate))]
       [HarmonyPriority(Priority.Normal)]
@@ -65,19 +68,37 @@ namespace OdinPlusJVL
 
           if (__instance.GetHoverObject().GetComponent<ISecondaryInteractable>() != null)
           {
-            __instance.GetHoverObject().GetComponent<ISecondaryInteractable>().SecondaryInteract(__instance);
+            __instance.GetHoverObject().GetComponent<ISecondaryInteractable>().SecondaryInteract(__instance, IsHold());
             return;
           }
 
           if (__instance.GetHoverObject().GetComponentInParent<ISecondaryInteractable>() != null)
           {
-            __instance.GetHoverObject().GetComponentInParent<ISecondaryInteractable>().SecondaryInteract(__instance);
+            __instance.GetHoverObject().GetComponentInParent<ISecondaryInteractable>().SecondaryInteract(__instance, IsHold());
           }
         }
         catch (Exception e)
         {
           Log.Fatal(Main.Instance, e);
         }
+      }
+
+      private static bool IsHold()
+      {
+        if (_lastInteraction < 0)
+        {
+          _lastInteraction = Time.time;
+          return false;
+        }
+
+        if (Time.time - _lastInteraction < 0.25f)
+        {
+          Log.Trace(Main.Instance, "Not long enough");
+          return true;
+        }
+
+        _lastInteraction = Time.time;
+        return false;
       }
     }
 
