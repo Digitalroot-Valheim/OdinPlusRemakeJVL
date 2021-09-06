@@ -6,7 +6,6 @@ using OdinPlusJVL.Quests;
 using System;
 using System.Reflection;
 using System.Text;
-using UnityEngine;
 using ITalkable = OdinPlusJVL.Common.Interfaces.ITalkable;
 
 namespace OdinPlusJVL.Behaviours
