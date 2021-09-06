@@ -16,8 +16,7 @@ namespace OdinPlusJVL.Behaviours
   {
     private Animator _animator;
     private MuninAnimatorFSM _muninAnimatorFSM;
-    private readonly string[] _choiceList = { "$op_munin_c1", "$op_munin_c2", "$op_munin_c3", "$op_munin_c4", "$op_munin_c5" };
-    private string _currentChoice = "$op_munin_c1";
+    private MuninChoicesFSM _muninChoicesFSM;
 
     [UsedImplicitly]
     public void Awake()
@@ -25,6 +24,7 @@ namespace OdinPlusJVL.Behaviours
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       _animator = gameObject.GetComponentInChildren<Animator>();
       _muninAnimatorFSM = gameObject.GetComponentInChildren<MuninAnimatorFSM>();
+      _muninChoicesFSM = gameObject.GetComponent<MuninChoicesFSM>();
       TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_munin_name", 1.5f, 20f, 10f, 10f);
     }
 
@@ -63,7 +63,7 @@ namespace OdinPlusJVL.Behaviours
           .Append($"\n<color=lightblue><b>$op_munin_quest_lvl :{QuestManager.Instance.Level}</b></color>")
           .Append($"\n$op_munin_questnum_a <color=lightblue><b>{QuestManager.Instance.Count()}</b></color> $op_munin_questnum_b")
           .Append("\n[<color=yellow><b>1-8</b></color>] $op_offer")
-          .Append($"\n[<color=yellow><b>$KEY_Use</b></color>] {_currentChoice}")
+          .Append($"\n[<color=yellow><b>$KEY_Use</b></color>] {_muninChoicesFSM.CurrentChoiceText}")
           .Append($"\n[<color=yellow><b>{Main.KeyboardShortcutSecondInteractKey.Value.MainKey}</b></color>] $op_switch")
         ;
       return Localization.instance.Localize(n.ToString());
@@ -86,9 +86,7 @@ namespace OdinPlusJVL.Behaviours
 
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
 
-      var fsm = gameObject.GetComponent<MuninChoicesFSM>();
-
-      switch (fsm.CurrentState)
+      switch (_muninChoicesFSM.CurrentState)
       {
         // case 0:
         //   // CreatSideQuest();
@@ -130,7 +128,7 @@ namespace OdinPlusJVL.Behaviours
           break;
 
         case MuninChoicesFSM.Choices.Leave:
-          _muninAnimatorFSM.Leave();
+          Say("$op_munin_goodbye");
           _muninAnimatorFSM.Leave();
           break;
 
@@ -163,30 +161,26 @@ namespace OdinPlusJVL.Behaviours
 
     #region Implementation of ISecondaryInteractable
 
-    public void SetChoiceIndex(int index)
-    {
-      Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({index})");
-      Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
-      _currentChoice = _choiceList[index];
-      Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
-    }
-
+    private float _lastInteraction = -1f;
     /// <inheritdoc />
     public void SecondaryInteract(Humanoid user)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      if (_lastInteraction < 0)
+      {
+        _lastInteraction = Time.time;
+        _muninChoicesFSM.Next();
+        return;
+      }
 
-      var fsm = gameObject.GetComponent<MuninChoicesFSM>();
-      fsm.Next();
+      if (Time.time - _lastInteraction < 0.25f) 
+      {
+        Log.Trace(Main.Instance, "Not long enough");
+        return;
+      }
 
-      // _index += 1;
-      // if (_index + 1 > _choiceList.Length)
-      // {
-      //   _index = 0;
-      // }
-      // Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
-      // _currentChoice = _choiceList[_index];
-      // Log.Trace(Main.Instance, $"[{GetType().Name}] _currentChoice = {_currentChoice}");
+      _lastInteraction = Time.time;
+      _muninChoicesFSM.Next();
     }
 
     #endregion

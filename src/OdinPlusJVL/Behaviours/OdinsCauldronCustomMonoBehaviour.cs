@@ -22,11 +22,10 @@ namespace OdinPlusJVL.Behaviours
     /// <inheritdoc />
     public void Say(string msg
       , string topic = null
-      , string animationTriggerName = null
       , bool showName = true
       , bool longTimeout = false
       , bool large = false)
-      => TalkingBehaviour.Say(msg, topic, animationTriggerName, showName, longTimeout, large);
+      => TalkingBehaviour.Say(msg, topic, showName, longTimeout, large);
 
     #endregion
 

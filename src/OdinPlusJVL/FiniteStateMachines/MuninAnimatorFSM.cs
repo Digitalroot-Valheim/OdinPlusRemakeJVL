@@ -1,4 +1,5 @@
-﻿using FSMSharp;
+﻿using Digitalroot.Valheim.Common;
+using FSMSharp;
 using JetBrains.Annotations;
 using OdinPlusJVL.Behaviours;
 using UnityEngine;
@@ -28,6 +29,8 @@ namespace OdinPlusJVL.FiniteStateMachines
 
     internal void Awake()
     {
+      _fsm.DebugLogHandler = s => Log.Trace(Main.Instance, s);
+
       #region FlyIn
 
       _fsm.Add(MuninsAnimationsStates.Spawn)
@@ -50,8 +53,7 @@ namespace OdinPlusJVL.FiniteStateMachines
 
       _fsm.Add(MuninsAnimationsStates.Leaving)
         .Expires(1.5f)
-        .GoesTo(MuninsAnimationsStates.FlyOut)
-        .OnEnter(OnLeaving);
+        .GoesTo(MuninsAnimationsStates.FlyOut);
 
       _fsm.Add(MuninsAnimationsStates.FlyOut)
         .Expires(15f)
@@ -109,13 +111,6 @@ namespace OdinPlusJVL.FiniteStateMachines
     public void TeleportOut()
     {
       _fsm.CurrentState = MuninsAnimationsStates.TeleportOut;
-    }
-
-    private void OnLeaving()
-    {
-      SetAnimation(MuninsAnimations.Talk);
-      var cmb = gameObject.GetComponent<MuninCustomMonoBehaviour>();
-      cmb.Say("$op_munin_goodby");
     }
 
     private void OnLanded()

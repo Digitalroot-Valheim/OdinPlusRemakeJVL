@@ -19,7 +19,7 @@
   "op_munin_giveup": "Which Quest do you want to give up?",
   "op_munin_name": "Munin",
   "op_munin_greet": "Hail warrior!",
-  "op_munin_goodby": "I shall return!",
+  "op_munin_goodbye": "I shall return!",
   "op_munin_noq": "You don't have a current quest ",
   "op_munin_noquest": "You don't have any quests",
   "op_munin_notenough": "Not enough... find more!",

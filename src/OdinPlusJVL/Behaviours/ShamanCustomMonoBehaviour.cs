@@ -18,7 +18,7 @@ namespace OdinPlusJVL.Behaviours
     public void Awake()
     {
       _animator = gameObject.GetComponentInChildren<Animator>();
-      TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_shaman_name", _animator, 2.5f, 20f, 10f, 10f);
+      TalkingBehaviour = new TalkableMonoBehaviour(gameObject, "$op_shaman_name", 2.5f, 20f, 10f, 10f);
     }
 
     #region Implementation of ITalkable
@@ -29,11 +29,10 @@ namespace OdinPlusJVL.Behaviours
     /// <inheritdoc />
     public void Say(string msg
       , string topic = null
-      , string animationTriggerName = null
       , bool showName = true
       , bool longTimeout = false
       , bool large = false)
-      => TalkingBehaviour.Say(msg, topic, animationTriggerName, showName, longTimeout, large);
+      => TalkingBehaviour.Say(msg, topic, showName, longTimeout, large);
 
     #endregion
 

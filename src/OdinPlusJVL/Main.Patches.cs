@@ -11,11 +11,7 @@ namespace OdinPlusJVL
 {
   public partial class Main
   {
-    #region Events
-
     #region ZNetScene
-
-    public event EventHandler ZNetSceneReady;
 
     public void OnZNetSceneReady(ref ZNetScene zNetScene)
     {
@@ -33,24 +29,6 @@ namespace OdinPlusJVL
           catch (Exception e)
           {
             Log.Error(Instance, e);
-          }
-        }
-
-        Log.Debug(Instance, $"[{GetType().Name}] Calling ZNetSceneReady Event Subscribers");
-        if (Instance.ZNetSceneReady != null && Instance.ZNetSceneReady.GetInvocationList().Length > 0)
-        {
-          foreach (Delegate @delegate in Instance?.ZNetSceneReady?.GetInvocationList()?.ToList())
-          {
-            try
-            {
-              Log.Trace(Instance, $"[{GetType().Name}] {@delegate.Method.DeclaringType?.Name}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
-              subscriber.Invoke(Instance, new OnZNetSceneReadyEventArgs(zNetScene));
-            }
-            catch (Exception e)
-            {
-              HandleDelegateError(@delegate.Method, e);
-            }
           }
         }
 
@@ -111,8 +89,6 @@ namespace OdinPlusJVL
 
     #region ZNetReady
 
-    public event EventHandler ZNetReady;
-
     public void OnZNetReady(ref ZNet zNet)
     {
       Log.Trace(Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
@@ -131,24 +107,6 @@ namespace OdinPlusJVL
             Log.Error(Instance, e);
           }
         }
-
-        Log.Debug(Instance, $"[{GetType().Name}] Calling ZNetReady Event Subscribers");
-        if (Instance.ZNetReady != null && Instance.ZNetReady.GetInvocationList().Length > 0)
-        {
-          foreach (Delegate @delegate in Instance?.ZNetReady?.GetInvocationList()?.ToList())
-          {
-            try
-            {
-              Log.Trace(Instance, $"[{GetType().Name}] {@delegate.Target}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
-              subscriber.Invoke(Instance, new OnZNetReadyEventArgs(zNet));
-            }
-            catch (Exception e)
-            {
-              HandleDelegateError(@delegate.Method, e);
-            }
-          }
-        }
       }
       catch (Exception e)
       {
@@ -159,8 +117,6 @@ namespace OdinPlusJVL
     #endregion
 
     #region ZoneSystemLoaded
-
-    public event EventHandler ZoneSystemLoaded;
 
     public void OnZoneSystemLoaded()
     {
@@ -182,24 +138,6 @@ namespace OdinPlusJVL
             Log.Error(Instance, e);
           }
         }
-
-        Log.Debug(Instance, $"[{GetType().Name}] Calling ZoneSystemLoaded Event Subscribers");
-        if (Instance.ZoneSystemLoaded != null && Instance.ZoneSystemLoaded.GetInvocationList().Length > 0)
-        {
-          foreach (Delegate @delegate in Instance.ZoneSystemLoaded.GetInvocationList()?.ToList())
-          {
-            try
-            {
-              Log.Trace(Instance, $"[{GetType().Name}] {@delegate.Target}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
-              subscriber.Invoke(Instance, EventArgs.Empty);
-            }
-            catch (Exception e)
-            {
-              HandleDelegateError(@delegate.Method, e);
-            }
-          }
-        }
       }
       catch (Exception e)
       {
@@ -210,8 +148,6 @@ namespace OdinPlusJVL
     #endregion
 
     #region SpawnedPlayer
-
-    public event EventHandler SpawnedPlayer;
 
     public void OnSpawnedPlayer(Vector3 spawnPoint)
     {
@@ -232,24 +168,6 @@ namespace OdinPlusJVL
           }
         }
 
-        Log.Debug(Instance, $"[{GetType().Name}] Calling SpawnedPlayer Event Subscribers");
-        if (Instance.SpawnedPlayer != null && Instance.SpawnedPlayer.GetInvocationList().Length > 0)
-        {
-          foreach (Delegate @delegate in Instance?.SpawnedPlayer?.GetInvocationList()?.ToList())
-          {
-            try
-            {
-              Log.Trace(Instance, $"[{GetType().Name}] {@delegate.Method.DeclaringType?.Name}.{@delegate.Method.Name}()");
-              EventHandler subscriber = (EventHandler)@delegate;
-              subscriber.Invoke(Instance, new OnSpawnedPlayerEventArgs(spawnPoint));
-            }
-            catch (Exception e)
-            {
-              HandleDelegateError(@delegate.Method, e);
-            }
-          }
-        }
-
         //_NetSceneRoot.keeper_prefab(Clone)
         while (ZNetScene.instance?.m_netSceneRoot?.FindGameObject("keeper_prefab(Clone)") != null)
         {
@@ -265,13 +183,6 @@ namespace OdinPlusJVL
       {
         Log.Error(Instance, e);
       }
-    }
-
-    #endregion
-
-    private static void HandleDelegateError(MethodInfo method, Exception exception)
-    {
-      Log.Error(Instance, $"[{method}] {exception.Message}");
     }
 
     #endregion
