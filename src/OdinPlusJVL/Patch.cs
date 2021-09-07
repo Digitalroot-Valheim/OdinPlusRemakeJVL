@@ -286,7 +286,7 @@ namespace OdinPlusJVL
     {
       public static void Postfix(StoreGui __instance)
       {
-        Main.Instantiate(PrefabManager.CustomTrader, __instance.transform, false);
+        Main.Instantiate(PrefabManager.CustomTrader, __instance.GetComponentInParent<GameObject>().transform, false);
       }
     }
 
