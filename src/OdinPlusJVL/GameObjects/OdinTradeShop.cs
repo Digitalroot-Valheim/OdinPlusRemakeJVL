@@ -38,7 +38,7 @@ namespace OdinPlusJVL.GameObjects
       }
 
       Say("$op_pot_open");
-      StoreGui.instance.Show(this);
+      OdinStore.instance.Show();
       return true;
     }
 
