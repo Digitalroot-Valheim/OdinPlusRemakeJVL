@@ -278,5 +278,18 @@ namespace OdinPlusJVL
 
     #endregion
 
+    #region StoreGuiReplacement
+
+    [HarmonyPatch(typeof(StoreGui), nameof(StoreGui.Awake))]
+    public static class StoreSwapPatch
+    {
+      public static void Postfix(StoreGui __instance)
+      {
+        Main.Instantiate(OdinStore.StorePanel, __instance.m_listRoot.transform, false);
+      }
+    }
+
+    #endregion
+
   }
 }

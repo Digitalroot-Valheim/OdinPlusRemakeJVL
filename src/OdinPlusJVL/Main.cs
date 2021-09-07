@@ -67,6 +67,7 @@ namespace OdinPlusJVL
         }
 
         AddCommands();
+        PrefabManager.Instance.AddStoreScreen();
       }
       catch (Exception e)
       {

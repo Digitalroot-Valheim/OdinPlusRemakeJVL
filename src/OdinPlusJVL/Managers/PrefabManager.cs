@@ -24,19 +24,10 @@ namespace OdinPlusJVL.Managers
         var assetBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("digitalroot", Assembly.GetExecutingAssembly());
         var assets = assetBundle.LoadAllAssets<GameObject>();
         
-        var bundle2 = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("traderscreen", typeof(Main).Assembly);
-        var assets2 = bundle2.LoadAllAssets<GameObject>();
-        
         foreach (GameObject gameObject in assets)
         {
           AddPrefab(gameObject);
         }
-
-        foreach (GameObject GO in assets2)
-        {
-          AddPrefab(GO);
-        }
-        bundle2.Unload(false);
         assetBundle.Unload(false);
         return true;
       }
@@ -104,6 +95,15 @@ namespace OdinPlusJVL.Managers
       }
     }
 
+    public void AddStoreScreen()
+    {
+      var bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("traderscreen", typeof(Main).Assembly);
+      var assets = bundle.LoadAllAssets<GameObject>();
+      foreach (var GO in assets)
+      {
+        AddPrefab(GO);
+      }
+    }
     // ReSharper disable once MemberCanBePrivate.Global
     public void AddPrefab(GameObject prefab) => Jotunn.Managers.PrefabManager.Instance.AddPrefab(prefab);
     public GameObject CreateClonedPrefab(string name, string basename) => Jotunn.Managers.PrefabManager.Instance.CreateClonedPrefab(name, basename);
