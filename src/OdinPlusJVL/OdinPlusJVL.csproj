@@ -537,6 +537,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\digitalroot" />
     <None Include="bin\README.txt" />
+    <EmbeddedResource Include="..\Unity Project\OdinPlus\AssetBundles\traderscreen">
+      <Link>Assets\traderscreen</Link>
+    </EmbeddedResource>
     <Content Include="FodyWeavers.xml" />
     <Content Include="Assets\Translations\Chinese\translations.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
