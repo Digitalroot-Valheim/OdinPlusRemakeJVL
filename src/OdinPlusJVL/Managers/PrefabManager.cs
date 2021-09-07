@@ -21,7 +21,7 @@ namespace OdinPlusJVL.Managers
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
         if (!base.OnInitialize()) return false;
 
-        var assetBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("OdinPlusRemakeJVL.Assets.digitalroot", Assembly.GetExecutingAssembly());
+        var assetBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("digitalroot", Assembly.GetExecutingAssembly());
         var assets = assetBundle.LoadAllAssets<GameObject>();
         foreach (GameObject gameObject in assets)
         {
