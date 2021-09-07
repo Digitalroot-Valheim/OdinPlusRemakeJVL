@@ -1,0 +1,246 @@
+fileFormatVersion: 2
+guid: 144517c9c2cc68940844445e252402d1
+timeCreated: 1549955102
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: PhysCamera001
+    100004: PhysCamera001.Target
+    100006: troll_arm_l
+    100008: troll_arm_r
+    100010: troll_beard_l
+    100012: troll_beard_mid
+    100014: troll_beard_root
+    100016: troll_beard_u
+    100018: troll_body_beltl
+    100020: troll_body_beltu
+    100022: troll_body_root
+    100024: troll_breast_l
+    100026: troll_breast_r
+    100028: troll_clavicle_l
+    100030: troll_clavicle_r
+    100032: troll_clavicleshoulder_l
+    100034: troll_clavicleshoulder_r
+    100036: troll_elbow_l
+    100038: troll_elbow_r
+    100040: troll_foot_l
+    100042: troll_foot_r
+    100044: troll_head
+    100046: troll_hip
+    100048: troll_indexl_l
+    100050: troll_indexl_u
+    100052: troll_indexr_l
+    100054: troll_indexr_u
+    100056: troll_jaw
+    100058: troll_legl_l
+    100060: troll_legl_r
+    100062: troll_legm_l
+    100064: troll_legm_r
+    100066: troll_legu_l
+    100068: troll_legu_r
+    100070: Troll_Mesh
+    100072: troll_middlel_l
+    100074: troll_middlel_u
+    100076: troll_middler_l
+    100078: troll_middler_u
+    100080: troll_neck_01
+    100082: troll_neck_02
+    100084: troll_neck_03
+    100086: troll_origin
+    100088: troll_ringl_l
+    100090: troll_ringl_u
+    100092: troll_ringr_l
+    100094: troll_ringr_u
+    100096: troll_root
+    100098: troll_shoulder
+    100100: troll_shoulder_l
+    100102: troll_shoulder_r
+    100104: troll_spine_low
+    100106: troll_spine_mid
+    100108: troll_spine_upper
+    100110: troll_tabardf_l
+    100112: troll_tabardf_u
+    100114: troll_tabardr_l
+    100116: troll_tabardr_u
+    100118: troll_thumbl_l
+    100120: troll_thumbl_u
+    100122: troll_toe_l
+    100124: troll_toe_r
+    100126: troll_weapon
+    400000: //RootNode
+    400002: PhysCamera001
+    400004: PhysCamera001.Target
+    400006: troll_arm_l
+    400008: troll_arm_r
+    400010: troll_beard_l
+    400012: troll_beard_mid
+    400014: troll_beard_root
+    400016: troll_beard_u
+    400018: troll_body_beltl
+    400020: troll_body_beltu
+    400022: troll_body_root
+    400024: troll_breast_l
+    400026: troll_breast_r
+    400028: troll_clavicle_l
+    400030: troll_clavicle_r
+    400032: troll_clavicleshoulder_l
+    400034: troll_clavicleshoulder_r
+    400036: troll_elbow_l
+    400038: troll_elbow_r
+    400040: troll_foot_l
+    400042: troll_foot_r
+    400044: troll_head
+    400046: troll_hip
+    400048: troll_indexl_l
+    400050: troll_indexl_u
+    400052: troll_indexr_l
+    400054: troll_indexr_u
+    400056: troll_jaw
+    400058: troll_legl_l
+    400060: troll_legl_r
+    400062: troll_legm_l
+    400064: troll_legm_r
+    400066: troll_legu_l
+    400068: troll_legu_r
+    400070: Troll_Mesh
+    400072: troll_middlel_l
+    400074: troll_middlel_u
+    400076: troll_middler_l
+    400078: troll_middler_u
+    400080: troll_neck_01
+    400082: troll_neck_02
+    400084: troll_neck_03
+    400086: troll_origin
+    400088: troll_ringl_l
+    400090: troll_ringl_u
+    400092: troll_ringr_l
+    400094: troll_ringr_u
+    400096: troll_root
+    400098: troll_shoulder
+    400100: troll_shoulder_l
+    400102: troll_shoulder_r
+    400104: troll_spine_low
+    400106: troll_spine_mid
+    400108: troll_spine_upper
+    400110: troll_tabardf_l
+    400112: troll_tabardf_u
+    400114: troll_tabardr_l
+    400116: troll_tabardr_u
+    400118: troll_thumbl_l
+    400120: troll_thumbl_u
+    400122: troll_toe_l
+    400124: troll_toe_r
+    400126: troll_weapon
+    4300000: Troll_Mesh
+    7400000: walk
+    7400002: Ready1H
+    7400004: Ready2H
+    7400006: Attack1H_A
+    7400008: Attack1H_B
+    7400010: Attack1H_C
+    7400012: Attack2H_A
+    7400014: Attack2H_B
+    7400016: Spell_A
+    7400018: Spell_B
+    7400020: Spell_C
+    7400022: Spell_D
+    7400024: Death
+    7400026: hit
+    7400028: Knockdown
+    7400030: Dodge
+    7400032: Kick
+    7400034: JumpStart
+    7400036: JumpEnd
+    7400038: JumpLoop
+    7400040: Emote
+    7400042: Emote01
+    7400044: Emote02
+    7400046: Talk
+    7400048: Emote03
+    7400050: Emote04
+    7400052: Yell
+    7400054: Talk01
+    7400056: Talk02
+    7400058: Talk03
+    7400060: Talk04
+    7400062: Stunned
+    7400064: Stunned01
+    7400066: Idle01
+    7400068: Stand
+    7400070: Sit
+    7400072: Idle02
+    7400074: run
+    9500000: //RootNode
+    13700000: Troll_Mesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
