@@ -13,6 +13,7 @@ namespace OdinPlusJVL.Managers
   internal class PrefabManager : AbstractManager<PrefabManager>, IOnPrefabsRegistered
   {
     private readonly List<AbstractCustomPrefab> _createables = new List<AbstractCustomPrefab>();
+    internal static GameObject CustomTrader;
 
     protected override bool OnInitialize()
     {
@@ -98,11 +99,8 @@ namespace OdinPlusJVL.Managers
     public void AddStoreScreen()
     {
       var bundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("traderscreen", typeof(Main).Assembly);
-      var assets = bundle.LoadAllAssets<GameObject>();
-      foreach (var GO in assets)
-      {
-        AddPrefab(GO);
-      }
+      CustomTrader = bundle.LoadAsset<GameObject>("CustomTrader");
+      AddPrefab(CustomTrader);
     }
     // ReSharper disable once MemberCanBePrivate.Global
     public void AddPrefab(GameObject prefab) => Jotunn.Managers.PrefabManager.Instance.AddPrefab(prefab);

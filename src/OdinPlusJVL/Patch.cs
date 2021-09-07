@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using OdinPlusJVL.GameObjects;
 using System;
 using System.Reflection;
+using OdinPlusJVL.Managers;
 using UnityEngine;
 
 namespace OdinPlusJVL
@@ -285,7 +286,7 @@ namespace OdinPlusJVL
     {
       public static void Postfix(StoreGui __instance)
       {
-        Main.Instantiate(OdinStore.StorePanel, __instance.m_listRoot.transform, false);
+        Main.Instantiate(PrefabManager.CustomTrader, __instance.transform, false);
       }
     }
 
