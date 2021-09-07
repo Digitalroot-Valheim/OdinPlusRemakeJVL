@@ -23,10 +23,20 @@ namespace OdinPlusJVL.Managers
 
         var assetBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("digitalroot", Assembly.GetExecutingAssembly());
         var assets = assetBundle.LoadAllAssets<GameObject>();
+        
+        var bundle2 = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("traderscreen", typeof(Main).Assembly);
+        var assets2 = bundle2.LoadAllAssets<GameObject>();
+        
         foreach (GameObject gameObject in assets)
         {
           AddPrefab(gameObject);
         }
+
+        foreach (GameObject GO in assets2)
+        {
+          AddPrefab(GO);
+        }
+        bundle2.Unload(false);
         assetBundle.Unload(false);
         return true;
       }
