@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -16,21 +17,39 @@ public class OdinStore : MonoBehaviour
     [SerializeField, ShowInInspector] private Text StoreTitle;
     
     //ElementData
-    [SerializeField, ShowInInspector] private Image ElementIcon;
-    [SerializeField, ShowInInspector] private Text ElementName;
-    [SerializeField, ShowInInspector] private Text ElementCost;
     [SerializeField, ShowInInspector] private GameObject ElementGO;
     
     //StoreInventoryListing
-    [ShowInInspector]
-    private Dictionary<ItemDrop, int> storeInventory = new Dictionary<ItemDrop, int>();
+    [ShowInInspector] internal static Dictionary<ItemDrop, int> _storeInventory = new Dictionary<ItemDrop, int>();
 
     public static OdinStore instance => m_instance;
     private int m_hiddenFrames;
+    private bool ran = false;
+    
     private void Awake() 
     {
         m_instance = this;
         m_StorePanel.SetActive(false);
+        ran = false;
+
+    }
+
+    private void Update()
+    {
+        if (Player.m_localPlayer == null)
+            return;
+        if (ran == false )
+        {
+            var thing = Player.m_localPlayer.GetInventory().m_inventory;
+
+            foreach (var go in thing)
+            {
+                _storeInventory.Add(go.m_dropPrefab.GetComponent<ItemDrop>(), 0);
+            }
+
+            ran = true;
+        }
+        
     }
 
     private void OnDestroy()
@@ -46,40 +65,30 @@ public class OdinStore : MonoBehaviour
     /// </summary>
     /// <param name="_drop"></param>
     /// <param name="stack"></param>
-    public void AddItemToDisplayList(ItemDrop _drop, int stack)
+    public void AddItemToDisplayList(ItemDrop _drop, int stack, int cost)
     {
         ElementFormat NewElement = new ElementFormat();
-        NewElement.Element = ElementGO; //ElementGO has a gameObject assigned to it via UnityEditor, it is the template GO for the element that populates the store list
-        NewElement.Name = ElementName; //ElementName is a child of ElementGO and has been assigned in UnityEditor
-        NewElement._drop = _drop; //Assign our elements ItemDrop.ItemData with the arguments value
-        NewElement._drop.m_itemData.m_stack = stack; //Assign ItemDrop.ItemData stack value based on argument of method.
-        NewElement.ItemPrefab = _drop.m_itemData.m_dropPrefab; //This might be redundant code because you can call to NewElement._drop.m_dropPrefab but I thought it would be handy to have a quick call variable
+        NewElement._drop = _drop;
+        NewElement.Icon = _drop.m_itemData.m_shared.m_icons.FirstOrDefault();
+        NewElement.Name = _drop.m_itemData.m_shared.m_name;
+        NewElement._drop.m_itemData.m_stack = stack;
+        NewElement.Element = ElementGO;
+
+        NewElement.Element.transform.Find("icon").GetComponent<Image>().sprite = NewElement.Icon;
+        NewElement.Element.transform.Find("name").GetComponent<Text>().text = NewElement.Name;
+        NewElement.Element.transform.Find("price").GetComponent<Text>().text = cost.ToString();
         
-        //Still not sure the above is a good solution for this. In Essence I could branch off _drop. and gain all information required.
         Instantiate(NewElement.Element, ListRoot.transform, false);
         NewElement.Element.transform.SetSiblingIndex(ListRoot.transform.GetSiblingIndex() - 1);
     }
 
     public void ReadItems()
     {
-        foreach (var itemData in storeInventory)
+        foreach (var itemData in _storeInventory)
         {
-            AddItemToDisplayList(itemData.Key,itemData.Key.m_itemData.m_stack);
+            //need to add some type of second level logic here to think about if items exist do not repopulate.....
+            AddItemToDisplayList(itemData.Key,itemData.Key.m_itemData.m_stack, itemData.Value);
         }
-    }
-    
-    /// <summary>
-    /// This methods invocation should return the index offset of the ItemDrop passed as an argument, this is for use with other functions that expect an index to be passed as an integer argument
-    /// </summary>
-    /// <param name="itemDrop"></param>
-    /// <returns></returns>
-    public int FindIndex(ItemDrop itemDrop)
-    {
-        var templist = storeInventory.Keys.ToList();
-        var index = templist.IndexOf(itemDrop);
-        
-        return index;
-        
     }
 
     /// <summary>
@@ -88,16 +97,14 @@ public class OdinStore : MonoBehaviour
     /// <param name="i"></param>
     public void SellItem(int i)
     {
-        //Should there be solution to remove sold items from dictionary? If so need to solve for that here.
-
-        var temp = storeInventory.ToList();
-        temp[i].Key.m_itemData.m_shared.m_name.ToString();
-
         //Instantation logic
-        var itemDrop = Player.m_localPlayer.GetInventory().AddItem(temp[i].Key.m_itemData.m_dropPrefab.name, temp[i].Key.m_itemData.m_stack, temp[i].Key.m_itemData.m_quality, temp[i].Key.m_itemData.m_variant, 0L, "");
+        var itemDrop = Player.m_localPlayer.GetInventory().AddItem(_storeInventory.ElementAt(i).Key.m_itemData.m_dropPrefab.name, _storeInventory.ElementAt(i).Key.m_itemData.m_stack, _storeInventory.ElementAt(i).Key.m_itemData.m_quality, _storeInventory.ElementAt(i).Key.m_itemData.m_variant, 0L, "");
         if (itemDrop == null) return;
-        itemDrop.m_stack = temp[i].Key.m_itemData.m_stack;
+        itemDrop.m_stack = _storeInventory.ElementAt(i).Key.m_itemData.m_stack;
         itemDrop.m_durability = itemDrop.GetMaxDurability();
+
+        //If you want to remove the item after it's sold?
+        RemoveItemFromDict(_storeInventory.ElementAt(i).Key);
     }
     
 
@@ -108,7 +115,21 @@ public class OdinStore : MonoBehaviour
     /// <param name="price"></param>
     public void AddItemToDict(ItemDrop itemDrop, int price)
     {
-        storeInventory.Add(itemDrop, price);
+        _storeInventory.Add(itemDrop, price);
+    }
+
+    /// <summary>
+    /// Pass this method an ItemDrop as an argument to drop it from the storeInventory dictionary.
+    /// </summary>
+    /// <param name="itemDrop"></param>
+    /// <returns></returns>
+    public bool RemoveItemFromDict(ItemDrop itemDrop)
+    {
+        if (_storeInventory.Remove(itemDrop))
+        {
+            return true;
+        }
+        return false;
     }
     
     /// <summary>
@@ -117,12 +138,10 @@ public class OdinStore : MonoBehaviour
     public class ElementFormat
     {
         internal GameObject Element;
-        internal Image Icon;
-        internal Text Name;
+        internal Sprite Icon;
+        internal string Name;
         internal int Price;
-        internal int Stack;
         internal ItemDrop _drop;
-        internal GameObject ItemPrefab;
 
     }
 
