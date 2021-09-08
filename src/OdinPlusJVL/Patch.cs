@@ -287,8 +287,7 @@ namespace OdinPlusJVL
     {
       public static void Postfix(StoreGui __instance)
       {
-        var GO = Main.Instantiate(PrefabManager.CustomTrader, __instance.GetComponentInParent<Localize>().gameObject.transform, false);
-        DragWindowCntrl.ApplyDragWindowCntrl(GO);
+        DragWindowCntrl.ApplyDragWindowCntrl(Main.Instantiate(PrefabManager.CustomTrader, __instance.GetComponentInParent<Localize>().gameObject.transform, false));
       }
     }
 
