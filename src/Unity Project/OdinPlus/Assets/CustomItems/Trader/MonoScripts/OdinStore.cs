@@ -167,6 +167,22 @@ public class OdinStore : MonoBehaviour
        SellItem(i);
     }
 
+    public bool CanBuy(int i, int playerbank)
+    {
+       var cost = _storeInventory.ElementAt(i).Value;
+
+       if (playerbank >= cost)
+       {
+           return true;
+       }
+       else if (playerbank <= cost)
+       {
+           return false;
+       }
+
+       return false;
+    }
+
     /// <summary>
     /// Format of the Element GameObject that populates the for sale list.
     /// </summary>
