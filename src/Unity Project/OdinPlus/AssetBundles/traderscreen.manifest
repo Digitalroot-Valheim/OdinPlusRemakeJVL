@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1379420977
+CRC: 2831508678
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ed14a9649c5d3d814df21a6e137c7dc6
+    Hash: cc4a468caa67ba697017fd13cc58966f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 7489ff24dede7dc989ce26d6533b2f71
+    Hash: 3e7b8d805150e1670b6c4c4d228abed6
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -55,7 +55,4 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/CustomItems/Trader/SalesPanel/CustomTrader.prefab
 - Assets/CustomItems/Trader/SalesPanel/Element/ItemElement.prefab
-- Assets/CustomItems/Trader/SalesPanel/Element/price.prefab
-- Assets/CustomItems/Trader/SalesPanel/Element/icon.prefab
-- Assets/CustomItems/Trader/SalesPanel/Element/name.prefab
 Dependencies: []

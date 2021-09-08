@@ -880,11 +880,11 @@ MonoBehaviour:
   ItemDropIcon: {fileID: 1822552813612997784}
   SelectedCost: {fileID: 114359938517763184}
   StoreTitle: {fileID: 114492589544897488}
-  ElementIcon: {fileID: 2706861508014945852, guid: 191bfe1659886c54994c653fa20fc10a,
+  ElementIcon: {fileID: 5108152794068130624, guid: 191bfe1659886c54994c653fa20fc10a,
     type: 3}
-  ElementName: {fileID: 2987807565091453235, guid: 92d790ff1b99362489cf6603c3ebf6f6,
+  ElementName: {fileID: 3102037442967296065, guid: 92d790ff1b99362489cf6603c3ebf6f6,
     type: 3}
-  ElementCost: {fileID: 2334622563430329072, guid: 0f76b6728a048c64fae99f1a089e9d48,
+  ElementCost: {fileID: 4271123987767688923, guid: 0f76b6728a048c64fae99f1a089e9d48,
     type: 3}
   ElementGO: {fileID: 5344753315730512436, guid: b76b7b3286e1f004f83b79e7a39903fc,
     type: 3}
