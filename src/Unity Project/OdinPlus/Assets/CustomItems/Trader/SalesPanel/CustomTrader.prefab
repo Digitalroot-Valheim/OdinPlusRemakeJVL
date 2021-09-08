@@ -895,6 +895,7 @@ MonoBehaviour:
   ItemDropIcon: {fileID: 1822552813612997784}
   SelectedCost: {fileID: 114359938517763184}
   StoreTitle: {fileID: 114492589544897488}
+  BuyButton: {fileID: 114108872557888699}
   ElementGO: {fileID: 5344753315730512436, guid: b76b7b3286e1f004f83b79e7a39903fc,
     type: 3}
 --- !u!1 &1400458117677133
@@ -2369,7 +2370,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 84.37551}
+  m_AnchoredPosition: {x: 0, y: 84.375496}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &6387859233545234470
@@ -2491,7 +2492,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6115882292397544657}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.7181228
+  m_Size: 0.7181287
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

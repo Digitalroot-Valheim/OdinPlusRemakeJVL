@@ -15,6 +15,7 @@ public class OdinStore : MonoBehaviour
     [SerializeField, ShowInInspector] private Image ItemDropIcon;
     [SerializeField, ShowInInspector] private Text SelectedCost;
     [SerializeField, ShowInInspector] private Text StoreTitle;
+    [SerializeField, ShowInInspector] private Button BuyButton;
     
     //ElementData
     [SerializeField, ShowInInspector] private GameObject ElementGO;
@@ -22,7 +23,7 @@ public class OdinStore : MonoBehaviour
     //StoreInventoryListing
     [ShowInInspector] internal static Dictionary<ItemDrop, int> _storeInventory = new Dictionary<ItemDrop, int>();
     public static OdinStore instance => m_instance;
-
+    internal static ElementFormat tempElement;
     private void Awake() 
     {
         m_instance = this;
@@ -127,6 +128,10 @@ public class OdinStore : MonoBehaviour
         return index;
 
     }
+    /// <summary>
+    /// This method will update the general description of the store page pass it an ElementFormat as argument
+    /// </summary>
+    /// <param name="element"></param>
     public void UpdateGenDescription(ElementFormat element)
     {
         SelectedCost.text = element.Price.ToString();
@@ -134,8 +139,13 @@ public class OdinStore : MonoBehaviour
         SelectedItemDescription.gameObject.AddComponent<Localize>();
         SelectedCost.gameObject.AddComponent<Localize>();
         ItemDropIcon.sprite = element.Icon;
-        var thing = FindIndex(element._drop);
-        SellItem(thing);
+        tempElement = element;
+    }
+
+    public void BuyButtonAction()
+    {
+       var i = FindIndex(tempElement._drop);
+       SellItem(i);
     }
     
     /// <summary>
