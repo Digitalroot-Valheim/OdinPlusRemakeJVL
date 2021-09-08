@@ -30,6 +30,7 @@ public class OdinStore : MonoBehaviour
     private void Awake() 
     {
         m_instance = this;
+        m_StorePanel.SetActive(false);
     }
 
     private void OnDestroy()
