@@ -37,6 +37,7 @@ namespace OdinPlusJVL.OdinsCamp
         _odinCamp = new GameObject(PrefabNames.OdinsCamp);
         _odinCamp.transform.SetParent(Main.RootObject.transform);
         _odinCamp.SetActive(false);
+        _odinCamp.AddMonoBehaviour<OdinsCampBehaviour>();
         return true;
       }
       catch (Exception e)
@@ -72,12 +73,8 @@ namespace OdinPlusJVL.OdinsCamp
     public void OnSpawnedPlayer(Vector3 position)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({position})");
-      AddOdinsFirePit();
-      AddOdinsCauldron();
-      AddOdinsMunin();
-      AddOdinsShaman();
-      AddOdinsEmissary();
-      UpdateOdinsCauldron();
+      SpawnCampMembers();
+      Log.Trace(Main.Instance, $"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] GetStartTemplesPosition {Digitalroot.Valheim.Common.Utils.GetStartTemplesPosition()}");
     }
 
     public void OnZoneSystemLoaded()
@@ -86,12 +83,24 @@ namespace OdinPlusJVL.OdinsCamp
       SetSpawnPosition();
       _odinCamp.SetActive(true);
       AddOdinsForceField();
+      Log.Trace(Main.Instance, $"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] GetStartTemplesPosition {Digitalroot.Valheim.Common.Utils.GetStartTemplesPosition()}");
     }
 
     public void OnZNetSceneReady(ZNetScene zNetScene)
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}({zNetScene.name})");
       AddOdinsCampTerrain();
+    }
+
+    public void SpawnCampMembers()
+    {
+      Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      AddOdinsFirePit();
+      AddOdinsCauldron();
+      AddOdinsMunin();
+      AddOdinsShaman();
+      AddOdinsEmissary();
+      UpdateOdinsCauldron();
     }
 
     private void AddOdinsCampTerrain()
@@ -127,16 +136,20 @@ namespace OdinPlusJVL.OdinsCamp
       try
       {
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var odinsCampBehaviour = _odinCamp.GetComponent<OdinsCampBehaviour>();
+        if (odinsCampBehaviour._odinsCauldron != null) return;
         _odinsCauldron = PrefabManager.Instance.CreateClonedPrefab(PrefabNames.OdinsCampCauldron, PrefabNames.OrnamentalCauldron);
         _odinsCauldron.AddMonoBehaviour<UnRemoveableCustomMonoBehaviour>();
         _odinsCauldron.AddMonoBehaviour<OdinsCauldronCustomMonoBehaviour>();
         _odinsCauldron.transform.SetParent(_odinCamp.transform);
         _odinsCauldron.transform.localPosition = new Vector3(-0.42f, -0.015f, -1f);
         _odinsCauldron.transform.localRotation = new Quaternion(0, 0.6817f, 0, 0.7316f);
+        odinsCampBehaviour._odinsCauldron = _odinsCauldron;
 
         // m_odinPot = caul.AddComponent<OdinTradeShop>();
         // OdinPlus.traderNameList.Add(m_odinPot.m_name);
         // _customGameObjects.Add(customGameObject.Name, customGameObject);
+        Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}(Done!)");
       }
       catch (Exception e)
       {
@@ -153,6 +166,13 @@ namespace OdinPlusJVL.OdinsCamp
       Log.Trace(Main.Instance, $"[{GetType().Name}] emissaryCmb == null : {emissaryCmb == null}");
       if (cauldronCmb is null || emissaryCmb is null) return;
       cauldronCmb.TalkingBehaviour = emissaryCmb.TalkingBehaviour;
+
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinsCauldron == null : {_odinsCauldron == null}");
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinsCauldron.transform.parent == null : {_odinsCauldron.transform.parent == null}");
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinsCauldron.transform.parent?.name : {_odinsCauldron.transform.parent?.name}");
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinsCauldron.transform.localPosition == null : {_odinsCauldron.transform.localPosition}");
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinsCauldron.activeSelf : {_odinsCauldron.activeSelf}");
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinsCauldron.activeInHierarchy : {_odinsCauldron.activeInHierarchy}");
     }
 
     private void AddOdinsEmissary()
@@ -160,11 +180,14 @@ namespace OdinPlusJVL.OdinsCamp
       try
       {
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var odinsCampBehaviour = _odinCamp.GetComponent<OdinsCampBehaviour>();
+        if (odinsCampBehaviour._odinsEmissary != null) return;
         _odinsEmissary = PrefabManager.Instance.CreateClonedPrefab(PrefabNames.OdinsCampEmissary, PrefabNames.OrnamentalEmissary);
         _odinsEmissary.AddMonoBehaviour<OdinsEmissaryCustomMonoBehaviour>();
         _odinsEmissary.transform.SetParent(_odinCamp.transform);
         _odinsEmissary.transform.localPosition = new Vector3(0.6f, -0.045f, 2.1f);
         _odinsEmissary.transform.localRotation = new Quaternion(0, 0.6605f, 0, 0.7508f);
+        odinsCampBehaviour._odinsEmissary = _odinsEmissary;
       }
       catch (Exception e)
       {
@@ -177,10 +200,13 @@ namespace OdinPlusJVL.OdinsCamp
       try
       {
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var odinsCampBehaviour = _odinCamp.GetComponent<OdinsCampBehaviour>();
+        if (odinsCampBehaviour._odinsFirePit != null) return;
         _odinsFirePit = PrefabManager.Instance.CreateClonedPrefab(PrefabNames.OdinsCampFirePit, PrefabNames.OrnamentalFirePit);
         _odinsFirePit.AddMonoBehaviour<UnRemoveableCustomMonoBehaviour>();
         _odinsFirePit.transform.SetParent(_odinCamp.transform);
         _odinsFirePit.transform.localPosition = new Vector3(-0.42f, -0.015f, -1f);
+        odinsCampBehaviour._odinsFirePit = _odinsFirePit;
       }
       catch (Exception e)
       {
@@ -208,6 +234,8 @@ namespace OdinPlusJVL.OdinsCamp
       try
       {
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var odinsCampBehaviour = _odinCamp.GetComponent<OdinsCampBehaviour>();
+        if (odinsCampBehaviour._odinsMunin != null) return;
         _odinsMunin = PrefabManager.Instance.CreateClonedPrefab(PrefabNames.OdinsCampMunin, PrefabNames.OrnamentalMunin);
         _odinsMunin.AddMonoBehaviour<MuninCustomMonoBehaviour>();
         _odinsMunin.AddMonoBehaviour<MuninChoicesFSM>();
@@ -215,6 +243,7 @@ namespace OdinPlusJVL.OdinsCamp
         _odinsMunin.transform.SetParent(_odinCamp.transform);
         _odinsMunin.transform.localPosition = new Vector3(2.56f, -0.001f, -1.98f);
         _odinsMunin.transform.localRotation = new Quaternion(0, 0.345f, 0, -0.9386f);
+        odinsCampBehaviour._odinsMunin = _odinsMunin;
       }
       catch (Exception e)
       {
@@ -227,11 +256,14 @@ namespace OdinPlusJVL.OdinsCamp
       try
       {
         Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+        var odinsCampBehaviour = _odinCamp.GetComponent<OdinsCampBehaviour>();
+        if (odinsCampBehaviour._odinsShaman != null) return;
         _odinsShaman = PrefabManager.Instance.CreateClonedPrefab(PrefabNames.OdinsCampGoblinShaman, PrefabNames.OrnamentalFatTroll);
         _odinsShaman.AddMonoBehaviour<ShamanCustomMonoBehaviour>();
         _odinsShaman.transform.SetParent(_odinCamp.transform);
         _odinsShaman.transform.localPosition = new Vector3(-1.7409f, -0.008f, 0.2318f);
         _odinsShaman.transform.localRotation = new Quaternion(0, 0.8026f, 0, 0.5965f);
+        odinsCampBehaviour._odinsShaman = _odinsShaman;
       }
       catch (Exception e)
       {
@@ -259,7 +291,10 @@ namespace OdinPlusJVL.OdinsCamp
     private void SetSpawnPosition()
     {
       Log.Trace(Main.Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
+      Log.Trace(Main.Instance, $"[{GetType().Name}.{MethodBase.GetCurrentMethod().Name}] GetStartTemplesPosition {Digitalroot.Valheim.Common.Utils.GetStartTemplesPosition()}");
       _odinCamp.transform.localPosition = Digitalroot.Valheim.Common.Utils.GetStartTemplesPosition() + new Vector3(-12.6f, 0.05f, -11f);
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinCamp.transform.position {_odinCamp.transform.position}");
+      Log.Trace(Main.Instance, $"[{GetType().Name}] _odinCamp.transform.localPosition {_odinCamp.transform.localPosition}");
     }
 
     #region Implementation of IDestroyable

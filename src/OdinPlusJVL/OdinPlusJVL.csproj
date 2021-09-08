@@ -424,6 +424,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Behaviours\MuninCustomMonoBehaviour.cs" />
+    <Compile Include="Behaviours\OdinsCampBehaviour.cs" />
     <Compile Include="Behaviours\OdinsEmissaryCustomMonoBehaviour.cs" />
     <Compile Include="Behaviours\OdinsCauldronCustomMonoBehaviour.cs" />
     <Compile Include="Behaviours\ShamanCustomMonoBehaviour.cs" />

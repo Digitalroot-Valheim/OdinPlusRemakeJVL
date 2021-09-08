@@ -2,7 +2,6 @@
 using Digitalroot.Valheim.Common.Interfaces;
 using HarmonyLib;
 using JetBrains.Annotations;
-using OdinPlusJVL.Common.Interfaces;
 using OdinPlusJVL.GameObjects;
 using System;
 using System.Reflection;

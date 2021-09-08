@@ -123,7 +123,6 @@ namespace OdinPlusJVL
       Log.Trace(Instance, $"{GetType().Namespace}.{GetType().Name}.{MethodBase.GetCurrentMethod().Name}()");
       RootObject.SetActive(true);
 
-      Log.Debug(Instance, $"[{GetType().Name}] Calling OnZoneSystemLoaded Subscribers");
       try
       {
         Log.Debug(Instance, $"[{GetType().Name}] Calling Managers with IOnZoneSystemLoaded");
