@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class OdinStore : MonoBehaviour
 {
@@ -21,37 +24,17 @@ public class OdinStore : MonoBehaviour
     
     //StoreInventoryListing
     [ShowInInspector] internal static Dictionary<ItemDrop, int> _storeInventory = new Dictionary<ItemDrop, int>();
+    internal static List<ElementFormat> test = new List<ElementFormat>();
 
     public static OdinStore instance => m_instance;
-    private int m_hiddenFrames;
-    private bool ran = false;
-    
+
     private void Awake() 
     {
         m_instance = this;
         m_StorePanel.SetActive(false);
-        ran = false;
-
+        StoreTitle.text = "Odins Store";
     }
-
-    private void Update()
-    {
-        if (Player.m_localPlayer == null)
-            return;
-        if (ran == false )
-        {
-            var thing = Player.m_localPlayer.GetInventory().m_inventory;
-
-            foreach (var go in thing)
-            {
-                _storeInventory.Add(go.m_dropPrefab.GetComponent<ItemDrop>(), 0);
-            }
-
-            ran = true;
-        }
-        
-    }
-
+    
     private void OnDestroy()
     {
         if (m_instance == this)
@@ -78,8 +61,11 @@ public class OdinStore : MonoBehaviour
         NewElement.Element.transform.Find("name").GetComponent<Text>().text = NewElement.Name;
         NewElement.Element.transform.Find("price").GetComponent<Text>().text = cost.ToString();
         
-        Instantiate(NewElement.Element, ListRoot.transform, false);
+        Instantiate(NewElement.Element, ListRoot.transform, false).GetComponent<Button>().onClick.AddListener(delegate { UpdateGenDescription(NewElement); });;
         NewElement.Element.transform.SetSiblingIndex(ListRoot.transform.GetSiblingIndex() - 1);
+        
+        test.Add(NewElement);
+        
     }
 
     public void ReadItems()
@@ -98,13 +84,17 @@ public class OdinStore : MonoBehaviour
     public void SellItem(int i)
     {
         //Instantation logic
-        var itemDrop = Player.m_localPlayer.GetInventory().AddItem(_storeInventory.ElementAt(i).Key.m_itemData.m_dropPrefab.name, _storeInventory.ElementAt(i).Key.m_itemData.m_stack, _storeInventory.ElementAt(i).Key.m_itemData.m_quality, _storeInventory.ElementAt(i).Key.m_itemData.m_variant, 0L, "");
-        if (itemDrop == null) return;
-        itemDrop.m_stack = _storeInventory.ElementAt(i).Key.m_itemData.m_stack;
-        itemDrop.m_durability = itemDrop.GetMaxDurability();
+        Vector3 vector = Random.insideUnitSphere * 0.5f;
+        var transform1 = Player.m_localPlayer.transform;
+        var itemDrop = (ItemDrop)Instantiate(_storeInventory.ElementAt(i).Key.gameObject, transform1.position + transform1.forward * 2f + Vector3.up + vector,
+            Quaternion.identity).GetComponent(typeof(ItemDrop));
+        if (itemDrop == null || itemDrop.m_itemData == null) return;
+        
+        itemDrop.m_itemData.m_stack = _storeInventory.ElementAt(i).Key.m_itemData.m_stack;
+        itemDrop.m_itemData.m_durability = itemDrop.m_itemData.GetMaxDurability();
 
         //If you want to remove the item after it's sold?
-        RemoveItemFromDict(_storeInventory.ElementAt(i).Key);
+        //RemoveItemFromDict(_storeInventory.ElementAt(i).Key);
     }
     
 
@@ -131,6 +121,30 @@ public class OdinStore : MonoBehaviour
         }
         return false;
     }
+
+    /// <summary>
+    /// This methods invocation should return the index offset of the ItemDrop passed as an argument, this is for use with other functions that expect an index to be passed as an integer argument
+    /// </summary>
+    /// <param name="itemDrop"></param>
+    /// <returns></returns>
+    public int FindIndex(ItemDrop itemDrop)
+    {
+        var templist = _storeInventory.Keys.ToList();
+        var index = templist.IndexOf(itemDrop);
+
+        return index;
+
+    }
+    public void UpdateGenDescription(ElementFormat element)
+    {
+        SelectedCost.text = element.Price.ToString();
+        SelectedItemDescription.text = element._drop.m_itemData.m_shared.m_description;
+        SelectedItemDescription.gameObject.AddComponent<Localize>();
+        SelectedCost.gameObject.AddComponent<Localize>();
+        ItemDropIcon.sprite = element.Icon;
+        var thing = FindIndex(element._drop);
+        SellItem(thing);
+    }
     
     /// <summary>
     /// Format of the Element GameObject that populates the for sale list.
@@ -144,8 +158,6 @@ public class OdinStore : MonoBehaviour
         internal ItemDrop _drop;
 
     }
-
-
     public void Hide()
     {
         m_StorePanel.SetActive(false);
@@ -155,14 +167,5 @@ public class OdinStore : MonoBehaviour
     {
         m_StorePanel.SetActive(true);
         ReadItems();
-    }
-    public static bool IsVisible()
-    {
-        if ((bool)m_instance)
-        {
-            return m_instance.m_hiddenFrames <= 1;
-        }
-
-        return false;
     }
 }
