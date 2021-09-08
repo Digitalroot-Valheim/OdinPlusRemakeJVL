@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class OdinStore : MonoBehaviour
 {
     private static OdinStore m_instance;
-
+    
     [SerializeField, ShowInInspector] private GameObject m_StorePanel;
     [SerializeField, ShowInInspector] private RectTransform ListRoot;
     [SerializeField, ShowInInspector] private Text SelectedItemDescription;
@@ -21,8 +21,6 @@ public class OdinStore : MonoBehaviour
     
     //StoreInventoryListing
     [ShowInInspector] internal static Dictionary<ItemDrop, int> _storeInventory = new Dictionary<ItemDrop, int>();
-    internal static List<ElementFormat> test = new List<ElementFormat>();
-
     public static OdinStore instance => m_instance;
 
     private void Awake() 
@@ -60,9 +58,6 @@ public class OdinStore : MonoBehaviour
         
         Instantiate(NewElement.Element, ListRoot.transform, false).GetComponent<Button>().onClick.AddListener(delegate { UpdateGenDescription(NewElement); });;
         NewElement.Element.transform.SetSiblingIndex(ListRoot.transform.GetSiblingIndex() - 1);
-        
-        test.Add(NewElement);
-        
     }
 
     public void ReadItems()
