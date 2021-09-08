@@ -16,6 +16,7 @@ public class OdinStore : MonoBehaviour
     [SerializeField, ShowInInspector] private Text SelectedCost;
     [SerializeField, ShowInInspector] private Text StoreTitle;
     [SerializeField, ShowInInspector] private Button BuyButton;
+    [SerializeField, ShowInInspector] private Text SelectedName;
     
     //ElementData
     [SerializeField, ShowInInspector] private GameObject ElementGO;
@@ -30,7 +31,9 @@ public class OdinStore : MonoBehaviour
         m_StorePanel.SetActive(false);
         StoreTitle.text = "Odins Store";
     }
-    
+
+    public bool ran { get; set; } = false;
+
     private void OnDestroy()
     {
         if (m_instance == this)
@@ -54,7 +57,10 @@ public class OdinStore : MonoBehaviour
         NewElement.Element = ElementGO;
 
         NewElement.Element.transform.Find("icon").GetComponent<Image>().sprite = NewElement.Icon;
-        NewElement.Element.transform.Find("name").GetComponent<Text>().text = NewElement.Name;
+        var name = NewElement.Element.transform.Find("name").GetComponent<Text>();
+        name.text = NewElement.Name;
+        name.gameObject.AddComponent<Localize>();
+        
         NewElement.Element.transform.Find("price").GetComponent<Text>().text = cost.ToString();
         
         Instantiate(NewElement.Element, ListRoot.transform, false).GetComponent<Button>().onClick.AddListener(delegate { UpdateGenDescription(NewElement); });;
@@ -76,20 +82,18 @@ public class OdinStore : MonoBehaviour
     /// <param name="i"></param>
     public void SellItem(int i)
     {
-        //Instantation logic
+        // spawn item on ground if no inventory room
         Vector3 vector = Random.insideUnitSphere * 0.5f;
         var transform1 = Player.m_localPlayer.transform;
-        var itemDrop = (ItemDrop)Instantiate(_storeInventory.ElementAt(i).Key.gameObject, transform1.position + transform1.forward * 2f + Vector3.up + vector,
+        var itemDrop = (ItemDrop)Instantiate(_storeInventory.ElementAt(i).Key.gameObject,
+            transform1.position + transform1.forward * 2f + Vector3.up + vector,
             Quaternion.identity).GetComponent(typeof(ItemDrop));
         if (itemDrop == null || itemDrop.m_itemData == null) return;
-        
+
         itemDrop.m_itemData.m_stack = _storeInventory.ElementAt(i).Key.m_itemData.m_stack;
         itemDrop.m_itemData.m_durability = itemDrop.m_itemData.GetMaxDurability();
-
-        //If you want to remove the item after it's sold?
-        //RemoveItemFromDict(_storeInventory.ElementAt(i).Key);
     }
-    
+
 
     /// <summary>
     ///  Adds item to stores dictionary pass ItemDrop.ItemData and an integer for price
@@ -147,7 +151,7 @@ public class OdinStore : MonoBehaviour
        var i = FindIndex(tempElement._drop);
        SellItem(i);
     }
-    
+
     /// <summary>
     /// Format of the Element GameObject that populates the for sale list.
     /// </summary>
