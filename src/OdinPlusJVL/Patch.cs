@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using OdinPlusJVL.GameObjects;
 using System;
 using System.Reflection;
+using Jotunn.GUI;
 using OdinPlusJVL.Managers;
 using UnityEngine;
 
@@ -286,7 +287,8 @@ namespace OdinPlusJVL
     {
       public static void Postfix(StoreGui __instance)
       {
-        Main.Instantiate(PrefabManager.CustomTrader, __instance.GetComponentInParent<GameObject>().transform, false);
+        var GO = Main.Instantiate(PrefabManager.CustomTrader, __instance.GetComponentInParent<Localize>().gameObject.transform, false);
+        DragWindowCntrl.ApplyDragWindowCntrl(GO);
       }
     }
 
