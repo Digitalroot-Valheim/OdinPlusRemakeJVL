@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -17,6 +18,10 @@ public class OdinStore : MonoBehaviour
     [SerializeField, ShowInInspector] private Text StoreTitle;
     [SerializeField, ShowInInspector] private Button BuyButton;
     [SerializeField, ShowInInspector] private Text SelectedName;
+
+    [SerializeField, ShowInInspector] private Image Bkg1;
+    [SerializeField, ShowInInspector] private Image Bkg2;
+    
     
     //ElementData
     [SerializeField, ShowInInspector] private GameObject ElementGO;
@@ -25,11 +30,21 @@ public class OdinStore : MonoBehaviour
     [ShowInInspector] internal static Dictionary<ItemDrop, int> _storeInventory = new Dictionary<ItemDrop, int>();
     public static OdinStore instance => m_instance;
     internal static ElementFormat tempElement;
+    internal static Material litpanel;
     private void Awake() 
     {
         m_instance = this;
         m_StorePanel.SetActive(false);
         StoreTitle.text = "Odins Store";
+        try
+        {
+            Bkg1.material = litpanel;
+            Bkg2.material = litpanel;
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex);
+        }
     }
 
     public bool ran { get; set; } = false;
